@@ -1,6 +1,7 @@
 {
   "name": "fireplace-ui",
   "version": "0.1.0",
+  "homepage": "https://se.ifmo.ru/~s208064",
   "private": true,
   "scripts": {
     "start": "react-scripts start",
