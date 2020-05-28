@@ -1,5 +1,7 @@
 import React, {useEffect, useRef} from 'react';
 import L from 'leaflet';
+import {useDispatch, useSelector} from 'react-redux';
+import {add, showModal} from '../../../actions/userActions';
 
 const style = {
   width: '100%',
@@ -9,6 +11,8 @@ const style = {
 function Map({markerPosition, data}) {
   // create map
   const mapRef = useRef(null);
+  const dispatch = useDispatch();
+
   useEffect(() => {
     mapRef.current = L.map('map', {
       center: [49.8419, 24.0315],
@@ -26,7 +30,11 @@ function Map({markerPosition, data}) {
       coor.push(L.latLng(parseFloat(element['lat']), parseFloat(element['lng'])));
     });
     for (let m of coor) {
-      L.marker(m).addTo(mapRef.current);
+      L.marker(m)
+        .addTo(mapRef.current)
+        .on('click', () => {
+          dispatch(showModal());
+        });
     }
     mapRef.current.fitBounds(coor);
   }, []);

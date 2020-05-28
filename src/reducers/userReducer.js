@@ -1,6 +1,11 @@
-import {USER_ADD, USER_DELETE} from '../actions/userActions';
+import {USER_ADD, USER_DELETE, SHOW_MODAL, HIDE_MODAL} from '../actions/userActions';
 
-const userReduce = (state = {}, action) => {
+export const initialState = {
+  isModal: false,
+  user: null
+};
+
+export default (state = initialState, action) => {
   switch (action.type) {
     case USER_ADD:
       return {
@@ -14,9 +19,14 @@ const userReduce = (state = {}, action) => {
         user: null
       };
 
+    case SHOW_MODAL:
+    case HIDE_MODAL:
+      return {
+        ...state,
+        isModal: action.payload
+      };
+
     default:
       return state;
   }
 };
-
-export default userReduce;

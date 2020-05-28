@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
-import {Route, Switch} from 'react-router-dom';
+import {useDispatch, useSelector} from 'react-redux';
+
 import Map from './Map';
 import {
   LoginWrapper,
@@ -9,21 +10,13 @@ import {
   CloudWrapper,
   Text
 } from './UserPage.styles';
-const position = [51.505, -0.09];
+import {hideModal} from '../../../actions/userActions';
+import RequestModal from './RequestModal';
 
 function UserPage() {
-  const [markerPosition, setMarkerPosition] = useState({
-    lat: 49.8419,
-    lng: 24.0315
-  });
-  const {lat, lng} = markerPosition;
+  const dispatch = useDispatch();
 
-  function moveMarker() {
-    setMarkerPosition({
-      lat: lat + 0.0001,
-      lng: lng + 0.0001
-    });
-  }
+  const isModalShown = useSelector(state => state.user.isModal);
 
   return (
     <>
@@ -37,6 +30,7 @@ function UserPage() {
         <LoginFormWrapper>
           <Logo src={`${process.env.PUBLIC_URL}/image/logo.png`} />
           <Text>Choose your fireplace</Text>
+          <RequestModal isOpen={isModalShown} handleClose={() => dispatch(hideModal())} />
           <div>
             <Map
               data={[
@@ -46,12 +40,7 @@ function UserPage() {
                 {lat: 24.52, lng: 31.425},
                 {lat: 52.42, lng: 51.425}
               ]}
-              markerPosition={markerPosition}
             />
-            <div>
-              Current markerPosition: lat: {lat}, lng: {lng}
-            </div>
-            <button onClick={moveMarker}>Move marker</button>
           </div>
         </LoginFormWrapper>
       </LoginWrapper>
