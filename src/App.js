@@ -7,6 +7,7 @@ import CustomBrowserRouter from './helpers/CustomBrowserRouter';
 import LoginPage from './pages/LoginPage';
 import {LOGIN, HOME, REGISTR, RECOVERY} from './constants/routes';
 import PrivateRoute from './helpers/PrivateRoute';
+import UserPage from './pages/HomePage/rolePages/UserPage';
 
 function App() {
   return (
@@ -17,7 +18,8 @@ function App() {
           <Route path={REGISTR} component={LoginPage} />
           <Route path={RECOVERY} component={LoginPage} />
           <PrivateRoute path={HOME} component={HomePage} />
-          <Redirect from="*" to={LOGIN} />
+          {/* <Redirect from="*" to={LOGIN} /> */}
+          <Route path={'/map'} component={UserPage} />
         </Switch>
       </CustomBrowserRouter>
     </Provider>
