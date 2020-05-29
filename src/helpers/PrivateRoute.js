@@ -7,6 +7,7 @@ import {useDispatch} from 'react-redux';
 
 import {GET_USER_REQUEST} from '../constants/api';
 import {add, del} from '../actions/userActions';
+import Loader from '../pages/Loader';
 
 const PrivateRoute = ({component: Component, ...rest}) => {
   const [user, setUser] = useState();
@@ -39,7 +40,7 @@ const PrivateRoute = ({component: Component, ...rest}) => {
 
   if (isError) return <Redirect to="/" />;
 
-  if (isLoading) return <div>Is Loading</div>;
+  if (isLoading) return <Loader />;
   return (
     <Route
       {...rest}
