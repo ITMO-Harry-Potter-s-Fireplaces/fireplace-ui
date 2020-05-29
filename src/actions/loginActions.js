@@ -16,10 +16,13 @@ export const loginUser = (login, password) => async dispatch => {
       login,
       password
     });
-    Cookies.set('token', '111');
+    if (res.data.code !== 200) {
+      throw Error(res.data.message);
+    }
+    Cookies.set('token', res.data.message.token);
     dispatch({
       type: LOGIN_SUCCESS,
-      payload: res.data
+      payload: {id: res.data.message.id, role: 2}
     });
   } catch (error) {
     dispatch({

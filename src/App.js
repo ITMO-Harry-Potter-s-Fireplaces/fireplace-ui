@@ -18,8 +18,8 @@ function App() {
           <Route path={REGISTR} component={LoginPage} />
           <Route path={RECOVERY} component={LoginPage} />
           <PrivateRoute path={HOME} component={HomePage} />
-          {/* <Redirect from="*" to={LOGIN} /> */}
-          <Route path={'/map'} component={UserPage} />
+          <Redirect from="*" to={LOGIN} />
+          {/* <Route path={'/map'} component={UserPage} /> */}
         </Switch>
       </CustomBrowserRouter>
     </Provider>

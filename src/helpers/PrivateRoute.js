@@ -16,15 +16,16 @@ const PrivateRoute = ({component: Component, ...rest}) => {
 
   useEffect(() => {
     const fetchUser = async () => {
-      setIsLoading(true);
-      setIsError(false);
       try {
         const response = await Axios.get(GET_USER_REQUEST, {
           headers: {Authorization: Cookies.get('token')}
         });
         console.log(response);
-        setUser(response.data.user);
-        dispatch(add(response.data.user));
+        if (response.data.code !== 200) {
+          throw Error(response.data.message);
+        }
+        setUser(response.data.message);
+        dispatch(add(response.data.message));
       } catch (error) {
         setIsError(true);
         setUser();

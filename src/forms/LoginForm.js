@@ -1,24 +1,35 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {useForm} from 'react-hook-form';
-import {NavLink} from 'react-router-dom';
-import {REGISTR, RECOVERY} from '../constants/routes';
-import {loginUser} from '../actions/loginActions';
+import {NavLink, useHistory} from 'react-router-dom';
+import {REGISTR, RECOVERY, HOME} from '../constants/routes';
+import {loginUser, LOGIN_SUCCESS} from '../actions/loginActions';
 import useActions from '../hooks/useAction';
 import {Button, InputFormWrapper, Link, Error, Transfer} from './FormsStyles';
+import {useSelector} from 'react-redux';
+import Cookies from 'js-cookie';
 
 function LoginForm() {
-  const [login, setLogin] = useState('');
-  const [password, setPassword] = useState('');
+  const [login, setLogin] = useState('admin@admin.com');
+  const [password, setPassword] = useState('123');
   const {handleSubmit, register, errors} = useForm();
-
-  //Alternative bindActionCreators
   const [submitAction] = useActions([loginUser]);
+  const history = useHistory();
+
+  const authToken = Cookies.get('token');
+
+  let isLoginSuccess = useSelector(state => state.login.type) === LOGIN_SUCCESS;
 
   const submit = () => {
     if (login !== '' && password !== '') {
       submitAction(login, password);
     }
   };
+
+  useEffect(() => {
+    if (authToken && authToken !== '' && isLoginSuccess) {
+      history.push(HOME);
+    }
+  }, [authToken, isLoginSuccess]);
 
   return (
     <form onSubmit={handleSubmit(submit)}>
@@ -32,6 +43,7 @@ function LoginForm() {
               message: 'invalid email address'
             }
           })}
+          value={login}
           name="login"
           onChange={e => setLogin(e.target.value)}
         />
@@ -41,10 +53,11 @@ function LoginForm() {
       <InputFormWrapper>
         <label for="password">Password</label>
         <input
+          value={password}
           ref={register({
             required: 'required',
             pattern: {
-              value: /^[A-Z0-9._]{6,15}$/i,
+              value: /^[A-Z0-9._]{3,15}$/i,
               message: 'invalid password'
             }
           })}

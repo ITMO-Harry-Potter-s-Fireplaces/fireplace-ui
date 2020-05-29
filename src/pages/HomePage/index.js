@@ -5,8 +5,9 @@ import AdminPage from './rolePages/AdminPage';
 import UserPage from './rolePages/UserPage';
 
 const HomePage = () => {
-  const role = useSelector(state => state.userReduce.user.role);
+  const role = useSelector(state => state.user.user.roleId);
   switch (role) {
+    case 0:
     case 1:
       return <AdminPage />;
     case 2:
