@@ -9,8 +9,8 @@ import useActions from '../hooks/useAction';
 import {Button, InputFormWrapper, Link, Error, Transfer} from './FormsStyles';
 
 function LoginForm() {
-  const [login, setLogin] = useState('admin@admin.com');
-  const [password, setPassword] = useState('123');
+  const [login, setLogin] = useState('');
+  const [password, setPassword] = useState('');
   const {handleSubmit, register, errors} = useForm();
   const [submitAction] = useActions([loginUser]);
   const history = useHistory();
