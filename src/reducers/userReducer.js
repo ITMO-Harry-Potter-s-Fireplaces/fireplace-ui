@@ -1,8 +1,15 @@
-import {USER_ADD, USER_DELETE, SHOW_MODAL, HIDE_MODAL} from '../actions/userActions';
+import {
+  USER_ADD,
+  USER_DELETE,
+  SHOW_MODAL,
+  HIDE_MODAL,
+  GET_ALL_USERS_SUCCESS
+} from '../actions/userActions';
 
 export const initialState = {
   isModal: false,
-  user: null
+  user: null,
+  usersList: []
 };
 
 export default (state = initialState, action) => {
@@ -17,6 +24,12 @@ export default (state = initialState, action) => {
       return {
         ...state,
         user: null
+      };
+
+    case GET_ALL_USERS_SUCCESS:
+      return {
+        ...state,
+        usersList: action.payload
       };
 
     case SHOW_MODAL:
