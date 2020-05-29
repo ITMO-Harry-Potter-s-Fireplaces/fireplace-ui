@@ -10,7 +10,7 @@ import FormControl from '@material-ui/core/FormControl';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
-import Select from '@material-ui/core/Select';
+import TextField from '@material-ui/core/TextField';
 import Switch from '@material-ui/core/Switch';
 
 const useStyles = makeStyles(theme => ({
@@ -51,38 +51,14 @@ function RequestModal({isOpen, handleClose}) {
       aria-labelledby="max-width-dialog-title">
       <DialogTitle id="max-width-dialog-title">Optional sizes</DialogTitle>
       <DialogContent>
-        <DialogContentText>
-          You can set my maximum width and whether to adapt or not.
-        </DialogContentText>
-        <form className={classes.form} noValidate>
-          <FormControl className={classes.formControl}>
-            <InputLabel htmlFor="max-width">maxWidth</InputLabel>
-            <Select
-              autoFocus
-              value={maxWidth}
-              onChange={handleMaxWidthChange}
-              inputProps={{
-                name: 'max-width',
-                id: 'max-width'
-              }}>
-              <MenuItem value={false}>false</MenuItem>
-              <MenuItem value="xs">xs</MenuItem>
-              <MenuItem value="sm">sm</MenuItem>
-              <MenuItem value="md">md</MenuItem>
-              <MenuItem value="lg">lg</MenuItem>
-              <MenuItem value="xl">xl</MenuItem>
-            </Select>
-          </FormControl>
-          <FormControlLabel
-            className={classes.formControlLabel}
-            control={<Switch checked={fullWidth} onChange={handleFullWidthChange} />}
-            label="Full width"
-          />
+        <DialogContentText>Set the form</DialogContentText>
+        <form className={classes.root} noValidate autoComplete="off">
+          <TextField id="standard-basic" label="Additional info" />
         </form>
       </DialogContent>
       <DialogActions>
         <Button onClick={handleClose} color="primary">
-          Close
+          Send the request
         </Button>
       </DialogActions>
     </Dialog>
