@@ -1,6 +1,9 @@
 import React, {useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-
+import Cookies from 'js-cookie';
+import {useHistory} from 'react-router-dom';
+import {Button} from '@material-ui/core';
+import {LOGIN} from '../../../constants/routes';
 import Map from './Map';
 import {
   LoginWrapper,
@@ -8,15 +11,24 @@ import {
   BackImage,
   Logo,
   CloudWrapper,
-  Text
+  Text,
+  Header
 } from './UserPage.styles';
-import {hideModal} from '../../../actions/userActions';
+import {hideModal, del} from '../../../actions/userActions';
 import RequestModal from './RequestModal';
 
 function UserPage() {
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const isModalShown = useSelector(state => state.user.isModal);
+
+  const signOut = () => {
+    console.log('press');
+    Cookies.remove('token');
+    dispatch(del());
+    history.push(LOGIN);
+  };
 
   return (
     <>
@@ -27,6 +39,15 @@ function UserPage() {
           <BackImage src={`${process.env.PUBLIC_URL}/image/cloud.png`} timeAnimation="70s" />
           <BackImage src={`${process.env.PUBLIC_URL}/image/hh1.png`} timeAnimation="60s" />
         </CloudWrapper>
+        <Header>
+          <Button
+            style={{height: '20px'}}
+            onClick={() => signOut()}
+            variant="contained"
+            color="primary">
+            Logout
+          </Button>
+        </Header>
         <LoginFormWrapper>
           <Logo src={`${process.env.PUBLIC_URL}/image/logo.png`} />
           <Text>Choose your fireplace</Text>

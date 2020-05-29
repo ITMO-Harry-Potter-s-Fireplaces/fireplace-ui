@@ -3,7 +3,6 @@ import styled, {keyframes} from 'styled-components';
 const LoginWrapper = styled.div`
   position: relative;
   box-sizing: border-box;
-  padding-top: 10%;
   width: 100%;
   height: 100vh;
   background-color: #e3ecf4;
@@ -75,4 +74,21 @@ const Text = styled.p`
   bottom: 50px;
 `;
 
-export {LoginWrapper, LoginFormWrapper, BackImage, Logo, CloudWrapper, Text};
+const Header = styled.div`
+  width: 100%;
+  height: 68px;
+  background: #d5ecff;
+  border-bottom: 1px solid #80808026;
+  margin-bottom: 80px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  padding-left: 20px;
+  padding-right: 20px;
+  box-sizing: border-box;
+`;
+
+const SignOutBtn = styled.div``;
+
+export {LoginWrapper, Header, LoginFormWrapper, BackImage, Logo, CloudWrapper, Text};

@@ -1,8 +1,10 @@
-import React, {useState} from 'react';
-import {NavLink} from 'react-router-dom';
+import React, {useState, useEffect} from 'react';
+import {NavLink, useHistory} from 'react-router-dom';
 import {useForm} from 'react-hook-form';
-import {LOGIN} from '../constants/routes';
-import {loginUser} from '../actions/loginActions';
+import {useSelector} from 'react-redux';
+import Cookies from 'js-cookie';
+import {LOGIN, HOME} from '../constants/routes';
+import {registerUser, REGISTER_SUCCESS} from '../actions/loginActions';
 import useActions from '../hooks/useAction';
 import {Button, InputFormWrapper, Error, Transfer} from './FormsStyles';
 
@@ -10,9 +12,19 @@ function RegistrationForm() {
   const [login, setLogin] = useState('');
   const [password, setPassword] = useState('');
   const {handleSubmit, register, errors} = useForm();
-
+  const history = useHistory();
   // Alternative bindActionCreators
-  const [submitAction] = useActions([loginUser]);
+  const [submitAction] = useActions([registerUser]);
+
+  const authToken = Cookies.get('token');
+
+  let isRegisterSuccess = useSelector(state => state.login.type) === REGISTER_SUCCESS;
+
+  useEffect(() => {
+    if (authToken && authToken !== '' && isRegisterSuccess) {
+      history.push(HOME);
+    }
+  }, [authToken, isRegisterSuccess]);
 
   const submit = () => {
     if (login !== '' && password !== '') {

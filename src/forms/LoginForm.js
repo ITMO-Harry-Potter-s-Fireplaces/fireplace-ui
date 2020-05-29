@@ -1,12 +1,12 @@
 import React, {useState, useEffect} from 'react';
 import {useForm} from 'react-hook-form';
 import {NavLink, useHistory} from 'react-router-dom';
+import {useSelector} from 'react-redux';
+import Cookies from 'js-cookie';
 import {REGISTR, RECOVERY, HOME} from '../constants/routes';
 import {loginUser, LOGIN_SUCCESS} from '../actions/loginActions';
 import useActions from '../hooks/useAction';
 import {Button, InputFormWrapper, Link, Error, Transfer} from './FormsStyles';
-import {useSelector} from 'react-redux';
-import Cookies from 'js-cookie';
 
 function LoginForm() {
   const [login, setLogin] = useState('admin@admin.com');
