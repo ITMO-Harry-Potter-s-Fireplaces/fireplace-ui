@@ -50,14 +50,14 @@ const LoginFormWrapper = styled.div`
   box-shadow: 0 10px 7px -10px rgba(0, 0, 0, 0.4);
   text-align: center;
   background: white;
-  width: 450px;
-  height: 450px;
+  max-width: 650px;
+  height: 550px;
   border-radius: 10px;
   margin: auto;
   padding: auto;
   display: flex;
   flex-direction: column;
-
+  margin-bottom: 70px;
   @media (max-width: 500px) {
     width: 100%;
     top: 50px;

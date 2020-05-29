@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {GET_ALL_USERS} from '../constants/api';
+import {GET_ALL_USERS, GET_COORDINATES} from '../constants/api';
 
 export const USER_DELETE = 'user_delete';
 export const SHOW_MODAL = 'show_modal';
@@ -59,27 +59,33 @@ export const getAllUsers = token => async dispatch => {
   }
 };
 
-// export const getCoordinates = (lat, lng) => async dispatch => {
-//   dispatch({
-//     type: GET_COORD_LOADING
-//   });
+export const getCoordinates = (lat, lng, token) => async dispatch => {
+  dispatch({
+    type: GET_COORD_LOADING
+  });
 
-//   try {
-//     const res = await axios.post(LOGIN_REQUEST, {
-//       login,
-//       password
-//     });
-//     dispatch({
-//       type: LOGIN_SUCCESS,
-//       payload: res.data
-//     });
-//   } catch (error) {
-//     dispatch({
-//       type: LOGIN_FAIL,
-//       error
-//     });
-//   }
-// };
+  try {
+    const res = await axios.post(
+      GET_COORDINATES,
+      {
+        lat,
+        lng
+      },
+      {
+        headers: {Authorization: token}
+      }
+    );
+    dispatch({
+      type: GET_COORD_SUCCESS,
+      payload: res.data.message.content
+    });
+  } catch (error) {
+    dispatch({
+      type: GET_COORD_FAIL,
+      error
+    });
+  }
+};
 
 export const del = () => {
   return {

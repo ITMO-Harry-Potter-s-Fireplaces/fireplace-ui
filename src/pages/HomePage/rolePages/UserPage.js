@@ -1,7 +1,7 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import Cookies from 'js-cookie';
-import {useHistory} from 'react-router-dom';
+import {useHistory, Switch, Route} from 'react-router-dom';
 import {Button} from '@material-ui/core';
 import {LOGIN} from '../../../constants/routes';
 import Map from './Map';
@@ -14,7 +14,7 @@ import {
   Text,
   Header
 } from './UserPage.styles';
-import {hideModal, del} from '../../../actions/userActions';
+import {hideModal, del, getCoordinates} from '../../../actions/userActions';
 import RequestModal from './RequestModal';
 
 function UserPage() {
@@ -22,6 +22,18 @@ function UserPage() {
   const history = useHistory();
 
   const isModalShown = useSelector(state => state.user.isModal);
+  const coordList = useSelector(state => state.user.coordList);
+
+  useEffect(() => {
+    let lat = Math.floor(Math.random() * 65) + 54;
+    let lng = Math.floor(Math.random() * 53) + 34;
+    let token = Cookies.get('token');
+    dispatch(getCoordinates(lat, lng, token));
+  }, []);
+
+  useEffect(() => {
+    console.log(coordList);
+  }, [coordList]);
 
   const signOut = () => {
     console.log('press');
@@ -41,29 +53,34 @@ function UserPage() {
         </CloudWrapper>
         <Header>
           <Button
-            style={{height: '20px'}}
+            onClick={() => history.push('/home/list')}
+            style={{height: '30px', marginRight: '10px'}}
+            variant="contained"
+            color="primary">
+            Show requests
+          </Button>
+          <Button
+            style={{height: '30px'}}
             onClick={() => signOut()}
             variant="contained"
             color="primary">
             Logout
           </Button>
         </Header>
+
         <LoginFormWrapper>
           <Logo src={`${process.env.PUBLIC_URL}/image/logo.png`} />
           <Text>Choose your fireplace</Text>
           <RequestModal isOpen={isModalShown} handleClose={() => dispatch(hideModal())} />
-          <div>
-            <Map
-              data={[
-                {lat: 24, lng: 12},
-                {lat: 21.52, lng: 51.425},
-                {lat: 23.52, lng: 21.425},
-                {lat: 24.52, lng: 31.425},
-                {lat: 52.42, lng: 51.425}
-              ]}
-            />
-          </div>
+
+          <div>{coordList && coordList.length > 0 && <Map data={coordList} />}</div>
         </LoginFormWrapper>
+
+        <Switch>
+          <Route path="/home/list">
+            <div>список текущих полетов</div>
+          </Route>
+        </Switch>
       </LoginWrapper>
       );
     </>

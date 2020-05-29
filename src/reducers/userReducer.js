@@ -3,13 +3,15 @@ import {
   USER_DELETE,
   SHOW_MODAL,
   HIDE_MODAL,
-  GET_ALL_USERS_SUCCESS
+  GET_ALL_USERS_SUCCESS,
+  GET_COORD_SUCCESS
 } from '../actions/userActions';
 
 export const initialState = {
   isModal: false,
   user: null,
-  usersList: []
+  usersList: [],
+  coordList: []
 };
 
 export default (state = initialState, action) => {
@@ -30,6 +32,12 @@ export default (state = initialState, action) => {
       return {
         ...state,
         usersList: action.payload
+      };
+
+    case GET_COORD_SUCCESS:
+      return {
+        ...state,
+        coordList: action.payload
       };
 
     case SHOW_MODAL:
