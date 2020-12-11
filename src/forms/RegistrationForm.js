@@ -1,17 +1,24 @@
 import React, {useState, useEffect} from 'react';
 import {NavLink, useHistory} from 'react-router-dom';
-import {useForm} from 'react-hook-form';
+import {useForm, Controller} from 'react-hook-form';
 import {useSelector} from 'react-redux';
 import Cookies from 'js-cookie';
 import {LOGIN, HOME} from '../constants/routes';
 import {registerUser, REGISTER_SUCCESS} from '../actions/loginActions';
 import useActions from '../hooks/useAction';
+import ReactDatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+
 import {Button, InputFormWrapper, Error, Transfer} from './FormsStyles';
+import DateFnsUtils from '@date-io/date-fns';
+import {KeyboardDatePicker, MuiPickersUtilsProvider} from '@material-ui/pickers';
+
+const defaultValues = {
+  eventDate: null
+};
 
 function RegistrationForm() {
-  const [login, setLogin] = useState('');
-  const [password, setPassword] = useState('');
-  const {handleSubmit, register, errors} = useForm();
+  const {handleSubmit, register, errors, control} = useForm({defaultValues});
   const history = useHistory();
   // Alternative bindActionCreators
   const [submitAction] = useActions([registerUser]);
@@ -26,16 +33,22 @@ function RegistrationForm() {
     }
   }, [authToken, isRegisterSuccess]);
 
-  const submit = () => {
-    if (login !== '' && password !== '') {
-      submitAction(login, password);
-    }
+  const submit = data => {
+    console.log(JSON.stringify(data));
+    submitAction(
+      data.email,
+      data.password,
+      data.name,
+      data.surname,
+      data.middleName,
+      data.ReactDatepicker
+    );
   };
 
   return (
     <form onSubmit={handleSubmit(submit)}>
       <InputFormWrapper>
-        <label htmlFor="login">Enter your email</label>
+        <label htmlFor="email">Enter your email</label>
         <input
           ref={register({
             required: 'required',
@@ -44,8 +57,7 @@ function RegistrationForm() {
               message: 'invalid email address'
             }
           })}
-          name="login"
-          onChange={e => setLogin(e.target.value)}
+          name="email"
         />
         <Error>{errors.login && errors.login.message}</Error>
       </InputFormWrapper>
@@ -62,9 +74,55 @@ function RegistrationForm() {
           })}
           type="password"
           name="password"
-          onChange={e => setPassword(e.target.value)}
         />
         <Error>{errors.password && errors.password.message}</Error>
+      </InputFormWrapper>
+      <br />
+      <InputFormWrapper>
+        <label htmlFor="name">Enter your name</label>
+        <input
+          ref={register({
+            required: 'required'
+          })}
+          type="name"
+          name="name"
+        />
+        <Error>{errors.name && errors.name.message}</Error>
+      </InputFormWrapper>
+      <InputFormWrapper>
+        <label htmlFor="middleName">Enter your middle name</label>
+        <input
+          ref={register({
+            required: 'required'
+          })}
+          type="middleName"
+          name="middleName"
+        />
+        <Error>{errors.middleName && errors.middleName.message}</Error>
+      </InputFormWrapper>
+      <InputFormWrapper>
+        <label htmlFor="surname">Enter your surname</label>
+        <input
+          ref={register({
+            required: 'required'
+          })}
+          type="surname"
+          name="surname"
+        />
+        <Error>{errors.surname && errors.surname.message}</Error>
+      </InputFormWrapper>
+      <InputFormWrapper>
+        <label htmlFor="surname">Choose your date of birth</label>
+        <Controller
+          as={ReactDatePicker}
+          control={control}
+          valueName="selected" // DateSelect value's name is selected
+          onChange={([selected]) => selected}
+          name="ReactDatepicker"
+          className="input"
+          placeholderText="Select date"
+        />
+        <Error>{errors.surname && errors.surname.message}</Error>
       </InputFormWrapper>
       <br />
       <Button type="submit">Sign up</Button>

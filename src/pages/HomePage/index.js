@@ -5,12 +5,13 @@ import AdminPage from './rolePages/AdminPage';
 import UserPage from './rolePages/UserPage';
 
 const HomePage = () => {
-  const role = useSelector(state => state.user.user.roleId);
+  const role = useSelector(
+    state => (state.user && state.user.user && state.user.user.role) || null
+  );
   switch (role) {
-    case 0:
-    case 1:
+    case 'ADMIN':
       return <AdminPage />;
-    case 2:
+    case 'USER':
       return <UserPage />;
     default:
       return null;

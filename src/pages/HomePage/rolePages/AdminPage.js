@@ -87,8 +87,7 @@ function AdminPage() {
                       <TableCell align="right">middle name</TableCell>
                       <TableCell align="right">date of birth</TableCell>
                       <TableCell align="right">is active?</TableCell>
-                      <TableCell align="right">role id</TableCell>
-                      <TableCell align="right">role name</TableCell>
+                      <TableCell align="right">role</TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
@@ -105,8 +104,7 @@ function AdminPage() {
                         <TableCell align="right">
                           {row.active ? 'true' : 'false' || 'unset'}
                         </TableCell>
-                        <TableCell align="right">{row.roleId || 'unset'}</TableCell>
-                        <TableCell align="right">{row.roleName || 'unset'}</TableCell>
+                        <TableCell align="right">{row.role || 'unset'}</TableCell>
                       </TableRow>
                     ))}
                   </TableBody>

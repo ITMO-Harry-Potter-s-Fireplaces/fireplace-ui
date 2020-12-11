@@ -65,16 +65,9 @@ export const getCoordinates = (lat, lng, token) => async dispatch => {
   });
 
   try {
-    const res = await axios.post(
-      GET_COORDINATES,
-      {
-        lat,
-        lng
-      },
-      {
-        headers: {Authorization: token}
-      }
-    );
+    const res = await axios.get(GET_COORDINATES, {
+      headers: {Authorization: token}
+    });
     dispatch({
       type: GET_COORD_SUCCESS,
       payload: res.data.message.content

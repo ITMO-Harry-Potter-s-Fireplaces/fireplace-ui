@@ -10,14 +10,14 @@ export const REGISTER_LOADING = 'REGISTER_LOADING';
 export const REGISTER_SUCCESS = 'REGISTER_SUCCESS';
 export const REGISTER_FAIL = 'REGISTER_FAIL';
 
-export const loginUser = (login, password) => async dispatch => {
+export const loginUser = (email, password) => async dispatch => {
   dispatch({
     type: LOGIN_LOADING
   });
 
   try {
     const res = await axios.post(LOGIN_REQUEST, {
-      login,
+      email,
       password
     });
     if (res.data.code !== 200) {
@@ -35,15 +35,26 @@ export const loginUser = (login, password) => async dispatch => {
   }
 };
 
-export const registerUser = (login, password) => async dispatch => {
+export const registerUser = (
+  email,
+  password,
+  name,
+  surname,
+  middleName,
+  dateOfBirth
+) => async dispatch => {
   dispatch({
     type: REGISTER_LOADING
   });
 
   try {
     const res = await axios.post(REGISTER_REQUEST, {
-      login,
-      password
+      email,
+      password,
+      name,
+      surname,
+      middleName,
+      dateOfBirth
     });
     if (res.data.code !== 200) {
       throw Error(res.data.message);

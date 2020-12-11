@@ -40,7 +40,10 @@ const PrivateRoute = ({component: Component, ...rest}) => {
 
   if (isError) return <Redirect to="/" />;
 
-  if (isLoading) return <Loader />;
+  if (isLoading)
+    return (
+      <Route {...rest} render={props => (user !== null ? <Component {...props} /> : <Loader />)} />
+    );
   return (
     <Route
       {...rest}
