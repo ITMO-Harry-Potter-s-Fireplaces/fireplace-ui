@@ -1,8 +1,8 @@
 import React from 'react';
 import {useSelector} from 'react-redux';
 
-import AdminPage from './rolePages/AdminPage';
-import UserPage from './rolePages/UserPage';
+import AdminPage from './byRole/admin/AdminPage';
+import UserPage from './byRole/user/UserPage';
 
 const HomePage = () => {
   const role = useSelector(

@@ -3,9 +3,9 @@ import {Route, Switch, Redirect} from 'react-router-dom';
 import {Provider} from 'react-redux';
 import {createGlobalStyle} from 'styled-components';
 import store from './store/createStore';
-import HomePage from './pages/HomePage';
+import HomePage from './pages/home';
 import CustomBrowserRouter from './helpers/CustomBrowserRouter';
-import LoginPage from './pages/LoginPage';
+import LoginPage from './pages/login';
 import {LOGIN, HOME, REGISTR, RECOVERY} from './constants/routes';
 import PrivateRoute from './helpers/PrivateRoute';
 

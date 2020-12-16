@@ -24,11 +24,11 @@ export const loginUser = (email, password) => async dispatch => {
       throw Error(res.data.message);
     }
     Cookies.set('token', res.data.message.token);
-    dispatch({
+    return dispatch({
       type: LOGIN_SUCCESS
     });
   } catch (error) {
-    dispatch({
+    return dispatch({
       type: LOGIN_FAIL,
       error
     });

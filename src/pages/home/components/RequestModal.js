@@ -28,14 +28,6 @@ function RequestModal({isOpen, handleClose}) {
   const [fullWidth, setFullWidth] = useState(true);
   const [maxWidth, setMaxWidth] = useState('sm');
 
-  const handleMaxWidthChange = event => {
-    setMaxWidth(event.target.value);
-  };
-
-  const handleFullWidthChange = event => {
-    setFullWidth(event.target.checked);
-  };
-
   return (
     <Dialog
       fullWidth={fullWidth}

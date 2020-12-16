@@ -1,6 +1,6 @@
 import React from 'react';
 import {Route, Switch} from 'react-router-dom';
-import {LOGIN, REGISTR, RECOVERY} from '../../constants/routes';
+import {LOGIN, REGISTR} from '../../constants/routes';
 import {
   LoginWrapper,
   LoginFormWrapper,
@@ -9,9 +9,8 @@ import {
   CloudWrapper,
   Text
 } from './LoginPageStyles';
-import LoginForm from '../../forms/LoginForm';
-import RegistrationForm from '../../forms/RegistrationForm';
-import PasswordRecoveryForm from '../../forms/PasswordRecoveryForm';
+import LoginForm from './components/forms/LoginForm';
+import RegistrationForm from './components/forms/RegistrationForm';
 
 function AuthenticationPage() {
   return (
@@ -28,7 +27,6 @@ function AuthenticationPage() {
         <Switch>
           <Route path={LOGIN} component={LoginForm} />
           <Route path={REGISTR} component={RegistrationForm} />
-          <Route path={RECOVERY} component={PasswordRecoveryForm} />
         </Switch>
       </LoginFormWrapper>
     </LoginWrapper>

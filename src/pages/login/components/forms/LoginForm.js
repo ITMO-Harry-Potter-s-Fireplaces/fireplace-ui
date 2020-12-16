@@ -3,9 +3,12 @@ import {useForm} from 'react-hook-form';
 import {NavLink, useHistory} from 'react-router-dom';
 import {useSelector} from 'react-redux';
 import Cookies from 'js-cookie';
-import {REGISTR, HOME} from '../constants/routes';
-import {loginUser, LOGIN_SUCCESS} from '../actions/loginActions';
-import useActions from '../hooks/useAction';
+import Snackbar from '@material-ui/core/Snackbar';
+import IconButton from '@material-ui/core/IconButton';
+import CloseIcon from '@material-ui/icons/Close';
+import {loginUser, LOGIN_FAIL, LOGIN_SUCCESS} from '../../../../actions/loginActions';
+import {REGISTR, HOME} from '../../../../constants/routes';
+import useActions from '../../../../hooks/useAction';
 import {Button, InputFormWrapper, Error, Transfer, NavLinkWrapper} from './FormsStyles';
 
 function LoginForm() {
@@ -14,6 +17,16 @@ function LoginForm() {
   const {handleSubmit, register, errors} = useForm();
   const [submitAction] = useActions([loginUser]);
   const history = useHistory();
+  const [open, setOpen] = React.useState(false);
+  const [message, setMessage] = React.useState('');
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpen(false);
+  };
 
   const authToken = Cookies.get('token');
 
@@ -21,7 +34,13 @@ function LoginForm() {
 
   const submit = () => {
     if (login !== '' && password !== '') {
-      submitAction(login, password);
+      submitAction(login, password).then(e => {
+        if (e.type && e.type === LOGIN_FAIL) {
+          setMessage(e.error.message);
+          setOpen(true);
+        }
+        console.log(e);
+      });
     }
   };
 
@@ -34,7 +53,7 @@ function LoginForm() {
   return (
     <form onSubmit={handleSubmit(submit)}>
       <InputFormWrapper>
-        <label for="login">Email</label>
+        <label htmlFor="login">Email</label>
         <input
           ref={register({
             required: 'required',
@@ -51,7 +70,7 @@ function LoginForm() {
       </InputFormWrapper>
       <br />
       <InputFormWrapper>
-        <label for="password">Password</label>
+        <label htmlFor="password">Password</label>
         <input
           value={password}
           ref={register({
@@ -74,6 +93,23 @@ function LoginForm() {
           <Transfer>Need an account?</Transfer>
         </NavLink>
       </NavLinkWrapper>
+      <Snackbar
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'center'
+        }}
+        open={open}
+        autoHideDuration={6000}
+        onClose={handleClose}
+        message={message}
+        action={
+          <React.Fragment>
+            <IconButton size="small" aria-label="close" color="inherit" onClick={handleClose}>
+              <CloseIcon fontSize="small" />
+            </IconButton>
+          </React.Fragment>
+        }
+      />
     </form>
   );
 }

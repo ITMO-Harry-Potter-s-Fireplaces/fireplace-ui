@@ -11,8 +11,8 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import {useHistory} from 'react-router-dom';
 import {Button} from '@material-ui/core';
-import {LOGIN} from '../../../constants/routes';
-import useActions from '../../../hooks/useAction';
+import {LOGIN} from '../../../../constants/routes';
+import useActions from '../../../../hooks/useAction';
 
 import {
   LoginWrapper,
@@ -23,7 +23,7 @@ import {
   Text,
   Header
 } from './AdminPage.styles';
-import {del, getAllUsers} from '../../../actions/userActions';
+import {del, getAllUsers} from '../../../../actions/userActions';
 
 const useStyles = makeStyles({
   table: {

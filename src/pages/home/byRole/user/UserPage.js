@@ -1,10 +1,10 @@
-import React, {useState, useEffect} from 'react';
+import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import Cookies from 'js-cookie';
 import {useHistory, Switch, Route} from 'react-router-dom';
 import {Button} from '@material-ui/core';
-import {LOGIN} from '../../../constants/routes';
-import Map from './Map';
+import {LOGIN} from '../../../../constants/routes';
+import Map from '../../components/Map';
 import {
   LoginWrapper,
   LoginFormWrapper,
@@ -14,8 +14,8 @@ import {
   Text,
   Header
 } from './UserPage.styles';
-import {hideModal, del, getCoordinates} from '../../../actions/userActions';
-import RequestModal from './RequestModal';
+import {hideModal, del, getCoordinates} from '../../../../actions/userActions';
+import RequestModal from '../../components/RequestModal';
 
 function UserPage() {
   const dispatch = useDispatch();
@@ -25,9 +25,9 @@ function UserPage() {
   const coordList = useSelector(state => state.user.coordList);
 
   useEffect(() => {
-    let lat = Math.floor(Math.random() * 65) + 54;
-    let lng = Math.floor(Math.random() * 53) + 34;
-    let token = Cookies.get('token');
+    const lat = Math.floor(Math.random() * 65) + 54;
+    const lng = Math.floor(Math.random() * 53) + 34;
+    const token = Cookies.get('token');
     dispatch(getCoordinates(lat, lng, token));
   }, []);
 
@@ -36,7 +36,6 @@ function UserPage() {
   }, [coordList]);
 
   const signOut = () => {
-    console.log('press');
     Cookies.remove('token');
     dispatch(del());
     history.push(LOGIN);
