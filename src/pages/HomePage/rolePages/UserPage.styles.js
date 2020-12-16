@@ -4,7 +4,7 @@ const LoginWrapper = styled.div`
   position: relative;
   box-sizing: border-box;
   width: 100%;
-  height: 100vh;
+  height: 100%;
   background-color: #e3ecf4;
 
   @media (max-height: 500px) {
@@ -88,7 +88,5 @@ const Header = styled.div`
   padding-right: 20px;
   box-sizing: border-box;
 `;
-
-const SignOutBtn = styled.div``;
 
 export {LoginWrapper, Header, LoginFormWrapper, BackImage, Logo, CloudWrapper, Text};

@@ -1,17 +1,15 @@
-import React, {useState, useEffect} from 'react';
+import React, {useEffect} from 'react';
 import {NavLink, useHistory} from 'react-router-dom';
 import {useForm, Controller} from 'react-hook-form';
 import {useSelector} from 'react-redux';
 import Cookies from 'js-cookie';
+import ReactDatePicker from 'react-datepicker';
 import {LOGIN, HOME} from '../constants/routes';
 import {registerUser, REGISTER_SUCCESS} from '../actions/loginActions';
 import useActions from '../hooks/useAction';
-import ReactDatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
-import {Button, InputFormWrapper, Error, Transfer} from './FormsStyles';
-import DateFnsUtils from '@date-io/date-fns';
-import {KeyboardDatePicker, MuiPickersUtilsProvider} from '@material-ui/pickers';
+import {Button, InputFormWrapper, Error, Transfer, NavLinkWrapper} from './FormsStyles';
 
 const defaultValues = {
   eventDate: null
@@ -89,6 +87,7 @@ function RegistrationForm() {
         />
         <Error>{errors.name && errors.name.message}</Error>
       </InputFormWrapper>
+      <br />
       <InputFormWrapper>
         <label htmlFor="middleName">Enter your middle name</label>
         <input
@@ -100,6 +99,7 @@ function RegistrationForm() {
         />
         <Error>{errors.middleName && errors.middleName.message}</Error>
       </InputFormWrapper>
+      <br />
       <InputFormWrapper>
         <label htmlFor="surname">Enter your surname</label>
         <input
@@ -111,6 +111,8 @@ function RegistrationForm() {
         />
         <Error>{errors.surname && errors.surname.message}</Error>
       </InputFormWrapper>
+      <br />
+
       <InputFormWrapper>
         <label htmlFor="surname">Choose your date of birth</label>
         <Controller
@@ -126,9 +128,11 @@ function RegistrationForm() {
       </InputFormWrapper>
       <br />
       <Button type="submit">Sign up</Button>
-      <NavLink to={LOGIN}>
-        <Transfer>Have an account?</Transfer>
-      </NavLink>
+      <NavLinkWrapper>
+        <NavLink to={LOGIN}>
+          <Transfer>Have an account?</Transfer>
+        </NavLink>
+      </NavLinkWrapper>
     </form>
   );
 }

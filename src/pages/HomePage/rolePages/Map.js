@@ -1,7 +1,7 @@
 import React, {useEffect, useRef} from 'react';
 import L from 'leaflet';
-import {useDispatch, useSelector} from 'react-redux';
-import {add, showModal} from '../../../actions/userActions';
+import {useDispatch} from 'react-redux';
+import {showModal} from '../../../actions/userActions';
 
 const style = {
   width: '100%',
@@ -27,7 +27,7 @@ function Map({markerPosition, data}) {
     const coor = [];
 
     data.forEach(element => {
-      coor.push(L.latLng(parseFloat(element['lat']), parseFloat(element['lng'])));
+      coor.push(L.latLng(parseFloat(element.lat), parseFloat(element.lng)));
     });
     for (let m of coor) {
       L.marker(m)
@@ -43,7 +43,6 @@ function Map({markerPosition, data}) {
   const markerRef = useRef(null);
   useEffect(() => {
     if (markerRef.current) {
-      console.log('gee');
       data.forEach(element => {
         markerRef.current.setLatLng(element.lat, element.lng);
       });

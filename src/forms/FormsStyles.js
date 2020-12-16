@@ -6,6 +6,14 @@ const InputFormWrapper = styled.div`
   margin-top: 5px;
   width: 100%;
 
+  .react-datepicker-wrapper {
+    width: 70%;
+  }
+
+  .react-datepicker-wrapper > div > input {
+    width: 100%;
+  }
+
   & input {
     font-family: sans-serif;
     width: 70%;
@@ -104,7 +112,6 @@ const Link = styled.a`
 `;
 
 const Transfer = styled.a`
-  position: absolute;
   left: 176px;
   color: #3eacdc;
   text-decoration: none;
@@ -113,6 +120,10 @@ const Transfer = styled.a`
   @media (max-width: 500px) {
     left: 150px;
   }
+`;
+
+export const NavLinkWrapper = styled.div`
+  margin-bottom: 30px;
 `;
 
 export {Button, InputFormWrapper, Link, Error, Transfer};

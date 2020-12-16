@@ -3,10 +3,10 @@ import {useForm} from 'react-hook-form';
 import {NavLink, useHistory} from 'react-router-dom';
 import {useSelector} from 'react-redux';
 import Cookies from 'js-cookie';
-import {REGISTR, RECOVERY, HOME} from '../constants/routes';
+import {REGISTR, HOME} from '../constants/routes';
 import {loginUser, LOGIN_SUCCESS} from '../actions/loginActions';
 import useActions from '../hooks/useAction';
-import {Button, InputFormWrapper, Link, Error, Transfer} from './FormsStyles';
+import {Button, InputFormWrapper, Error, Transfer, NavLinkWrapper} from './FormsStyles';
 
 function LoginForm() {
   const [login, setLogin] = useState('');
@@ -67,15 +67,13 @@ function LoginForm() {
         />
         <Error>{errors.password && errors.password.message}</Error>
       </InputFormWrapper>
-      <NavLink to={RECOVERY}>
-        <Link>Forgot password</Link>
-      </NavLink>
       <br />
       <Button type="submit">Log in</Button>
-
-      <NavLink to={REGISTR}>
-        <Transfer>Need an account?</Transfer>
-      </NavLink>
+      <NavLinkWrapper>
+        <NavLink to={REGISTR}>
+          <Transfer>Need an account?</Transfer>
+        </NavLink>
+      </NavLinkWrapper>
     </form>
   );
 }

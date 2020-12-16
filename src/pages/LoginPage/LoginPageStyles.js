@@ -3,9 +3,10 @@ import styled, {keyframes} from 'styled-components';
 const LoginWrapper = styled.div`
   position: relative;
   box-sizing: border-box;
-  padding-top: 10%;
+  display: flex;
+  justify-content: center;
   width: 100%;
-  height: 100vh;
+  height: 100%;
   background-color: #e3ecf4;
 
   @media (max-height: 500px) {
@@ -52,7 +53,6 @@ const LoginFormWrapper = styled.div`
   text-align: center;
   background: white;
   width: 450px;
-  height: 450px;
   border-radius: 10px;
   margin: auto;
   padding: auto;
