@@ -12,8 +12,6 @@ import useActions from '../../../../hooks/useAction';
 import {Button, InputFormWrapper, Error, Transfer, NavLinkWrapper} from './FormsStyles';
 
 function LoginForm() {
-  const [login, setLogin] = useState('');
-  const [password, setPassword] = useState('');
   const {handleSubmit, register, errors} = useForm();
   const [submitAction] = useActions([loginUser]);
   const history = useHistory();
@@ -32,9 +30,9 @@ function LoginForm() {
 
   let isLoginSuccess = useSelector(state => state.login.type) === LOGIN_SUCCESS;
 
-  const submit = () => {
-    if (login !== '' && password !== '') {
-      submitAction(login, password).then(e => {
+  const submit = data => {
+    if (data.login !== '' && data.password !== '') {
+      submitAction(data.login, data.password).then(e => {
         if (e.type && e.type === LOGIN_FAIL) {
           setMessage(e.error.message);
           setOpen(true);
@@ -62,9 +60,7 @@ function LoginForm() {
               message: 'invalid email address'
             }
           })}
-          value={login}
           name="login"
-          onChange={e => setLogin(e.target.value)}
         />
         <Error>{errors.login && errors.login.message}</Error>
       </InputFormWrapper>
@@ -72,7 +68,6 @@ function LoginForm() {
       <InputFormWrapper>
         <label htmlFor="password">Password</label>
         <input
-          value={password}
           ref={register({
             required: 'required',
             pattern: {
@@ -82,7 +77,6 @@ function LoginForm() {
           })}
           type="password"
           name="password"
-          onChange={e => setPassword(e.target.value)}
         />
         <Error>{errors.password && errors.password.message}</Error>
       </InputFormWrapper>

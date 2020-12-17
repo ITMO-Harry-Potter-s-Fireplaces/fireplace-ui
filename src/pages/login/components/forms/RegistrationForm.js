@@ -57,7 +57,7 @@ function RegistrationForm() {
           })}
           name="email"
         />
-        <Error>{errors.login && errors.login.message}</Error>
+        <Error>{errors.email && errors.email.message}</Error>
       </InputFormWrapper>
       <br />
       <InputFormWrapper>
@@ -112,9 +112,8 @@ function RegistrationForm() {
         <Error>{errors.surname && errors.surname.message}</Error>
       </InputFormWrapper>
       <br />
-
       <InputFormWrapper>
-        <label htmlFor="surname">Choose your date of birth</label>
+        <label htmlFor="surname">Click to choose your date of birth</label>
         <Controller
           as={ReactDatePicker}
           control={control}
@@ -122,7 +121,6 @@ function RegistrationForm() {
           onChange={([selected]) => selected}
           name="ReactDatepicker"
           className="input"
-          placeholderText="Select date"
         />
         <Error>{errors.surname && errors.surname.message}</Error>
       </InputFormWrapper>
