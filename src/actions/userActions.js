@@ -52,7 +52,6 @@ export const getAllUsers = token => async dispatch => {
     const response = await axios.get(api.getAllUsers(), {
       headers: {Authorization: token}
     });
-    console.log(response);
     if (response.data.code !== 200) {
       throw Error(response.data.message);
     }
@@ -128,7 +127,7 @@ export const createClaim = (token, arrivalId, departureId) => async dispatch => 
   } catch (error) {
     return dispatch({
       type: CREATE_CLAIM_FAIL,
-      error
+      error: error.message
     });
   }
 };

@@ -123,7 +123,7 @@ function RequestModal({isOpen}) {
         </DialogContent>
         <DialogActions>
           <Button onClick={() => sendRequest()} color="primary">
-            Send the request
+            Send
           </Button>
         </DialogActions>
       </Dialog>
