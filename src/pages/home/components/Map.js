@@ -8,8 +8,7 @@ const style = {
   height: '400px'
 };
 
-function Map({markerPosition, data}) {
-  // create map
+function Map({data}) {
   const mapRef = useRef(null);
   const dispatch = useDispatch();
 
@@ -24,19 +23,15 @@ function Map({markerPosition, data}) {
       ]
     });
 
-    const coor = [];
-
     data.forEach(element => {
-      coor.push(L.latLng(parseFloat(element.lat), parseFloat(element.lng)));
-    });
-    for (let m of coor) {
-      L.marker(m)
+      L.marker(L.latLng(parseFloat(element.lat), parseFloat(element.lng)))
         .addTo(mapRef.current)
         .on('click', () => {
-          dispatch(showModal());
+          dispatch(showModal(element));
         });
-    }
-    mapRef.current.fitBounds(coor);
+    });
+
+    mapRef.current.fitBounds(data);
   }, []);
 
   // add marker

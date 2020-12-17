@@ -10,6 +10,10 @@ export const GET_COORD_LOADING = 'GET_COORD_LOADING';
 export const GET_COORD_SUCCESS = 'get_coord_success';
 export const GET_COORD_FAIL = 'get_coord_fail';
 
+export const CREATE_CLAIM_LOADING = 'CREATE_CLAIM_LOADING';
+export const CREATE_CLAIM_SUCCESS = 'CREATE_CLAIM_SUCCESS';
+export const CREATE_CLAIM_FAIL = 'CREATE_CLAIM_FAIL';
+
 export const GET_CURRENT_CLAIMS_LOADING = 'GET_CURRENT_CLAIMS_LOADING';
 export const GET_CURRENT_CLAIMS_SUCCESS = 'GET_CURRENT_CLAIMS_SUCCESS';
 export const GET_CURRENT_CLAIMS_FAIL = 'GET_CURRENT_CLAIMS_FAIL';
@@ -25,17 +29,17 @@ export const add = user => {
   };
 };
 
-export const showModal = () => {
+export const showModal = selectedItem => {
   return {
     type: SHOW_MODAL,
-    payload: true
+    payload: {isShown: true, item: selectedItem}
   };
 };
 
 export const hideModal = () => {
   return {
     type: HIDE_MODAL,
-    payload: false
+    payload: {isShown: false}
   };
 };
 
@@ -100,6 +104,30 @@ export const getCurrentClaims = token => async dispatch => {
   } catch (error) {
     dispatch({
       type: GET_CURRENT_CLAIMS_FAIL,
+      error
+    });
+  }
+};
+
+export const createClaim = (token, arrivalId, departureId) => async dispatch => {
+  dispatch({
+    type: CREATE_CLAIM_LOADING
+  });
+
+  try {
+    const res = await axios.post(
+      api.createClaim(),
+      {arrivalId, departureId, departureTime: new Date().toISOString()},
+      {
+        headers: {Authorization: token}
+      }
+    );
+    return dispatch({
+      type: CREATE_CLAIM_SUCCESS
+    });
+  } catch (error) {
+    return dispatch({
+      type: CREATE_CLAIM_FAIL,
       error
     });
   }

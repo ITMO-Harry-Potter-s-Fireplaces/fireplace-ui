@@ -73,7 +73,7 @@ function UserPage() {
             <LoginFormWrapper>
               <Logo src={`${process.env.PUBLIC_URL}/image/logo.png`} />
               <Text>Choose your fireplace</Text>
-              <RequestModal isOpen={isModalShown} handleClose={() => dispatch(hideModal())} />
+              <RequestModal isOpen={isModalShown} />
               <div>{coordList && coordList.length > 0 && <Map data={coordList} />}</div>
             </LoginFormWrapper>
           </Route>

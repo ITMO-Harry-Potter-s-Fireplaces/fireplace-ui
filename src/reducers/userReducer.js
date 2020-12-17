@@ -10,6 +10,7 @@ import {
 
 export const initialState = {
   isModal: false,
+  selectedModalItem: null,
   user: null,
   usersList: [],
   coordList: [],
@@ -49,10 +50,17 @@ export default (state = initialState, action) => {
       };
 
     case SHOW_MODAL:
+      return {
+        ...state,
+        selectedModalItem: action.payload.item,
+        isModal: action.payload.isShown
+      };
+
     case HIDE_MODAL:
       return {
         ...state,
-        isModal: action.payload
+        selectedModalItem: null,
+        isModal: action.payload.isShown
       };
 
     default:
