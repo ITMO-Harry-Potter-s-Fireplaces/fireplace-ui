@@ -14,8 +14,9 @@ import {
   Text,
   Header
 } from './UserPage.styles';
-import {hideModal, del, getCoordinates} from '../../../../actions/userActions';
+import {hideModal, del, getFireplaces} from '../../../../actions/userActions';
 import RequestModal from '../../components/RequestModal';
+import ClaimsList from './components/ClaimsList';
 
 function UserPage() {
   const dispatch = useDispatch();
@@ -25,15 +26,9 @@ function UserPage() {
   const coordList = useSelector(state => state.user.coordList);
 
   useEffect(() => {
-    const lat = Math.floor(Math.random() * 65) + 54;
-    const lng = Math.floor(Math.random() * 53) + 34;
     const token = Cookies.get('token');
-    dispatch(getCoordinates(lat, lng, token));
+    dispatch(getFireplaces(token));
   }, []);
-
-  useEffect(() => {
-    console.log(coordList);
-  }, [coordList]);
 
   const signOut = () => {
     Cookies.remove('token');
@@ -52,11 +47,18 @@ function UserPage() {
         </CloudWrapper>
         <Header>
           <Button
+            onClick={() => history.push('/home')}
+            style={{height: '30px', marginRight: '10px'}}
+            variant="contained"
+            color="primary">
+            Show map
+          </Button>
+          <Button
             onClick={() => history.push('/home/list')}
             style={{height: '30px', marginRight: '10px'}}
             variant="contained"
             color="primary">
-            Show requests
+            Show claims
           </Button>
           <Button
             style={{height: '30px'}}
@@ -66,18 +68,17 @@ function UserPage() {
             Logout
           </Button>
         </Header>
-
-        <LoginFormWrapper>
-          <Logo src={`${process.env.PUBLIC_URL}/image/logo.png`} />
-          <Text>Choose your fireplace</Text>
-          <RequestModal isOpen={isModalShown} handleClose={() => dispatch(hideModal())} />
-
-          <div>{coordList && coordList.length > 0 && <Map data={coordList} />}</div>
-        </LoginFormWrapper>
-
         <Switch>
+          <Route exact path="/home">
+            <LoginFormWrapper>
+              <Logo src={`${process.env.PUBLIC_URL}/image/logo.png`} />
+              <Text>Choose your fireplace</Text>
+              <RequestModal isOpen={isModalShown} handleClose={() => dispatch(hideModal())} />
+              <div>{coordList && coordList.length > 0 && <Map data={coordList} />}</div>
+            </LoginFormWrapper>
+          </Route>
           <Route path="/home/list">
-            <div>список текущих полетов</div>
+            <ClaimsList />
           </Route>
         </Switch>
       </LoginWrapper>

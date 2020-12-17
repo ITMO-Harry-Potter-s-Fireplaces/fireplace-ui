@@ -4,14 +4,16 @@ import {
   SHOW_MODAL,
   HIDE_MODAL,
   GET_ALL_USERS_SUCCESS,
-  GET_COORD_SUCCESS
+  GET_COORD_SUCCESS,
+  GET_CURRENT_CLAIMS_SUCCESS
 } from '../actions/userActions';
 
 export const initialState = {
   isModal: false,
   user: null,
   usersList: [],
-  coordList: []
+  coordList: [],
+  claimsList: []
 };
 
 export default (state = initialState, action) => {
@@ -38,6 +40,12 @@ export default (state = initialState, action) => {
       return {
         ...state,
         coordList: action.payload
+      };
+
+    case GET_CURRENT_CLAIMS_SUCCESS:
+      return {
+        ...state,
+        claimsList: action.payload
       };
 
     case SHOW_MODAL:

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {GET_ALL_USERS, GET_COORDINATES} from '../constants/api';
+import * as api from '../constants/api';
 
 export const USER_DELETE = 'user_delete';
 export const SHOW_MODAL = 'show_modal';
@@ -9,6 +9,10 @@ export const USER_ADD = 'user_add';
 export const GET_COORD_LOADING = 'GET_COORD_LOADING';
 export const GET_COORD_SUCCESS = 'get_coord_success';
 export const GET_COORD_FAIL = 'get_coord_fail';
+
+export const GET_CURRENT_CLAIMS_LOADING = 'GET_CURRENT_CLAIMS_LOADING';
+export const GET_CURRENT_CLAIMS_SUCCESS = 'GET_CURRENT_CLAIMS_SUCCESS';
+export const GET_CURRENT_CLAIMS_FAIL = 'GET_CURRENT_CLAIMS_FAIL';
 
 export const GET_ALL_USERS_LOADING = 'GET_ALL_USERS_LOADING';
 export const GET_ALL_USERS_SUCCESS = 'GET_ALL_USERS_SUCCESS';
@@ -41,7 +45,7 @@ export const getAllUsers = token => async dispatch => {
   });
 
   try {
-    const response = await axios.get(GET_ALL_USERS, {
+    const response = await axios.get(api.getAllUsers(), {
       headers: {Authorization: token}
     });
     console.log(response);
@@ -59,13 +63,13 @@ export const getAllUsers = token => async dispatch => {
   }
 };
 
-export const getCoordinates = (lat, lng, token) => async dispatch => {
+export const getFireplaces = token => async dispatch => {
   dispatch({
     type: GET_COORD_LOADING
   });
 
   try {
-    const res = await axios.get(GET_COORDINATES, {
+    const res = await axios.get(api.getFireplaces(), {
       headers: {Authorization: token}
     });
     dispatch({
@@ -75,6 +79,27 @@ export const getCoordinates = (lat, lng, token) => async dispatch => {
   } catch (error) {
     dispatch({
       type: GET_COORD_FAIL,
+      error
+    });
+  }
+};
+
+export const getCurrentClaims = token => async dispatch => {
+  dispatch({
+    type: GET_CURRENT_CLAIMS_LOADING
+  });
+
+  try {
+    const res = await axios.get(api.getCurrentClaims(), {
+      headers: {Authorization: token}
+    });
+    dispatch({
+      type: GET_CURRENT_CLAIMS_SUCCESS,
+      payload: res.data.message.content
+    });
+  } catch (error) {
+    dispatch({
+      type: GET_CURRENT_CLAIMS_FAIL,
       error
     });
   }

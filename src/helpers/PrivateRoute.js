@@ -5,7 +5,7 @@ import Cookies from 'js-cookie';
 import PropTypes from 'prop-types';
 import {useDispatch} from 'react-redux';
 
-import {GET_USER_REQUEST} from '../constants/api';
+import * as api from '../constants/api';
 import {add, del} from '../actions/userActions';
 import Loader from '../pages/Loader';
 
@@ -18,7 +18,7 @@ const PrivateRoute = ({component: Component, ...rest}) => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const response = await Axios.get(GET_USER_REQUEST, {
+        const response = await Axios.get(api.getUser(), {
           headers: {Authorization: Cookies.get('token')}
         });
         if (response.data.code !== 200) {

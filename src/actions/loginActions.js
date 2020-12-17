@@ -1,6 +1,6 @@
 import axios from 'axios';
 import Cookies from 'js-cookie';
-import {LOGIN_REQUEST, REGISTER_REQUEST} from '../constants/api';
+import * as api from '../constants/api';
 
 export const LOGIN_LOADING = 'login_loading';
 export const LOGIN_SUCCESS = 'login_success';
@@ -16,7 +16,7 @@ export const loginUser = (email, password) => async dispatch => {
   });
 
   try {
-    const res = await axios.post(LOGIN_REQUEST, {
+    const res = await axios.post(api.loginUser(), {
       email,
       password
     });
@@ -48,7 +48,7 @@ export const registerUser = (
   });
 
   try {
-    const res = await axios.post(REGISTER_REQUEST, {
+    const res = await axios.post(api.registerUser(), {
       email,
       password,
       name,
