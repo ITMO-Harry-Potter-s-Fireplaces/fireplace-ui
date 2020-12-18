@@ -23,7 +23,7 @@ function UserPage() {
   const history = useHistory();
 
   const isModalShown = useSelector(state => state.user.isModal);
-  const coordList = useSelector(state => state.user.coordList);
+  const fireplacesList = useSelector(state => state.user.fireplacesList);
 
   useEffect(() => {
     const token = Cookies.get('token');
@@ -75,7 +75,7 @@ function UserPage() {
               <Logo src={`${process.env.PUBLIC_URL}/image/logo.png`} />
               <Text>Choose your fireplace</Text>
               <RequestModal isOpen={isModalShown} />
-              <div>{coordList && coordList.length > 0 && <Map data={coordList} />}</div>
+              <div>{fireplacesList && fireplacesList.length > 0 && <Map data={fireplacesList} />}</div>
             </LoginFormWrapper>
           </Route>
           <Route path="/home/list">

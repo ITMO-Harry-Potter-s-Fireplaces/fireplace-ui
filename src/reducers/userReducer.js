@@ -4,19 +4,22 @@ import {
   SHOW_MODAL,
   HIDE_MODAL,
   GET_ALL_USERS_SUCCESS,
-  GET_COORD_SUCCESS,
+  GET_FIREPLACES_SUCCESS,
   GET_CURRENT_CLAIMS_SUCCESS,
   GET_ALL_CLAIMS_SUCCESS,
   APPROVE_CLAIM_SUCCESS,
-  CANCEL_CLAIM_SUCCESS
+  CANCEL_CLAIM_SUCCESS,
+  SHOW_FIREPLACE_MODAL,
+  HIDE_FIREPLACE_MODAL
 } from '../actions/userActions';
 
 export const initialState = {
   isModal: false,
+  isFireplaceModal: false,
   selectedModalItem: null,
   user: null,
   usersList: [],
-  coordList: [],
+  fireplacesList: [],
   claimsList: []
 };
 
@@ -40,10 +43,10 @@ export default (state = initialState, action) => {
         usersList: action.payload
       };
 
-    case GET_COORD_SUCCESS:
+    case GET_FIREPLACES_SUCCESS:
       return {
         ...state,
-        coordList: action.payload
+        fireplacesList: action.payload
       };
 
     case GET_ALL_CLAIMS_SUCCESS:
@@ -93,6 +96,18 @@ export default (state = initialState, action) => {
         ...state,
         selectedModalItem: null,
         isModal: action.payload.isShown
+      };
+
+    case SHOW_FIREPLACE_MODAL:
+      return {
+        ...state,
+        isFireplaceModal: true
+      };
+
+    case HIDE_FIREPLACE_MODAL:
+      return {
+        ...state,
+        isFireplaceModal: false
       };
 
     default:

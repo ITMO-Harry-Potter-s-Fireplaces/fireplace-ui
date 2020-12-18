@@ -1,7 +1,8 @@
 import React, {useState, useEffect} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
 import Cookies from 'js-cookie';
+import {useHistory} from 'react-router-dom';
+import {useForm} from 'react-hook-form';
 import Dialog from '@material-ui/core/Dialog';
 import Snackbar from '@material-ui/core/Snackbar';
 import IconButton from '@material-ui/core/IconButton';
@@ -10,10 +11,21 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import {useDispatch, useSelector} from 'react-redux';
-import Select from '@material-ui/core/Select';
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import {createClaim, CREATE_CLAIM_SUCCESS, hideModal} from '../../../actions/userActions';
+import {
+  InputFormWrapper,
+  Error,
+  Button,
+  Transfer,
+  NavLinkWrapper
+} from '../../../../login/components/forms/FormsStyles';
+
+import {
+  createClaim,
+  createFireplace,
+  CREATE_CLAIM_SUCCESS,
+  CREATE_FIREPLACE_SUCCESS,
+  hideFireplaceModal
+} from '../../../../../actions/userActions';
 
 const useStyles = makeStyles(theme => ({
   form: {
@@ -31,15 +43,13 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function RequestModal({isOpen}) {
+function CreateFireplaceModal({isOpen}) {
+  const {handleSubmit, register, errors} = useForm();
+
   const classes = useStyles();
+  const history = useHistory();
   const dispatch = useDispatch();
   const selectedFireplace = useSelector(state => state.user.selectedModalItem);
-  const fireplaces = useSelector(state => {
-    if (selectedFireplace && selectedFireplace.id)
-      return state.user.fireplacesList.filter(i => i.id !== selectedFireplace.id);
-    return state.user.fireplacesList;
-  });
 
   const [isSnackbarOpen, setSnackbarOpen] = React.useState(false);
   const [snackbarMessage, setSnackbarMessage] = React.useState('');
@@ -65,17 +75,20 @@ function RequestModal({isOpen}) {
     setArrivalId(event.target.value);
   };
 
-  const sendRequest = () => {
-    dispatch(createClaim(Cookies.get('token'), arrivalId, departureId)).then(e => {
-      if (e.type && e.type === CREATE_CLAIM_SUCCESS) {
-        setSnackbarOpen(true);
-        setSnackbarMessage('success');
-        dispatch(hideModal());
-      } else {
-        setSnackbarOpen(true);
-        setSnackbarMessage(JSON.stringify(e.error));
+  const submit = data => {
+    console.log(JSON.stringify(data));
+    dispatch(createFireplace(Cookies.get('token'), data.lat, data.lng, data.description)).then(
+      e => {
+        if (e.type && e.type === CREATE_FIREPLACE_SUCCESS) {
+          setSnackbarOpen(true);
+          setSnackbarMessage('success');
+          dispatch(hideFireplaceModal());
+        } else {
+          setSnackbarOpen(true);
+          setSnackbarMessage(JSON.stringify(e.error));
+        }
       }
-    });
+    );
   };
 
   return (
@@ -84,48 +97,47 @@ function RequestModal({isOpen}) {
         fullWidth
         maxWidth="sm"
         open={isOpen}
-        onClose={() => dispatch(hideModal())}
+        onClose={() => dispatch(hideFireplaceModal())}
         aria-labelledby="max-width-dialog-title">
-        <DialogTitle id="max-width-dialog-title">Create new claim</DialogTitle>
+        <DialogTitle id="max-width-dialog-title">Create new fireplace</DialogTitle>
         <DialogContent>
-          <form className={classes.root} noValidate autoComplete="off">
-            <InputLabel id="demo-simple-select-label">Departure: </InputLabel>
-            <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              disabled
-              value={departureId}
-              onChange={handleChange}>
-              {selectedFireplace && (
-                <MenuItem key={selectedFireplace.id} value={selectedFireplace.id}>
-                  {selectedFireplace.lat} {selectedFireplace.lng}
-                </MenuItem>
-              )}
-            </Select>
-            <InputLabel id="demo-simple-select-label">Arrival: </InputLabel>
-            <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              value={arrivalId}
-              defaultValue="Choose arrival"
-              onChange={handleChange}>
-              {fireplaces &&
-                fireplaces.length > 0 &&
-                fireplaces.map(i => {
-                  return (
-                    <MenuItem key={i.id} value={i.id}>
-                      {i.lat} {i.lng}
-                    </MenuItem>
-                  );
+          <form onSubmit={handleSubmit(submit)}>
+            <InputFormWrapper>
+              <label htmlFor="lat">Enter latitude</label>
+              <input
+                ref={register({
+                  required: 'required'
                 })}
-            </Select>
+                name="lat"
+              />
+              <Error>{errors.lat && errors.lat.message}</Error>
+            </InputFormWrapper>
+            <br />
+            <InputFormWrapper>
+              <label htmlFor="lng">Enter longitude</label>
+              <input
+                ref={register({
+                  required: 'required'
+                })}
+                name="lng"
+              />
+              <Error>{errors.lng && errors.lng.message}</Error>
+            </InputFormWrapper>
+            <br />
+            <InputFormWrapper>
+              <label htmlFor="description">Enter description</label>
+              <input
+                ref={register({
+                  required: 'required'
+                })}
+                type="name"
+                name="description"
+              />
+              <Error>{errors.description && errors.description.message}</Error>
+            </InputFormWrapper>
+            <Button type="submit">Create</Button>
           </form>
         </DialogContent>
-        <DialogActions>
-          <Button onClick={() => sendRequest()} color="primary">
-            Send
-          </Button>
-        </DialogActions>
       </Dialog>
       <Snackbar
         anchorOrigin={{
@@ -152,4 +164,4 @@ function RequestModal({isOpen}) {
   );
 }
 
-export default RequestModal;
+export default CreateFireplaceModal;

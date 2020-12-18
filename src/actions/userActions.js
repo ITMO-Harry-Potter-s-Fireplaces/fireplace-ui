@@ -4,11 +4,23 @@ import * as api from '../constants/api';
 export const USER_DELETE = 'user_delete';
 export const SHOW_MODAL = 'show_modal';
 export const HIDE_MODAL = 'hide_modal';
+
+export const SHOW_FIREPLACE_MODAL = 'SHOW_FIREPLACE_MODAL';
+export const HIDE_FIREPLACE_MODAL = 'HIDE_FIREPLACE_MODAL';
+
 export const USER_ADD = 'user_add';
 
-export const GET_COORD_LOADING = 'GET_COORD_LOADING';
-export const GET_COORD_SUCCESS = 'get_coord_success';
-export const GET_COORD_FAIL = 'get_coord_fail';
+export const GET_FIREPLACES_LOADING = 'GET_FIREPLACES_LOADING';
+export const GET_FIREPLACES_SUCCESS = 'GET_FIREPLACES_SUCCESS';
+export const GET_FIREPLACES_FAIL = 'GET_FIREPLACES_FAIL';
+
+export const CREATE_FIREPLACE_LOADING = 'CREATE_FIREPLACE_LOADING';
+export const CREATE_FIREPLACE_SUCCESS = 'CREATE_FIREPLACE_SUCCESS';
+export const CREATE_FIREPLACE_FAIL = 'CREATE_FIREPLACE_FAIL';
+
+export const DELETE_FIREPLACE_LOADING = 'DELETE_FIREPLACES_LOADING';
+export const DELETE_FIREPLACE_SUCCESS = 'DELETE_FIREPLACES_SUCCESS';
+export const DELETE_FIREPLACE_FAIL = 'DELETE_FIREPLACES_FAIL';
 
 export const CREATE_CLAIM_LOADING = 'CREATE_CLAIM_LOADING';
 export const CREATE_CLAIM_SUCCESS = 'CREATE_CLAIM_SUCCESS';
@@ -55,6 +67,18 @@ export const hideModal = () => {
   };
 };
 
+export const showFireplaceModal = () => {
+  return {
+    type: SHOW_FIREPLACE_MODAL
+  };
+};
+
+export const hideFireplaceModal = () => {
+  return {
+    type: HIDE_FIREPLACE_MODAL
+  };
+};
+
 export const getAllUsers = token => async dispatch => {
   dispatch({
     type: GET_ALL_USERS_LOADING
@@ -80,7 +104,7 @@ export const getAllUsers = token => async dispatch => {
 
 export const getFireplaces = token => async dispatch => {
   dispatch({
-    type: GET_COORD_LOADING
+    type: GET_FIREPLACES_LOADING
   });
 
   try {
@@ -88,12 +112,58 @@ export const getFireplaces = token => async dispatch => {
       headers: {Authorization: token}
     });
     dispatch({
-      type: GET_COORD_SUCCESS,
+      type: GET_FIREPLACES_SUCCESS,
       payload: res.data.message.content
     });
   } catch (error) {
     dispatch({
-      type: GET_COORD_FAIL,
+      type: GET_FIREPLACES_FAIL,
+      error
+    });
+  }
+};
+
+export const createFireplace = (token, lat, lng, description) => async dispatch => {
+  dispatch({
+    type: CREATE_FIREPLACE_LOADING
+  });
+
+  try {
+    const res = await axios.post(
+      api.createFireplace(),
+      {lat, lng, description},
+      {
+        headers: {Authorization: token}
+      }
+    );
+    return dispatch({
+      type: CREATE_FIREPLACE_SUCCESS,
+      payload: res.data.message.content
+    });
+  } catch (error) {
+    return dispatch({
+      type: CREATE_FIREPLACE_FAIL,
+      error
+    });
+  }
+};
+
+export const deleteFireplace = (token, fireplaceId) => async dispatch => {
+  dispatch({
+    type: DELETE_FIREPLACE_LOADING
+  });
+
+  try {
+    const res = await axios.delete(api.deleteFireplace(fireplaceId), {
+      headers: {Authorization: token}
+    });
+    dispatch({
+      type: DELETE_FIREPLACE_SUCCESS,
+      payload: res.data.message.content
+    });
+  } catch (error) {
+    dispatch({
+      type: DELETE_FIREPLACE_FAIL,
       error
     });
   }

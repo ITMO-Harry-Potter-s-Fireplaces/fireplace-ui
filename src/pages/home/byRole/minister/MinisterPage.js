@@ -25,6 +25,7 @@ import {
   Header
 } from '../admin/AdminPage.styles';
 import {del, getAllUsers} from '../../../../actions/userActions';
+import FireplacesList from './components/FireplacesList';
 
 const useStyles = makeStyles({
   table: {
@@ -71,6 +72,13 @@ function MinisterPage() {
             variant="contained"
             color="primary">
             Show users
+          </Button>
+          <Button
+            onClick={() => history.push('/home/fireplaces')}
+            style={{height: '30px', marginRight: '10px'}}
+            variant="contained"
+            color="primary">
+            Show fireplaces
           </Button>
           <Button
             onClick={() => history.push('/home/list')}
@@ -135,6 +143,9 @@ function MinisterPage() {
           </Route>
           <Route path="/home/list">
             <AllClaimsList />
+          </Route>
+          <Route path="/home/fireplaces">
+            <FireplacesList />
           </Route>
         </Switch>
       </LoginWrapper>
