@@ -33,17 +33,9 @@ function FireplacesList() {
     action(Cookies.get('token'));
     const interval = setInterval(() => {
       action(Cookies.get('token'));
-    }, 5000);
+    }, 2000);
     return () => clearInterval(interval);
   }, []);
-
-  const createFireplace = (claimId, approve) => {
-    dispatch(userActions.approveClaim(Cookies.get('token'), claimId, approve));
-  };
-
-  const deleteFireplace = (claimId, approve) => {
-    dispatch(userActions.approveClaim(Cookies.get('token'), claimId, approve));
-  };
 
   return (
     <div>
