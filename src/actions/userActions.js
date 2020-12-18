@@ -18,6 +18,10 @@ export const APPROVE_CLAIM_LOADING = 'APPROVE_CLAIM_LOADING';
 export const APPROVE_CLAIM_SUCCESS = 'APPROVE_CLAIM_SUCCESS';
 export const APPROVE_CLAIM_FAIL = 'APPROVE_CLAIM_FAIL';
 
+export const CANCEL_CLAIM_LOADING = 'CANCEL_CLAIM_LOADING';
+export const CANCEL_CLAIM_SUCCESS = 'CANCEL_CLAIM_SUCCESS';
+export const CANCEL_CLAIM_FAIL = 'CANCEL_CLAIM_FAIL';
+
 export const GET_ALL_CLAIMS_LOADING = 'GET_ALL_CLAIMS_LOADING';
 export const GET_ALL_CLAIMS_SUCCESS = 'GET_ALL_CLAIMS_SUCCESS';
 export const GET_ALL_CLAIMS_FAIL = 'GET_ALL_CLAIMS_FAIL';
@@ -187,6 +191,30 @@ export const approveClaim = (token, claimId, approve) => async dispatch => {
   } catch (error) {
     return dispatch({
       type: APPROVE_CLAIM_FAIL,
+      error: error.message
+    });
+  }
+};
+
+export const cancelClaim = (token, claimId, cancel) => async dispatch => {
+  dispatch({
+    type: CANCEL_CLAIM_LOADING
+  });
+
+  try {
+    const res = await axios.delete(api.cancelClaim(claimId, cancel), {
+      headers: {Authorization: token}
+    });
+
+    if (res.data.code !== 204) throw Error();
+
+    return dispatch({
+      type: CANCEL_CLAIM_SUCCESS,
+      payload: {claimId, cancel}
+    });
+  } catch (error) {
+    return dispatch({
+      type: CANCEL_CLAIM_FAIL,
       error: error.message
     });
   }

@@ -34,19 +34,8 @@ function AllClaimsList() {
     return () => clearInterval(interval);
   }, []);
 
-  useEffect(() => {
-    console.log('update claims list');
-  }, [claimsList]);
-
   const approveClaim = (claimId, approve) => {
-    dispatch(userActions.approveClaim(Cookies.get('token'), claimId, approve)).then(e => {
-      if (e.type && e.type === userActions.APPROVE_CLAIM_SUCCESS) {
-        console.log('fine');
-        // dispatch(userActions.getAllClaims());
-      } else {
-        console.log('problem');
-      }
-    });
+    dispatch(userActions.approveClaim(Cookies.get('token'), claimId, approve));
   };
 
   return (
@@ -116,10 +105,14 @@ function AllClaimsList() {
                         lat: {(row.arrival && row.arrival.lat) || 'unset'} <br />
                         lng: {(row.arrival && row.arrival.lng) || 'unset'}
                       </TableCell>
-                      <TableCell align="left">{row.user.id}</TableCell>
-                      <TableCell align="left">
-                        {row.user.surname} {row.user.name} {row.user.middleName}
-                      </TableCell>
+                      {row.user && (
+                        <>
+                          <TableCell align="left">{row.user.id}</TableCell>
+                          <TableCell align="left">
+                            {row.user.surname} {row.user.name} {row.user.middleName}
+                          </TableCell>
+                        </>
+                      )}
                     </TableRow>
                   ))}
                 </TableBody>

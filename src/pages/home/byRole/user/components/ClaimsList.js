@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -11,7 +11,8 @@ import Paper from '@material-ui/core/Paper';
 import Cookies from 'js-cookie';
 import useActions from '../../../../../hooks/useAction';
 import {LoginFormWrapper, Logo, Text} from '../UserPage.styles';
-import {getCurrentClaims} from '../../../../../actions/userActions';
+import * as userActions from '../../../../../actions/userActions';
+import {Button} from '@material-ui/core';
 
 const useStyles = makeStyles({
   table: {
@@ -21,8 +22,9 @@ const useStyles = makeStyles({
 
 function ClaimsList() {
   const classes = useStyles();
-
-  const [action] = useActions([getCurrentClaims]);
+  const claimsList = useSelector(state => state.user.claimsList);
+  const dispatch = useDispatch();
+  const [action] = useActions([userActions.getCurrentClaims]);
 
   useEffect(() => {
     action(Cookies.get('token'));
@@ -32,7 +34,9 @@ function ClaimsList() {
     return () => clearInterval(interval);
   }, []);
 
-  const claimsList = useSelector(state => state.user.claimsList);
+  const cancelClaim = (claimId, cancel) => {
+    dispatch(userActions.cancelClaim(Cookies.get('token'), claimId, cancel));
+  };
 
   return (
     <div>
@@ -62,7 +66,38 @@ function ClaimsList() {
                       </TableCell>
                       <TableCell align="right">{row.created}</TableCell>
                       <TableCell align="right">{row.modified}</TableCell>
-                      <TableCell align="right">{row.status}</TableCell>
+                      <TableCell align="left">
+                        {row.status}
+                        <div
+                          style={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            justifyItems: 'center'
+                          }}>
+                          {row.status === 'APPROVED' && (
+                            <>
+                              <Button
+                                onClick={() => cancelClaim(row.id, false)}
+                                style={{height: '30px', marginBottom: '10px'}}
+                                variant="contained"
+                                color="primary">
+                                Complete
+                              </Button>
+                            </>
+                          )}
+                          {row.status !== 'COMPLETED' &&
+                            row.status !== 'CANCELLED' &&
+                            row.status !== 'REJECTED' && (
+                              <Button
+                                onClick={() => cancelClaim(row.id, true)}
+                                style={{height: '30px'}}
+                                variant="contained"
+                                color="red">
+                                Cancel
+                              </Button>
+                            )}
+                        </div>
+                      </TableCell>
                       <TableCell align="left">
                         lat: {(row.departure && row.departure.lat) || 'unset'} <br />
                         lng: {(row.departure && row.departure.lng) || 'unset'}

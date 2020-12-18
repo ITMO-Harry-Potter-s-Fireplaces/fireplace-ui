@@ -8,3 +8,5 @@ export const getAllClaims = () => `${process.env.REACT_APP_APISERVER}/main/claim
 export const createClaim = () => `${process.env.REACT_APP_APISERVER}/main/claims`;
 export const approveClaim = (claimId, approve) =>
   `${process.env.REACT_APP_APISERVER}/main/claims/${claimId}?approve=${approve}`;
+export const cancelClaim = (claimId, cancel) =>
+  `${process.env.REACT_APP_APISERVER}/main/claims/${claimId}?cancel=${cancel}`;

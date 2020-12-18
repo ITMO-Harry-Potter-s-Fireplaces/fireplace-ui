@@ -7,7 +7,8 @@ import {
   GET_COORD_SUCCESS,
   GET_CURRENT_CLAIMS_SUCCESS,
   GET_ALL_CLAIMS_SUCCESS,
-  APPROVE_CLAIM_SUCCESS
+  APPROVE_CLAIM_SUCCESS,
+  CANCEL_CLAIM_SUCCESS
 } from '../actions/userActions';
 
 export const initialState = {
@@ -55,8 +56,22 @@ export default (state = initialState, action) => {
     case APPROVE_CLAIM_SUCCESS: {
       const array = state.claimsList;
       for (let i in array) {
-        if (array[i].id == action.payload.claimId) {
+        if (array[i].id === action.payload.claimId) {
           array[i].status = action.payload.approve ? 'APPROVED' : 'REJECTED';
+          break; //Stop this loop, we found it!
+        }
+      }
+      return {
+        ...state,
+        claimsList: [...array]
+      };
+    }
+
+    case CANCEL_CLAIM_SUCCESS: {
+      const array = state.claimsList;
+      for (let i in array) {
+        if (array[i].id === action.payload.claimId) {
+          array[i].status = action.payload.cancel ? 'CANCELLED' : 'COMPLETED';
           break; //Stop this loop, we found it!
         }
       }
