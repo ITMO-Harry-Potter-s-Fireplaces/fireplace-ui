@@ -14,6 +14,14 @@ export const CREATE_CLAIM_LOADING = 'CREATE_CLAIM_LOADING';
 export const CREATE_CLAIM_SUCCESS = 'CREATE_CLAIM_SUCCESS';
 export const CREATE_CLAIM_FAIL = 'CREATE_CLAIM_FAIL';
 
+export const APPROVE_CLAIM_LOADING = 'APPROVE_CLAIM_LOADING';
+export const APPROVE_CLAIM_SUCCESS = 'APPROVE_CLAIM_SUCCESS';
+export const APPROVE_CLAIM_FAIL = 'APPROVE_CLAIM_FAIL';
+
+export const GET_ALL_CLAIMS_LOADING = 'GET_ALL_CLAIMS_LOADING';
+export const GET_ALL_CLAIMS_SUCCESS = 'GET_ALL_CLAIMS_SUCCESS';
+export const GET_ALL_CLAIMS_FAIL = 'GET_ALL_CLAIMS_FAIL';
+
 export const GET_CURRENT_CLAIMS_LOADING = 'GET_CURRENT_CLAIMS_LOADING';
 export const GET_CURRENT_CLAIMS_SUCCESS = 'GET_CURRENT_CLAIMS_SUCCESS';
 export const GET_CURRENT_CLAIMS_FAIL = 'GET_CURRENT_CLAIMS_FAIL';
@@ -87,6 +95,27 @@ export const getFireplaces = token => async dispatch => {
   }
 };
 
+export const getAllClaims = token => async dispatch => {
+  dispatch({
+    type: GET_ALL_CLAIMS_LOADING
+  });
+
+  try {
+    const res = await axios.get(api.getAllClaims(), {
+      headers: {Authorization: token}
+    });
+    dispatch({
+      type: GET_ALL_CLAIMS_SUCCESS,
+      payload: res.data.message.content
+    });
+  } catch (error) {
+    dispatch({
+      type: GET_ALL_CLAIMS_FAIL,
+      error
+    });
+  }
+};
+
 export const getCurrentClaims = token => async dispatch => {
   dispatch({
     type: GET_CURRENT_CLAIMS_LOADING
@@ -121,12 +150,43 @@ export const createClaim = (token, arrivalId, departureId) => async dispatch => 
         headers: {Authorization: token}
       }
     );
+
+    if (res.data.code !== 201) throw Error();
+
     return dispatch({
       type: CREATE_CLAIM_SUCCESS
     });
   } catch (error) {
     return dispatch({
       type: CREATE_CLAIM_FAIL,
+      error: error.message
+    });
+  }
+};
+
+export const approveClaim = (token, claimId, approve) => async dispatch => {
+  dispatch({
+    type: APPROVE_CLAIM_LOADING
+  });
+
+  try {
+    const res = await axios.put(
+      api.approveClaim(claimId, approve),
+      {},
+      {
+        headers: {Authorization: token}
+      }
+    );
+
+    if (res.data.code !== 204) throw Error();
+
+    return dispatch({
+      type: APPROVE_CLAIM_SUCCESS,
+      payload: {claimId, approve}
+    });
+  } catch (error) {
+    return dispatch({
+      type: APPROVE_CLAIM_FAIL,
       error: error.message
     });
   }

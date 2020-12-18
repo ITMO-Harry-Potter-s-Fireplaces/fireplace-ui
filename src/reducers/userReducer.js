@@ -5,7 +5,9 @@ import {
   HIDE_MODAL,
   GET_ALL_USERS_SUCCESS,
   GET_COORD_SUCCESS,
-  GET_CURRENT_CLAIMS_SUCCESS
+  GET_CURRENT_CLAIMS_SUCCESS,
+  GET_ALL_CLAIMS_SUCCESS,
+  APPROVE_CLAIM_SUCCESS
 } from '../actions/userActions';
 
 export const initialState = {
@@ -43,11 +45,26 @@ export default (state = initialState, action) => {
         coordList: action.payload
       };
 
+    case GET_ALL_CLAIMS_SUCCESS:
     case GET_CURRENT_CLAIMS_SUCCESS:
       return {
         ...state,
         claimsList: action.payload
       };
+
+    case APPROVE_CLAIM_SUCCESS: {
+      const array = state.claimsList;
+      for (let i in array) {
+        if (array[i].id == action.payload.claimId) {
+          array[i].status = action.payload.approve ? 'APPROVED' : 'REJECTED';
+          break; //Stop this loop, we found it!
+        }
+      }
+      return {
+        ...state,
+        claimsList: [...array]
+      };
+    }
 
     case SHOW_MODAL:
       return {

@@ -9,10 +9,11 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import {useHistory} from 'react-router-dom';
+import {Route, Switch, useHistory} from 'react-router-dom';
 import {Button} from '@material-ui/core';
 import {LOGIN} from '../../../../constants/routes';
 import useActions from '../../../../hooks/useAction';
+import AllClaimsList from './components/AllClaimsList';
 
 import {
   LoginWrapper,
@@ -64,6 +65,13 @@ function AdminPage() {
         </CloudWrapper>
         <Header>
           <Button
+            onClick={() => history.push('/home/list')}
+            style={{height: '30px', marginRight: '10px'}}
+            variant="contained"
+            color="primary">
+            Show claims
+          </Button>
+          <Button
             style={{height: '20px'}}
             onClick={() => signOut()}
             variant="contained"
@@ -71,48 +79,56 @@ function AdminPage() {
             Logout
           </Button>
         </Header>
-        <LoginFormWrapper>
-          <Logo src={`${process.env.PUBLIC_URL}/image/logo.png`} />
-          <Text>List of all users</Text>
-          {listOfUsers && listOfUsers.length > 0 && (
-            <div>
-              <TableContainer component={Paper}>
-                <Table className={classes.table} aria-label="simple table">
-                  <TableHead>
-                    <TableRow>
-                      <TableCell align="right">id</TableCell>
-                      <TableCell align="right">email</TableCell>
-                      <TableCell align="right">name</TableCell>
-                      <TableCell align="right">surname</TableCell>
-                      <TableCell align="right">middle name</TableCell>
-                      <TableCell align="right">date of birth</TableCell>
-                      <TableCell align="right">is active?</TableCell>
-                      <TableCell align="right">role</TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {listOfUsers.map(row => (
-                      <TableRow key={row.name}>
-                        <TableCell component="th" scope="row">
-                          {row.id}
-                        </TableCell>
-                        <TableCell align="right">{row.email}</TableCell>
-                        <TableCell align="right">{row.name || 'unset'}</TableCell>
-                        <TableCell align="right">{row.surname || 'unset'}</TableCell>
-                        <TableCell align="right">{row.middleName || 'unset'}</TableCell>
-                        <TableCell align="right">{row.dateOfBirth || 'unset'}</TableCell>
-                        <TableCell align="right">
-                          {row.active ? 'true' : 'false' || 'unset'}
-                        </TableCell>
-                        <TableCell align="right">{row.role || 'unset'}</TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </TableContainer>
-            </div>
-          )}
-        </LoginFormWrapper>
+
+        <Switch>
+          <Route exact path="/home">
+            <LoginFormWrapper>
+              <Logo src={`${process.env.PUBLIC_URL}/image/logo.png`} />
+              <Text>List of all users</Text>
+              {listOfUsers && listOfUsers.length > 0 && (
+                <div>
+                  <TableContainer component={Paper}>
+                    <Table className={classes.table} aria-label="simple table">
+                      <TableHead>
+                        <TableRow>
+                          <TableCell align="right">id</TableCell>
+                          <TableCell align="right">email</TableCell>
+                          <TableCell align="right">name</TableCell>
+                          <TableCell align="right">surname</TableCell>
+                          <TableCell align="right">middle name</TableCell>
+                          <TableCell align="right">date of birth</TableCell>
+                          <TableCell align="right">is active?</TableCell>
+                          <TableCell align="right">role</TableCell>
+                        </TableRow>
+                      </TableHead>
+                      <TableBody>
+                        {listOfUsers.map(row => (
+                          <TableRow key={row.name}>
+                            <TableCell component="th" scope="row">
+                              {row.id}
+                            </TableCell>
+                            <TableCell align="right">{row.email}</TableCell>
+                            <TableCell align="right">{row.name || 'unset'}</TableCell>
+                            <TableCell align="right">{row.surname || 'unset'}</TableCell>
+                            <TableCell align="right">{row.middleName || 'unset'}</TableCell>
+                            <TableCell align="right">{row.dateOfBirth || 'unset'}</TableCell>
+                            <TableCell align="right">
+                              {row.active ? 'true' : 'false' || 'unset'}
+                            </TableCell>
+                            <TableCell align="right">{row.role || 'unset'}</TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </TableContainer>
+                </div>
+              )}
+            </LoginFormWrapper>
+          </Route>
+          <Route path="/home/list">
+            <AllClaimsList />
+          </Route>
+        </Switch>
       </LoginWrapper>
       );
     </>
