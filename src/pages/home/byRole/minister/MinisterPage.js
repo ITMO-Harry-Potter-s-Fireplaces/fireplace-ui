@@ -32,7 +32,7 @@ const useStyles = makeStyles({
   }
 });
 
-function ModeratorPage() {
+function MinisterPage() {
   const classes = useStyles();
   const dispatch = useDispatch();
   const history = useHistory();
@@ -64,7 +64,7 @@ function ModeratorPage() {
           <BackImage src={`${process.env.PUBLIC_URL}/image/hh1.png`} timeAnimation="60s" />
         </CloudWrapper>
         <Header>
-          <div style={{marginRight: '10px'}}>MODERATOR</div>
+          <div style={{marginRight: '10px'}}>MINISTER</div>
           <Button
             onClick={() => history.push('/home')}
             style={{height: '30px', marginRight: '10px'}}
@@ -143,4 +143,4 @@ function ModeratorPage() {
   );
 }
 
-export default ModeratorPage;
+export default MinisterPage;

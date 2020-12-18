@@ -64,6 +64,14 @@ function AdminPage() {
           <BackImage src={`${process.env.PUBLIC_URL}/image/hh1.png`} timeAnimation="60s" />
         </CloudWrapper>
         <Header>
+          <div style={{marginRight: '10px'}}>ADMIN</div>
+          <Button
+            onClick={() => history.push('/home')}
+            style={{height: '30px', marginRight: '10px'}}
+            variant="contained"
+            color="primary">
+            Show users
+          </Button>
           <Button
             onClick={() => history.push('/home/list')}
             style={{height: '30px', marginRight: '10px'}}
@@ -72,7 +80,7 @@ function AdminPage() {
             Show claims
           </Button>
           <Button
-            style={{height: '20px'}}
+            style={{height: '30px'}}
             onClick={() => signOut()}
             variant="contained"
             color="primary">

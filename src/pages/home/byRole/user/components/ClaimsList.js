@@ -16,7 +16,8 @@ import {Button} from '@material-ui/core';
 
 const useStyles = makeStyles({
   table: {
-    minWidth: 650
+    minWidth: 650,
+    maxHeight: 400
   }
 });
 
