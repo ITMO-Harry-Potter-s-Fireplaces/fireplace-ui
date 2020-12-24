@@ -53,7 +53,7 @@ function RequestModal({isOpen}) {
   };
 
   const [departureId, setDepartureId] = React.useState('');
-  const [arrivalId, setArrivalId] = React.useState('Choose arrival');
+  const [arrivalId, setArrivalId] = React.useState('');
 
   useEffect(() => {
     if (selectedFireplace && selectedFireplace.id) {
@@ -107,7 +107,6 @@ function RequestModal({isOpen}) {
               labelId="demo-simple-select-label"
               id="demo-simple-select"
               value={arrivalId}
-              defaultValue="Choose arrival"
               onChange={handleChange}>
               {fireplaces &&
                 fireplaces.length > 0 &&
