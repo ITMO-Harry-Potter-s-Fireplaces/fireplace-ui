@@ -105,7 +105,7 @@ function RequestModal({isOpen}) {
             <InputLabel id="demo-simple-select-label">Arrival: </InputLabel>
             <Select
               labelId="demo-simple-select-label"
-              id="demo-simple-select"
+              id="demo-simple-select2"
               value={arrivalId}
               onChange={handleChange}>
               {fireplaces &&
