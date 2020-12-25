@@ -12,6 +12,8 @@ const randomName = faker.name.firstName();
 const randomMiddleName = faker.name.lastName();
 const randomLastName = faker.name.lastName();
 
+const ROUTE = 'http://localhost:3000';
+
 const LOGIN_SLEEP = 0;
 const REGISTER_SLEEP = 0;
 const CREATE_CLAIM_SLEEP = 0;
@@ -23,7 +25,7 @@ const driver = new Builder()
 
 async function loginSuccess() {
   try {
-    await driver.get('http://localhost:3000');
+    await driver.get(`${ROUTE}`);
     await driver.wait(until.elementLocated(By.name('login')), 3000).sendKeys(randomEmail, Key.TAB);
     sleep.sleep(LOGIN_SLEEP);
     await driver
@@ -38,15 +40,15 @@ async function loginSuccess() {
       3000
     );
     assert(await res.getText(), 'Choose your fireplace');
-    console.log('login passed');
+    console.log('loginSuccess: passed');
   } catch (e) {
-    console.log(`login failed: ${e.message}`);
+    console.log(`loginSuccess: failed; ${e.message}`);
   }
 }
 
 async function registerAndLogoutSuccess() {
   try {
-    await driver.get('http://localhost:3000');
+    await driver.get(`${ROUTE}`);
     await driver.wait(until.elementLocated(By.linkText('Need an account?')), 3000).click();
 
     await driver.wait(until.elementLocated(By.name('email')), 3000).sendKeys(randomEmail, Key.TAB);
@@ -81,15 +83,15 @@ async function registerAndLogoutSuccess() {
       .wait(until.elementLocated(By.xpath("//*[contains(text(), 'Logout')]")), 3000)
       .click();
 
-    console.log('register passed');
+    console.log('registerAndLogoutSuccess: passed');
   } catch (e) {
-    console.log(`register failed: ${e.message}`);
+    console.log(`registerAndLogoutSuccess: failed; ${e.message}`);
   }
 }
 
 async function createClaimSuccess() {
   try {
-    await driver.get('http://localhost:3000/home');
+    await driver.get(`${ROUTE}/home`);
     await driver
       .wait(until.elementLocated(By.xpath(`//*[@id="map"]/div[1]/div[4]/img[6]`)), 3000)
       .click();
@@ -111,9 +113,26 @@ async function createClaimSuccess() {
     await driver
       .wait(until.elementLocated(By.xpath("//*[contains(text(), 'success')]")), 6000)
       .click();
-    console.log('create claim  passed');
+    console.log('createClaimSuccess: passed');
   } catch (e) {
-    console.log(`create claim failed: ${e.message}`);
+    console.log(`createClaimSuccess: failed; ${e.message}`);
+  }
+}
+
+async function showListOfUsersClaims() {
+  try {
+    await driver.get(`${ROUTE}/home`);
+    await driver
+      .wait(until.elementLocated(By.xpath("//*[contains(text(), 'Show claims')]")), 6000)
+      .click();
+    sleep.sleep(CREATE_CLAIM_SLEEP);
+    // open menu
+    await driver
+      .wait(until.elementLocated(By.xpath("//*[contains(text(), 'All claims')]")), 6000)
+      .click();
+    console.log('showListOfUsersClaims: passed');
+  } catch (e) {
+    console.log(`showListOfUsersClaims: ${e.message}`);
   }
 }
 
@@ -124,11 +143,10 @@ async function createClaimSuccess() {
     await registerAndLogoutSuccess();
     await loginSuccess();
     await createClaimSuccess();
+    await showListOfUsersClaims();
   } catch (error) {
     console.log(error);
   } finally {
     await driver.quit();
   }
-
-  // await driver.get('http://seniorkot.com');
 })();
