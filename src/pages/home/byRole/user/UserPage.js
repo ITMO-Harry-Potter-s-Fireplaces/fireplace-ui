@@ -14,7 +14,7 @@ import {
   Text,
   Header
 } from './UserPage.styles';
-import {hideModal, del, getFireplaces} from '../../../../actions/userActions';
+import {del, getFireplaces} from '../../../../actions/userActions';
 import RequestModal from '../../components/RequestModal';
 import ClaimsList from './components/ClaimsList';
 

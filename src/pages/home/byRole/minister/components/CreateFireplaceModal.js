@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import Cookies from 'js-cookie';
 import {useHistory} from 'react-router-dom';
@@ -7,22 +7,12 @@ import Dialog from '@material-ui/core/Dialog';
 import Snackbar from '@material-ui/core/Snackbar';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
-import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import {useDispatch, useSelector} from 'react-redux';
+import {InputFormWrapper, Error, Button} from '../../../../login/components/forms/FormsStyles';
 import {
-  InputFormWrapper,
-  Error,
-  Button,
-  Transfer,
-  NavLinkWrapper
-} from '../../../../login/components/forms/FormsStyles';
-
-import {
-  createClaim,
   createFireplace,
-  CREATE_CLAIM_SUCCESS,
   CREATE_FIREPLACE_SUCCESS,
   hideFireplaceModal
 } from '../../../../../actions/userActions';
@@ -45,9 +35,6 @@ const useStyles = makeStyles(theme => ({
 
 function CreateFireplaceModal({isOpen}) {
   const {handleSubmit, register, errors} = useForm();
-
-  const classes = useStyles();
-  const history = useHistory();
   const dispatch = useDispatch();
   const selectedFireplace = useSelector(state => state.user.selectedModalItem);
 
@@ -60,19 +47,6 @@ function CreateFireplaceModal({isOpen}) {
     }
 
     setSnackbarOpen(false);
-  };
-
-  const [departureId, setDepartureId] = React.useState('');
-  const [arrivalId, setArrivalId] = React.useState('Choose arrival');
-
-  useEffect(() => {
-    if (selectedFireplace && selectedFireplace.id) {
-      setDepartureId(selectedFireplace.id);
-    }
-  }, [selectedFireplace]);
-
-  const handleChange = event => {
-    setArrivalId(event.target.value);
   };
 
   const submit = data => {

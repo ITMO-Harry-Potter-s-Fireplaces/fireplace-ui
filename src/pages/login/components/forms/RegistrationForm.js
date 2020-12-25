@@ -125,7 +125,7 @@ function RegistrationForm() {
         <Error>{errors.surname && errors.surname.message}</Error>
       </InputFormWrapper>
       <br />
-      <Button type="submit">Sign up</Button>
+      <Button data-testid="signupbtn" type="submit">Sign up</Button>
       <NavLinkWrapper>
         <NavLink to={LOGIN}>
           <Transfer>Have an account?</Transfer>

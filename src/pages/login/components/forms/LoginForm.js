@@ -81,7 +81,9 @@ function LoginForm() {
         <Error>{errors.password && errors.password.message}</Error>
       </InputFormWrapper>
       <br />
-      <Button type="submit">Log in</Button>
+      <Button data-testid="loginbtn" type="submit">
+        Log in
+      </Button>
       <NavLinkWrapper>
         <NavLink to={REGISTR}>
           <Transfer>Need an account?</Transfer>
