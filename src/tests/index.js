@@ -137,8 +137,6 @@ async function showListOfUsersClaims() {
 }
 
 (async function myFunction() {
-  // Navigate to Url
-
   try {
     await registerAndLogoutSuccess();
     await loginSuccess();

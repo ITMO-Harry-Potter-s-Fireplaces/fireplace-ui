@@ -7,7 +7,8 @@
 .env
 # testing
 /coverage
-
+/target
+/deployments
 # production
 /build
 
