@@ -61,60 +61,62 @@ function AllClaimsList() {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {claimsList.map(row => (
-                    <TableRow key={row.name}>
-                      <TableCell component="th" scope="row">
-                        {row.id}
-                      </TableCell>
-                      <TableCell align="right">{row.created}</TableCell>
-                      <TableCell align="right">{row.modified}</TableCell>
-                      <TableCell align="right">
-                        {row.status}
-                        <div
-                          style={{
-                            display: 'flex',
-                            flexDirection: 'column',
-                            justifyItems: 'center'
-                          }}>
-                          {row.status === 'CREATED' && (
-                            <>
-                              <Button
-                                onClick={() => approveClaim(row.id, true)}
-                                style={{height: '30px', marginBottom: '10px'}}
-                                variant="contained"
-                                color="primary">
-                                Approve
-                              </Button>
-                              <Button
-                                onClick={() => approveClaim(row.id, false)}
-                                style={{height: '30px'}}
-                                variant="contained"
-                                color="red">
-                                Cancel
-                              </Button>
-                            </>
-                          )}
-                        </div>
-                      </TableCell>
-                      <TableCell align="left">
-                        lat: {(row.departure && row.departure.lat) || 'unset'} <br />
-                        lng: {(row.departure && row.departure.lng) || 'unset'}
-                      </TableCell>
-                      <TableCell align="left">{row.departureTime || 'unset'}</TableCell>
-                      <TableCell align="left">
-                        lat: {(row.arrival && row.arrival.lat) || 'unset'} <br />
-                        lng: {(row.arrival && row.arrival.lng) || 'unset'}
-                      </TableCell>
-                      {row.user && (
-                        <>
-                          <TableCell align="left">{row.user.id}</TableCell>
-                          <TableCell align="left">
-                            {row.user.surname} {row.user.name} {row.user.middleName}
-                          </TableCell>
-                        </>
-                      )}
-                    </TableRow>
-                  ))}
+                  {claimsList
+                    .sort((a, b) => (a.status > b.status ? -1 : 1))
+                    .map(row => (
+                      <TableRow key={row.name}>
+                        <TableCell component="th" scope="row">
+                          {row.id}
+                        </TableCell>
+                        <TableCell align="right">{row.created}</TableCell>
+                        <TableCell align="right">{row.modified}</TableCell>
+                        <TableCell align="right">
+                          {row.status}
+                          <div
+                            style={{
+                              display: 'flex',
+                              flexDirection: 'column',
+                              justifyItems: 'center'
+                            }}>
+                            {row.status === 'CREATED' && (
+                              <>
+                                <Button
+                                  onClick={() => approveClaim(row.id, true)}
+                                  style={{height: '30px', marginBottom: '10px'}}
+                                  variant="contained"
+                                  color="primary">
+                                  Approve
+                                </Button>
+                                <Button
+                                  onClick={() => approveClaim(row.id, false)}
+                                  style={{height: '30px'}}
+                                  variant="contained"
+                                  color="red">
+                                  Cancel
+                                </Button>
+                              </>
+                            )}
+                          </div>
+                        </TableCell>
+                        <TableCell align="left">
+                          lat: {(row.departure && row.departure.lat) || 'unset'} <br />
+                          lng: {(row.departure && row.departure.lng) || 'unset'}
+                        </TableCell>
+                        <TableCell align="left">{row.departureTime || 'unset'}</TableCell>
+                        <TableCell align="left">
+                          lat: {(row.arrival && row.arrival.lat) || 'unset'} <br />
+                          lng: {(row.arrival && row.arrival.lng) || 'unset'}
+                        </TableCell>
+                        {row.user && (
+                          <>
+                            <TableCell align="left">{row.user.id}</TableCell>
+                            <TableCell align="left">
+                              {row.user.surname} {row.user.name} {row.user.middleName}
+                            </TableCell>
+                          </>
+                        )}
+                      </TableRow>
+                    ))}
                 </TableBody>
               </Table>
             </TableContainer>
