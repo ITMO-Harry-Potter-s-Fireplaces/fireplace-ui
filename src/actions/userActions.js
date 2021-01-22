@@ -18,6 +18,10 @@ export const CREATE_FIREPLACE_LOADING = 'CREATE_FIREPLACE_LOADING';
 export const CREATE_FIREPLACE_SUCCESS = 'CREATE_FIREPLACE_SUCCESS';
 export const CREATE_FIREPLACE_FAIL = 'CREATE_FIREPLACE_FAIL';
 
+export const DELETE_USER_LOADING = 'DELETE_USER_LOADING';
+export const DELETE_USER__SUCCESS = 'DELETE_USER__SUCCESS';
+export const DELETE_USER__FAIL = 'DELETE_USER__FAIL';
+
 export const DELETE_FIREPLACE_LOADING = 'DELETE_FIREPLACES_LOADING';
 export const DELETE_FIREPLACE_SUCCESS = 'DELETE_FIREPLACES_SUCCESS';
 export const DELETE_FIREPLACE_FAIL = 'DELETE_FIREPLACES_FAIL';
@@ -98,6 +102,28 @@ export const getAllUsers = token => async dispatch => {
   } catch (error) {
     dispatch({
       type: GET_ALL_USERS_FAIL
+    });
+  }
+};
+
+export const deactivateUser = (token, id) => async dispatch => {
+  dispatch({
+    type: DELETE_USER_LOADING
+  });
+
+  try {
+    const response = await axios.delete(api.deleteUser(id), {
+      headers: {Authorization: token}
+    });
+    if (response.data.code !== 204) {
+      throw Error(response.data.message);
+    }
+    return dispatch({
+      type: DELETE_USER__SUCCESS
+    });
+  } catch (error) {
+    return dispatch({
+      type: DELETE_USER__FAIL
     });
   }
 };

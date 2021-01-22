@@ -2,6 +2,7 @@
 export const loginUser = () => `${process.env.REACT_APP_APISERVER}/security/auth/login`;
 export const registerUser = () => `${process.env.REACT_APP_APISERVER}/security/auth/register`;
 export const getUser = () => `${process.env.REACT_APP_APISERVER}/security/users/current`;
+export const deleteUser = userId => `${process.env.REACT_APP_APISERVER}/security/users/${userId}`;
 export const getAllUsers = () => `${process.env.REACT_APP_APISERVER}/security/users`;
 
 // FIREPLACES

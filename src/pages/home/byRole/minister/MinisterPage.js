@@ -24,7 +24,12 @@ import {
   Text,
   Header
 } from '../admin/AdminPage.styles';
-import {del, getAllUsers} from '../../../../actions/userActions';
+import {
+  del,
+  deactivateUser,
+  getAllUsers,
+  DELETE_USER__SUCCESS
+} from '../../../../actions/userActions';
 import FireplacesList from './components/FireplacesList';
 
 const useStyles = makeStyles({

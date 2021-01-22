@@ -24,7 +24,12 @@ import {
   Text,
   Header
 } from './AdminPage.styles';
-import {del, getAllUsers} from '../../../../actions/userActions';
+import {
+  del,
+  deactivateUser,
+  DELETE_USER__SUCCESS,
+  getAllUsers
+} from '../../../../actions/userActions';
 
 const useStyles = makeStyles({
   table: {
@@ -52,6 +57,16 @@ function AdminPage() {
     Cookies.remove('token');
     dispatch(del());
     history.push(LOGIN);
+  };
+
+  const dUser = userId => {
+    const token = Cookies.get('token');
+
+    dispatch(deactivateUser(token, userId)).then(e => {
+      if (e.type && e.type === DELETE_USER__SUCCESS) {
+        getAllUsersAction(token);
+      }
+    });
   };
 
   return (
@@ -120,10 +135,19 @@ function AdminPage() {
                             <TableCell align="right">{row.surname || 'unset'}</TableCell>
                             <TableCell align="right">{row.middleName || 'unset'}</TableCell>
                             <TableCell align="right">{row.dateOfBirth || 'unset'}</TableCell>
-                            <TableCell align="right">
-                              {row.active ? 'true' : 'false' || 'unset'}
-                            </TableCell>
+                            <TableCell align="right">{row.active ? 'true' : 'false'}</TableCell>
                             <TableCell align="right">{row.role || 'unset'}</TableCell>
+                            <TableCell align="right">
+                              {row.active && row.role !== 'ADMIN' && row.role !== 'MODERATOR' && (
+                                <Button
+                                  onClick={() => dUser(row.id)}
+                                  style={{height: '30px', marginRight: '10px'}}
+                                  variant="contained"
+                                  color="primary">
+                                  Block
+                                </Button>
+                              )}
+                            </TableCell>
                           </TableRow>
                         ))}
                       </TableBody>
