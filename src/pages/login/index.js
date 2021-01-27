@@ -23,7 +23,7 @@ function AuthenticationPage() {
       </CloudWrapper>
       <LoginFormWrapper>
         <Logo src={`${process.env.PUBLIC_URL}/image/logo.png`} />
-        <Text>Welcome to Fireplace!</Text>
+        <Text>Добро пожаловать!</Text>
         <Switch>
           <Route path={LOGIN} component={LoginForm} />
           <Route path={REGISTR} component={RegistrationForm} />

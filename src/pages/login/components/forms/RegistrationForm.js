@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {NavLink, useHistory} from 'react-router-dom';
 import {useForm, Controller} from 'react-hook-form';
 import {useSelector} from 'react-redux';
@@ -18,6 +18,7 @@ const defaultValues = {
 function RegistrationForm() {
   const {handleSubmit, register, errors, control} = useForm({defaultValues});
   const history = useHistory();
+  const [helpIsHidden, setHelpHidden] = useState(false);
   // Alternative bindActionCreators
   const [submitAction] = useActions([registerUser]);
 
@@ -33,20 +34,13 @@ function RegistrationForm() {
 
   const submit = data => {
     console.log(JSON.stringify(data));
-    submitAction(
-      data.email,
-      data.password,
-      data.name,
-      data.surname,
-      data.middleName,
-      data.ReactDatepicker
-    );
+    submitAction(data.email, data.password, data.name, data.surname, data.ReactDatepicker);
   };
 
   return (
     <form onSubmit={handleSubmit(submit)}>
       <InputFormWrapper>
-        <label htmlFor="email">Enter your email</label>
+        <label htmlFor="email">Введите адрес эл. почты</label>
         <input
           ref={register({
             required: 'required',
@@ -60,24 +54,38 @@ function RegistrationForm() {
         <Error>{errors.email && errors.email.message}</Error>
       </InputFormWrapper>
       <br />
-      <InputFormWrapper>
-        <label htmlFor="password">Create the password(6-15 symbols)</label>
-        <input
-          ref={register({
-            required: 'required',
-            pattern: {
-              value: /^[A-Z0-9._]{6,15}$/i,
-              message: 'invalid password'
-            }
-          })}
-          type="password"
-          name="password"
-        />
-        <Error>{errors.password && errors.password.message}</Error>
-      </InputFormWrapper>
+      <div>
+        <InputFormWrapper>
+          <label htmlFor="password">Введите пароль</label>
+          <input
+            ref={register({
+              required: 'required',
+              pattern: {
+                value: /^(?=.*[A-Z])(?=.*[0-9])(?=.*[a-z]).{10}$/i,
+                message: 'invalid password'
+              }
+            })}
+            type="password"
+            name="password"
+          />
+          <Error>{errors.password && errors.password.message}</Error>
+          <Button
+            data-testid="signupbtn"
+            onClick={() => setHelpHidden(!helpIsHidden)}
+            type="button">
+            {!helpIsHidden ? '?' : 'скрыть подсказку'}
+          </Button>
+        </InputFormWrapper>
+        {helpIsHidden && (
+          <div>
+            (минимальная длина – 10 символов, обязательно использовать цифры и буквы в верхнем и
+            нижнем регистрах)
+          </div>
+        )}
+      </div>
       <br />
       <InputFormWrapper>
-        <label htmlFor="name">Enter your name</label>
+        <label htmlFor="name">Введите имя</label>
         <input
           ref={register({
             required: 'required'
@@ -89,19 +97,7 @@ function RegistrationForm() {
       </InputFormWrapper>
       <br />
       <InputFormWrapper>
-        <label htmlFor="middleName">Enter your middle name</label>
-        <input
-          ref={register({
-            required: 'required'
-          })}
-          type="middleName"
-          name="middleName"
-        />
-        <Error>{errors.middleName && errors.middleName.message}</Error>
-      </InputFormWrapper>
-      <br />
-      <InputFormWrapper>
-        <label htmlFor="surname">Enter your surname</label>
+        <label htmlFor="surname">Введите фамилию</label>
         <input
           ref={register({
             required: 'required'
@@ -113,7 +109,7 @@ function RegistrationForm() {
       </InputFormWrapper>
       <br />
       <InputFormWrapper>
-        <label htmlFor="surname">Click to choose your date of birth</label>
+        <label htmlFor="surname">Дата рождения:</label>
         <Controller
           as={ReactDatePicker}
           control={control}
@@ -122,13 +118,16 @@ function RegistrationForm() {
           name="ReactDatepicker"
           className="input"
         />
-        <Error>{errors.surname && errors.surname.message}</Error>
       </InputFormWrapper>
       <br />
-      <Button data-testid="signupbtn" type="submit">Sign up</Button>
+      <Button data-testid="signupbtn" type="submit">
+        Зарегистрироваться
+      </Button>
       <NavLinkWrapper>
         <NavLink to={LOGIN}>
-          <Transfer>Have an account?</Transfer>
+          <Button data-testid="signupbtn" type="submit">
+            Уже зарегистрированы?
+          </Button>
         </NavLink>
       </NavLinkWrapper>
     </form>

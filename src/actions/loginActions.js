@@ -35,14 +35,7 @@ export const loginUser = (email, password) => async dispatch => {
   }
 };
 
-export const registerUser = (
-  email,
-  password,
-  name,
-  surname,
-  middleName,
-  dateOfBirth
-) => async dispatch => {
+export const registerUser = (email, password, name, surname, dateOfBirth) => async dispatch => {
   dispatch({
     type: REGISTER_LOADING
   });
@@ -53,7 +46,6 @@ export const registerUser = (
       password,
       name,
       surname,
-      middleName,
       dateOfBirth
     });
     if (res.data.code !== 200) {

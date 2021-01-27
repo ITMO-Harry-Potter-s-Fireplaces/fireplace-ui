@@ -51,7 +51,7 @@ function LoginForm() {
   return (
     <form onSubmit={handleSubmit(submit)}>
       <InputFormWrapper>
-        <label htmlFor="login">Email</label>
+        <label htmlFor="login">Логин</label>
         <input
           ref={register({
             required: 'required',
@@ -66,7 +66,7 @@ function LoginForm() {
       </InputFormWrapper>
       <br />
       <InputFormWrapper>
-        <label htmlFor="password">Password</label>
+        <label htmlFor="password">Пароль</label>
         <input
           ref={register({
             required: 'required',
@@ -86,7 +86,9 @@ function LoginForm() {
       </Button>
       <NavLinkWrapper>
         <NavLink to={REGISTR}>
-          <Transfer>Need an account?</Transfer>
+          <Button data-testid="loginbtn" type="button">
+            Регистрация
+          </Button>
         </NavLink>
       </NavLinkWrapper>
       <Snackbar
