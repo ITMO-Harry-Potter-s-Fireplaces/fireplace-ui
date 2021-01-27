@@ -24,7 +24,11 @@ const PrivateRoute = ({component: Component, ...rest}) => {
         if (response.data.code !== 200) {
           throw Error(response.data.message);
         }
-        window.alert('успешная авторизация');
+
+        if (!Cookies.get('isLoggedIn')) {
+          window.alert('успешная авторизация');
+          Cookies.set('isLoggedIn', 'gg');
+        }
         setUser(response.data.message);
         dispatch(add(response.data.message));
       } catch (error) {

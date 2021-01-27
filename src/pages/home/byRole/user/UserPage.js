@@ -32,6 +32,7 @@ function UserPage() {
 
   const signOut = () => {
     Cookies.remove('token');
+    Cookies.remove('isLoggedIn');
     dispatch(del());
     history.push(LOGIN);
   };
@@ -46,7 +47,7 @@ function UserPage() {
           <BackImage src={`${process.env.PUBLIC_URL}/image/hh1.png`} timeAnimation="60s" />
         </CloudWrapper>
         <Header>
-          <div style={{marginRight: '10px'}}>USER</div>
+          <div style={{marginRight: '10px'}}>роль USER</div>
           <Button
             onClick={() => history.push('/home')}
             style={{height: '30px', marginRight: '10px'}}
@@ -75,7 +76,9 @@ function UserPage() {
               <Logo src={`${process.env.PUBLIC_URL}/image/logo.png`} />
               <Text>Choose your fireplace</Text>
               <RequestModal isOpen={isModalShown} />
-              <div>{fireplacesList && fireplacesList.length > 0 && <Map data={fireplacesList} />}</div>
+              <div>
+                {fireplacesList && fireplacesList.length > 0 && <Map data={fireplacesList} />}
+              </div>
             </LoginFormWrapper>
           </Route>
           <Route path="/home/list">

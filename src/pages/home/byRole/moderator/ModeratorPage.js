@@ -65,6 +65,7 @@ function ModeratorPage() {
   const signOut = () => {
     console.log('press');
     Cookies.remove('token');
+    Cookies.remove('isLoggedIn');
     dispatch(del());
     history.push(LOGIN);
   };
@@ -79,7 +80,7 @@ function ModeratorPage() {
           <BackImage src={`${process.env.PUBLIC_URL}/image/hh1.png`} timeAnimation="60s" />
         </CloudWrapper>
         <Header>
-          <div style={{marginRight: '10px'}}>MODERATOR</div>
+          <div style={{marginRight: '10px'}}>роль MODERATOR</div>
           <Button
             onClick={() => history.push('/home')}
             style={{height: '30px', marginRight: '10px'}}
