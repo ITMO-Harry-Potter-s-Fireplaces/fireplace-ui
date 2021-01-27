@@ -24,6 +24,7 @@ const PrivateRoute = ({component: Component, ...rest}) => {
         if (response.data.code !== 200) {
           throw Error(response.data.message);
         }
+        window.alert('успешная авторизация');
         setUser(response.data.message);
         dispatch(add(response.data.message));
       } catch (error) {
