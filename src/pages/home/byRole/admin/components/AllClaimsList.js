@@ -13,6 +13,9 @@ import Cookies from 'js-cookie';
 import useActions from '../../../../../hooks/useAction';
 import {LoginFormWrapper, Logo, Text} from '../AdminPage.styles';
 import * as userActions from '../../../../../actions/userActions';
+import {useHistory} from 'react-router-dom';
+
+import {TableWrapper} from '../../user/UserPage.styles';
 
 const useStyles = makeStyles({
   table: {
@@ -21,6 +24,7 @@ const useStyles = makeStyles({
 });
 
 function AllClaimsList() {
+  const history = useHistory();
   const classes = useStyles();
   const dispatch = useDispatch();
   const [action] = useActions([userActions.getAllClaims]);
@@ -42,9 +46,9 @@ function AllClaimsList() {
     <div>
       <LoginFormWrapper>
         <Logo src={`${process.env.PUBLIC_URL}/image/logo.png`} />
-        <Text>All claims</Text>
+        <Text>Полученные заявки</Text>
         {claimsList && claimsList.length > 0 && (
-          <div>
+          <TableWrapper>
             <TableContainer component={Paper}>
               <Table className={classes.table} aria-label="simple table">
                 <TableHead>
@@ -64,7 +68,9 @@ function AllClaimsList() {
                   {claimsList
                     .sort((a, b) => (a.status > b.status ? -1 : 1))
                     .map(row => (
-                      <TableRow key={row.name}>
+                      <TableRow
+                        onClick={() => history.push(`/home/editclaim/${row.id}`)}
+                        key={row.name}>
                         <TableCell component="th" scope="row">
                           {row.id}
                         </TableCell>
@@ -120,7 +126,7 @@ function AllClaimsList() {
                 </TableBody>
               </Table>
             </TableContainer>
-          </div>
+          </TableWrapper>
         )}
       </LoginFormWrapper>
     </div>

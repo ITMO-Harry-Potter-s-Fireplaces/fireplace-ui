@@ -12,6 +12,7 @@ export const deleteFireplace = fireplaceId =>
   `${process.env.REACT_APP_APISERVER}/fireplaces/${fireplaceId}`;
 
 // CLAIMS
+export const getClaimById = id => `${process.env.REACT_APP_APISERVER}/claims/${id}`;
 export const getCurrentClaims = () => `${process.env.REACT_APP_APISERVER}/claims/current`;
 export const getAllClaims = () => `${process.env.REACT_APP_APISERVER}/claims`;
 export const createClaim = () => `${process.env.REACT_APP_APISERVER}/claims`;

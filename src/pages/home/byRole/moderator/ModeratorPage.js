@@ -32,6 +32,8 @@ import {
 } from '../../../../actions/userActions';
 import CreateFly from '../../components/CreateFly';
 import ClaimsList from '../user/components/ClaimsList';
+import EditClaim from './components/EditClaim';
+import { TableWrapper } from '../user/UserPage.styles';
 
 const useStyles = makeStyles({
   table: {
@@ -102,7 +104,7 @@ function ModeratorPage() {
             onClick={() => signOut()}
             variant="contained"
             color="primary">
-            Logout
+            Выйти
           </Button>
         </Header>
 
@@ -112,7 +114,7 @@ function ModeratorPage() {
               <Logo src={`${process.env.PUBLIC_URL}/image/logo.png`} />
               <Text>List of all users</Text>
               {listOfUsers && listOfUsers.length > 0 && (
-                <div>
+                <TableWrapper>
                   <TableContainer component={Paper}>
                     <Table className={classes.table} aria-label="simple table">
                       <TableHead>
@@ -158,7 +160,7 @@ function ModeratorPage() {
                       </TableBody>
                     </Table>
                   </TableContainer>
-                </div>
+                </TableWrapper>
               )}
             </LoginFormWrapper>
           </Route>
@@ -169,10 +171,13 @@ function ModeratorPage() {
             <Route path="/home/list">
               <ClaimsList />
             </Route>
+            <Route path="/home/listall">
+              <AllClaimsList />
+            </Route>
+            <Route path="/home/editclaim/:id">
+              <EditClaim />
+            </Route>
           </Switch>
-          <Route path="/home/list/all">
-            <AllClaimsList />
-          </Route>
         </Switch>
       </LoginWrapper>
       );

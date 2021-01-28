@@ -11,7 +11,8 @@ import {
   CloudWrapper,
   Header
 } from '../user/UserPage.styles';
-import {getFireplaces} from '../../../../actions/userActions';
+import {getFireplaces, del} from '../../../../actions/userActions';
+import {LOGIN} from '../../../../constants/routes';
 
 function InitialPage() {
   const dispatch = useDispatch();
@@ -24,6 +25,13 @@ function InitialPage() {
     dispatch(getFireplaces(token));
   }, []);
 
+  const signOut = () => {
+    Cookies.remove('token');
+    Cookies.remove('isLoggedIn');
+    dispatch(del());
+    history.push(LOGIN);
+  };
+
   return (
     <>
       <LoginWrapper>
@@ -33,7 +41,16 @@ function InitialPage() {
           <BackImage src={`${process.env.PUBLIC_URL}/image/cloud.png`} timeAnimation="70s" />
           <BackImage src={`${process.env.PUBLIC_URL}/image/hh1.png`} timeAnimation="60s" />
         </CloudWrapper>
-        <Header>Главная страница {user && user.role && `(для роли ${user.role})`} </Header>
+        <Header>
+          Главная страница {user && user.role && `(для роли ${user.role})`}{' '}
+          <Button
+            style={{marginLeft: '10px', height: '30px'}}
+            onClick={() => signOut()}
+            variant="contained"
+            color="primary">
+            Выйти
+          </Button>
+        </Header>
         <Switch>
           <Route exact path="/initial">
             <LoginFormWrapper>
@@ -52,6 +69,15 @@ function InitialPage() {
                 color="primary">
                 Создать заявку
               </Button>
+              {user && user.role && user.role === 'MODERATOR' && (
+                <Button
+                  onClick={() => history.push('/home/listall')}
+                  style={{height: '30px', marginRight: '10px', marginTop: '30px'}}
+                  variant="contained"
+                  color="primary">
+                  Посмотреть полученные заявки
+                </Button>
+              )}
             </LoginFormWrapper>
           </Route>
         </Switch>

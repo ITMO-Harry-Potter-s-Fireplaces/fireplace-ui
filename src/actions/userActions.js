@@ -57,6 +57,12 @@ export const SET_STARTING_POINT = 'SET_STARTING_POINT';
 export const SET_FINAL_POINT = 'SET_FINAL_POINT';
 export const CLEAR_ALL_ST_POINTS = 'CLEAR_ALL_ST_POINTS';
 
+export const GET_CLAIM_BY_ID_LOADING = 'GET_CLAIM_BY_ID_LOADING';
+export const GET_CLAIM_BY_ID_SUCCESS = 'GET_CLAIM_BY_ID_SUCCESS';
+export const GET_CLAIM_BY_ID_FAIL = 'GET_CLAIM_BY_ID_FAIL';
+
+export const CLEAR_CLAIM_BY_ID = 'CLEAR_CLAIM_BY_ID';
+
 export const add = user => {
   return {
     type: USER_ADD,
@@ -108,6 +114,35 @@ export const hideFireplaceModal = () => {
   return {
     type: HIDE_FIREPLACE_MODAL
   };
+};
+
+export const clearClaimById = () => {
+  return {
+    type: CLEAR_CLAIM_BY_ID
+  };
+};
+
+export const getClaimById = (token, id) => async dispatch => {
+  dispatch({
+    type: GET_CLAIM_BY_ID_LOADING
+  });
+
+  try {
+    const response = await axios.get(api.getClaimById(id), {
+      headers: {Authorization: token}
+    });
+    if (response.data.code !== 200) {
+      throw Error(response.data.message);
+    }
+    return dispatch({
+      type: GET_CLAIM_BY_ID_SUCCESS,
+      payload: response.data.message
+    });
+  } catch (error) {
+    return dispatch({
+      type: GET_CLAIM_BY_ID_FAIL
+    });
+  }
 };
 
 export const getAllUsers = token => async dispatch => {

@@ -12,10 +12,12 @@ import {
   SHOW_FIREPLACE_MODAL,
   HIDE_FIREPLACE_MODAL,
   SET_MODAL_1,
+  CLEAR_CLAIM_BY_ID,
   SET_MODAL_2,
   SET_STARTING_POINT,
   SET_FINAL_POINT,
-  CLEAR_ALL_ST_POINTS
+  CLEAR_ALL_ST_POINTS,
+  GET_CLAIM_BY_ID_SUCCESS
 } from '../actions/userActions';
 
 export const initialState = {
@@ -27,6 +29,8 @@ export const initialState = {
   isFireplaceModal: false,
   selectedModalItem: null,
   user: null,
+  claimbyid: null,
+  claimbyidloading: false,
   usersList: [],
   fireplacesList: [],
   claimsList: []
@@ -50,6 +54,18 @@ export default (state = initialState, action) => {
       return {
         ...state,
         usersList: action.payload
+      };
+
+    case GET_CLAIM_BY_ID_SUCCESS:
+      return {
+        ...state,
+        claimbyid: action.payload
+      };
+
+    case CLEAR_CLAIM_BY_ID:
+      return {
+        ...state,
+        claimbyid: null
       };
 
     case GET_FIREPLACES_SUCCESS:

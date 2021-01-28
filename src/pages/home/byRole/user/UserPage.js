@@ -55,7 +55,7 @@ function UserPage() {
             onClick={() => signOut()}
             variant="contained"
             color="primary">
-            Logout
+            Выйти
           </Button>
         </Header>
         <Switch>

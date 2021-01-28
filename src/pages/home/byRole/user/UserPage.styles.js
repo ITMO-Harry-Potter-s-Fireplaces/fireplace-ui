@@ -1,5 +1,11 @@
 import styled, {keyframes} from 'styled-components';
 
+export const TableWrapper = styled.div`
+  > div {
+    max-height: 400px;
+  }
+`;
+
 const LoginWrapper = styled.div`
   position: relative;
   box-sizing: border-box;

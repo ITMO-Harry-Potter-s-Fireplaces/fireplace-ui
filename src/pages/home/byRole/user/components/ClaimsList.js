@@ -10,7 +10,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Cookies from 'js-cookie';
 import useActions from '../../../../../hooks/useAction';
-import {LoginFormWrapper, Logo, Text} from '../UserPage.styles';
+import {LoginFormWrapper, Logo, TableWrapper, Text} from '../UserPage.styles';
 import * as userActions from '../../../../../actions/userActions';
 import {Button} from '@material-ui/core';
 
@@ -43,9 +43,9 @@ function ClaimsList() {
     <div>
       <LoginFormWrapper>
         <Logo src={`${process.env.PUBLIC_URL}/image/logo.png`} />
-        <Text>All claims</Text>
+        <Text>Заявки текущего пользователя</Text>
         {claimsList && claimsList.length > 0 && (
-          <div>
+          <TableWrapper>
             <TableContainer component={Paper}>
               <Table className={classes.table} aria-label="simple table">
                 <TableHead>
@@ -113,7 +113,7 @@ function ClaimsList() {
                 </TableBody>
               </Table>
             </TableContainer>
-          </div>
+          </TableWrapper>
         )}
       </LoginFormWrapper>
     </div>
