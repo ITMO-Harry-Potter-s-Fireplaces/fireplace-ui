@@ -5,6 +5,9 @@ export const USER_DELETE = 'user_delete';
 export const SHOW_MODAL = 'show_modal';
 export const HIDE_MODAL = 'hide_modal';
 
+export const SET_MODAL_1 = 'set_modal_1';
+export const SET_MODAL_2 = 'set_modal_2';
+
 export const SHOW_FIREPLACE_MODAL = 'SHOW_FIREPLACE_MODAL';
 export const HIDE_FIREPLACE_MODAL = 'HIDE_FIREPLACE_MODAL';
 
@@ -50,6 +53,10 @@ export const GET_ALL_USERS_LOADING = 'GET_ALL_USERS_LOADING';
 export const GET_ALL_USERS_SUCCESS = 'GET_ALL_USERS_SUCCESS';
 export const GET_ALL_USERS_FAIL = 'GET_ALL_USERS_FAIL';
 
+export const SET_STARTING_POINT = 'SET_STARTING_POINT';
+export const SET_FINAL_POINT = 'SET_FINAL_POINT';
+export const CLEAR_ALL_ST_POINTS = 'CLEAR_ALL_ST_POINTS';
+
 export const add = user => {
   return {
     type: USER_ADD,
@@ -57,17 +64,37 @@ export const add = user => {
   };
 };
 
-export const showModal = selectedItem => {
+export const setModal1 = status => {
   return {
-    type: SHOW_MODAL,
-    payload: {isShown: true, item: selectedItem}
+    type: SET_MODAL_1,
+    payload: {isShown: status}
   };
 };
 
-export const hideModal = () => {
+export const setModal2 = status => {
   return {
-    type: HIDE_MODAL,
-    payload: {isShown: false}
+    type: SET_MODAL_2,
+    payload: {isShown: status}
+  };
+};
+
+export const clearAllStPoints = () => {
+  return {
+    type: CLEAR_ALL_ST_POINTS
+  };
+};
+
+export const setStartingPoint = (lat, lng) => {
+  return {
+    type: SET_STARTING_POINT,
+    payload: {lat, lng}
+  };
+};
+
+export const setFinalPoint = (lat, lng) => {
+  return {
+    type: SET_FINAL_POINT,
+    payload: {lat, lng}
   };
 };
 
@@ -237,7 +264,7 @@ export const getCurrentClaims = token => async dispatch => {
   }
 };
 
-export const createClaim = (token, arrivalId, departureId) => async dispatch => {
+export const createClaim = (token, startingPoint, finalPoint) => async dispatch => {
   dispatch({
     type: CREATE_CLAIM_LOADING
   });
@@ -245,7 +272,11 @@ export const createClaim = (token, arrivalId, departureId) => async dispatch => 
   try {
     const res = await axios.post(
       api.createClaim(),
-      {arrivalId, departureId, departureTime: new Date().toISOString()},
+      {
+        arrival: {lat: startingPoint.lat, lng: startingPoint.lng},
+        departure: {lat: finalPoint.lat, lng: finalPoint.lng},
+        travelDate: new Date().toISOString()
+      },
       {
         headers: {Authorization: token}
       }

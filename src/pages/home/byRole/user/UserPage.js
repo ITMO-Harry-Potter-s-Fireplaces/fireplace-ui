@@ -4,26 +4,14 @@ import Cookies from 'js-cookie';
 import {useHistory, Switch, Route} from 'react-router-dom';
 import {Button} from '@material-ui/core';
 import {LOGIN} from '../../../../constants/routes';
-import Map from '../../components/Map';
-import {
-  LoginWrapper,
-  LoginFormWrapper,
-  BackImage,
-  Logo,
-  CloudWrapper,
-  Text,
-  Header
-} from './UserPage.styles';
+import {LoginWrapper, BackImage, CloudWrapper, Header} from './UserPage.styles';
 import {del, getFireplaces} from '../../../../actions/userActions';
-import RequestModal from '../../components/RequestModal';
 import ClaimsList from './components/ClaimsList';
+import CreateFly from '../../components/CreateFly';
 
 function UserPage() {
   const dispatch = useDispatch();
   const history = useHistory();
-
-  const isModalShown = useSelector(state => state.user.isModal);
-  const fireplacesList = useSelector(state => state.user.fireplacesList);
 
   useEffect(() => {
     const token = Cookies.get('token');
@@ -72,14 +60,7 @@ function UserPage() {
         </Header>
         <Switch>
           <Route exact path="/home">
-            <LoginFormWrapper>
-              <Logo src={`${process.env.PUBLIC_URL}/image/logo.png`} />
-              <Text>Choose your fireplace</Text>
-              <RequestModal isOpen={isModalShown} />
-              <div>
-                {fireplacesList && fireplacesList.length > 0 && <Map data={fireplacesList} />}
-              </div>
-            </LoginFormWrapper>
+            <CreateFly />
           </Route>
           <Route path="/home/list">
             <ClaimsList />

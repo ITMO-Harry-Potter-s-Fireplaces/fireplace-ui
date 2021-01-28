@@ -10,11 +10,20 @@ import {
   APPROVE_CLAIM_SUCCESS,
   CANCEL_CLAIM_SUCCESS,
   SHOW_FIREPLACE_MODAL,
-  HIDE_FIREPLACE_MODAL
+  HIDE_FIREPLACE_MODAL,
+  SET_MODAL_1,
+  SET_MODAL_2,
+  SET_STARTING_POINT,
+  SET_FINAL_POINT,
+  CLEAR_ALL_ST_POINTS
 } from '../actions/userActions';
 
 export const initialState = {
   isModal: false,
+  isModal1: false,
+  isModal2: false,
+  startingPoint: null,
+  finalPoint: null,
   isFireplaceModal: false,
   selectedModalItem: null,
   user: null,
@@ -84,17 +93,46 @@ export default (state = initialState, action) => {
       };
     }
 
+    case CLEAR_ALL_ST_POINTS:
+      return {
+        ...state,
+        startingPoint: null,
+        finalPoint: null
+      };
+
+    case SET_MODAL_1:
+      return {
+        ...state,
+        isModal1: action.payload.isShown
+      };
+
+    case SET_STARTING_POINT:
+      return {
+        ...state,
+        startingPoint: {lat: action.payload.lat, lng: action.payload.lng}
+      };
+
+    case SET_FINAL_POINT:
+      return {
+        ...state,
+        finalPoint: {lat: action.payload.lat, lng: action.payload.lng}
+      };
+
+    case SET_MODAL_2:
+      return {
+        ...state,
+        isModal2: action.payload.isShown
+      };
+
     case SHOW_MODAL:
       return {
         ...state,
-        selectedModalItem: action.payload.item,
         isModal: action.payload.isShown
       };
 
     case HIDE_MODAL:
       return {
         ...state,
-        selectedModalItem: null,
         isModal: action.payload.isShown
       };
 
