@@ -43,7 +43,7 @@ function CustomMap({coordinates, setAction}) {
 
   return (
     <MapWrapper style={{width: '100%', height: '400px'}}>
-      <MapContainer center={{lat: 49.8419, lng: 24.0315}} zoom={14} scrollWheelZoom={true}>
+      <MapContainer center={{lat: 59.949551, lng: 30.316641}} zoom={14} scrollWheelZoom>
         <TileLayer
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"

@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useEffect} from 'react';
 import {useForm} from 'react-hook-form';
 import {NavLink, useHistory} from 'react-router-dom';
 import {useSelector} from 'react-redux';
@@ -7,9 +7,9 @@ import Snackbar from '@material-ui/core/Snackbar';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import {loginUser, LOGIN_FAIL, LOGIN_SUCCESS} from '../../../../actions/loginActions';
-import {REGISTR, HOME, INITIAL} from '../../../../constants/routes';
+import {REGISTR, INITIAL} from '../../../../constants/routes';
 import useActions from '../../../../hooks/useAction';
-import {Button, InputFormWrapper, Error, Transfer, NavLinkWrapper} from './FormsStyles';
+import {Button, InputFormWrapper, Error, NavLinkWrapper} from './FormsStyles';
 
 function LoginForm() {
   const {handleSubmit, register, errors} = useForm();

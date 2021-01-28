@@ -67,7 +67,6 @@ function UserPage() {
           </Route>
         </Switch>
       </LoginWrapper>
-      );
     </>
   );
 }

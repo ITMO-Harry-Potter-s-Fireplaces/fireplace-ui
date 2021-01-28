@@ -4,7 +4,7 @@ import {useForm, Controller} from 'react-hook-form';
 import {useSelector} from 'react-redux';
 import Cookies from 'js-cookie';
 import ReactDatePicker from 'react-datepicker';
-import {LOGIN, HOME, INITIAL} from '../../../../constants/routes';
+import {LOGIN, INITIAL} from '../../../../constants/routes';
 import {registerUser, REGISTER_SUCCESS} from '../../../../actions/loginActions';
 import useActions from '../../../../hooks/useAction';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -61,7 +61,7 @@ function RegistrationForm() {
             ref={register({
               required: 'required',
               pattern: {
-                value: /^(?=.*[A-Z])(?=.*[0-9])(?=.*[a-z]).{10,}$/g,
+                value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{10,}$/g,
                 message: 'invalid password'
               }
             })}

@@ -24,12 +24,7 @@ import {
   Text,
   Header
 } from '../admin/AdminPage.styles';
-import {
-  del,
-  deactivateUser,
-  getAllUsers,
-  DELETE_USER__SUCCESS
-} from '../../../../actions/userActions';
+import {del, getAllUsers} from '../../../../actions/userActions';
 import FireplacesList from './components/FireplacesList';
 import CreateFly from '../../components/CreateFly';
 import ClaimsList from '../user/components/ClaimsList';
@@ -164,7 +159,6 @@ function MinisterPage() {
           </Route>
         </Switch>
       </LoginWrapper>
-      );
     </>
   );
 }

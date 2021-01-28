@@ -56,7 +56,6 @@ function InitialPage() {
           </Route>
         </Switch>
       </LoginWrapper>
-      );
     </>
   );
 }

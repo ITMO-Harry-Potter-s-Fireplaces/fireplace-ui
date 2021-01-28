@@ -172,7 +172,6 @@ function AdminPage() {
           </Route>
         </Switch>
       </LoginWrapper>
-      );
     </>
   );
 }
