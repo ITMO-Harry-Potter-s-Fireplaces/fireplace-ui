@@ -4,7 +4,7 @@ import {useForm, Controller} from 'react-hook-form';
 import {useSelector} from 'react-redux';
 import Cookies from 'js-cookie';
 import ReactDatePicker from 'react-datepicker';
-import {LOGIN, HOME} from '../../../../constants/routes';
+import {LOGIN, HOME, INITIAL} from '../../../../constants/routes';
 import {registerUser, REGISTER_SUCCESS} from '../../../../actions/loginActions';
 import useActions from '../../../../hooks/useAction';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -28,7 +28,7 @@ function RegistrationForm() {
 
   useEffect(() => {
     if (authToken && authToken !== '' && isRegisterSuccess) {
-      history.push(HOME);
+      history.push(INITIAL);
     }
   }, [authToken, isRegisterSuccess]);
 

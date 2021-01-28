@@ -7,7 +7,7 @@ import Snackbar from '@material-ui/core/Snackbar';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import {loginUser, LOGIN_FAIL, LOGIN_SUCCESS} from '../../../../actions/loginActions';
-import {REGISTR, HOME} from '../../../../constants/routes';
+import {REGISTR, HOME, INITIAL} from '../../../../constants/routes';
 import useActions from '../../../../hooks/useAction';
 import {Button, InputFormWrapper, Error, Transfer, NavLinkWrapper} from './FormsStyles';
 
@@ -44,7 +44,7 @@ function LoginForm() {
 
   useEffect(() => {
     if (authToken && authToken !== '' && isLoginSuccess) {
-      history.push(HOME);
+      history.push(INITIAL);
     }
   }, [authToken, isLoginSuccess]);
 
@@ -82,7 +82,7 @@ function LoginForm() {
       </InputFormWrapper>
       <br />
       <Button data-testid="loginbtn" type="submit">
-        Log in
+        Войти
       </Button>
       <NavLinkWrapper>
         <NavLink to={REGISTR}>
