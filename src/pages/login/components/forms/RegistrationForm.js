@@ -61,7 +61,7 @@ function RegistrationForm() {
             ref={register({
               required: 'required',
               pattern: {
-                value: /^(?=.*[A-Z])(?=.*[0-9])(?=.*[a-z]).{10}$/i,
+                value: /^(?=.*[A-Z])(?=.*[0-9])(?=.*[a-z]).{10,}$/g,
                 message: 'invalid password'
               }
             })}
