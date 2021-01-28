@@ -31,6 +31,8 @@ import {
   DELETE_USER__SUCCESS
 } from '../../../../actions/userActions';
 import FireplacesList from './components/FireplacesList';
+import CreateFly from '../../components/CreateFly';
+import ClaimsList from '../user/components/ClaimsList';
 
 const useStyles = makeStyles({
   table: {
@@ -101,9 +103,16 @@ function MinisterPage() {
             Logout
           </Button>
         </Header>
-
         <Switch>
           <Route exact path="/home">
+            <CreateFly />
+          </Route>
+          <Route path="/home/list">
+            <ClaimsList />
+          </Route>
+        </Switch>
+        <Switch>
+          <Route exact path="/home/listOfAllUsers">
             <LoginFormWrapper>
               <Logo src={`${process.env.PUBLIC_URL}/image/logo.png`} />
               <Text>List of all users</Text>
@@ -147,7 +156,7 @@ function MinisterPage() {
               )}
             </LoginFormWrapper>
           </Route>
-          <Route path="/home/list">
+          <Route path="/home/list/all">
             <AllClaimsList />
           </Route>
           <Route path="/home/fireplaces">

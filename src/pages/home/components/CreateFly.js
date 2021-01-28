@@ -8,10 +8,10 @@ import CloseIcon from '@material-ui/icons/Close';
 import {makeStyles} from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import styled from 'styled-components';
+import {useHistory} from 'react-router-dom';
 import {LoginFormWrapper, Logo, Text} from '../byRole/user/UserPage.styles';
 import MapModal from './MapModal';
 import * as actions from '../../../actions/userActions';
-import {useHistory} from 'react-router-dom';
 
 const useStyles = makeStyles(theme => ({
   root: {

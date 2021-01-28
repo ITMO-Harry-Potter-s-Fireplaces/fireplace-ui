@@ -30,6 +30,8 @@ import {
   DELETE_USER__SUCCESS,
   getAllUsers
 } from '../../../../actions/userActions';
+import CreateFly from '../../components/CreateFly';
+import ClaimsList from '../user/components/ClaimsList';
 
 const useStyles = makeStyles({
   table: {
@@ -105,7 +107,7 @@ function ModeratorPage() {
         </Header>
 
         <Switch>
-          <Route exact path="/home">
+          <Route exact path="/home/listOfAllUsers">
             <LoginFormWrapper>
               <Logo src={`${process.env.PUBLIC_URL}/image/logo.png`} />
               <Text>List of all users</Text>
@@ -160,7 +162,15 @@ function ModeratorPage() {
               )}
             </LoginFormWrapper>
           </Route>
-          <Route path="/home/list">
+          <Switch>
+            <Route exact path="/home">
+              <CreateFly />
+            </Route>
+            <Route path="/home/list">
+              <ClaimsList />
+            </Route>
+          </Switch>
+          <Route path="/home/list/all">
             <AllClaimsList />
           </Route>
         </Switch>
