@@ -14,7 +14,7 @@ import useActions from '../../../../../hooks/useAction';
 import {LoginFormWrapper, Logo, Text} from '../AdminPage.styles';
 import * as userActions from '../../../../../actions/userActions';
 import {useHistory} from 'react-router-dom';
-
+import * as statuses from '../../../../../constants/statuses';
 import {TableWrapper} from '../../user/UserPage.styles';
 
 const useStyles = makeStyles({
@@ -50,23 +50,24 @@ function AllClaimsList() {
         {claimsList && claimsList.length > 0 && (
           <TableWrapper>
             <TableContainer component={Paper}>
-              <Table className={classes.table} aria-label="simple table">
+              <Table className={classes.table} aria-label="simple table" >
                 <TableHead>
                   <TableRow>
-                    <TableCell align="right">id</TableCell>
-                    <TableCell align="right">created</TableCell>
-                    <TableCell align="right">modified</TableCell>
-                    <TableCell align="right">status</TableCell>
-                    <TableCell align="right">depature</TableCell>
-                    <TableCell align="right">departure time</TableCell>
-                    <TableCell align="right">arrival</TableCell>
-                    <TableCell align="right">user id</TableCell>
-                    <TableCell align="right">user name</TableCell>
+                  <TableCell align="right">ID заявки</TableCell>
+                    <TableCell align="right">Время создания</TableCell>
+                    <TableCell align="right">Время изменения</TableCell>
+                    <TableCell align="right">Статус</TableCell>
+                    <TableCell align="right">Пункт отправления</TableCell>
+                    <TableCell align="right">Время отправления</TableCell>
+                    <TableCell align="right">Пункт прибытия</TableCell>
+                    <TableCell align="right">ID пользователя</TableCell>
+                    <TableCell align="right">Имя пользователя</TableCell>
+                    <TableCell align="right">Количество жалоб</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
                   {claimsList
-                    .sort((a, b) => (a.status > b.status ? -1 : 1))
+                    .sort((a, b) => (a.reportsCount > b.reportsCount ? -1 : 1))
                     .map(row => (
                       <TableRow
                         onClick={() => history.push(`/home/editclaim/${row.id}`)}
@@ -77,7 +78,7 @@ function AllClaimsList() {
                         <TableCell align="right">{row.created}</TableCell>
                         <TableCell align="right">{row.modified}</TableCell>
                         <TableCell align="right">
-                          {row.status}
+                        {statuses.rusStatus(row.status)}
                           <div
                             style={{
                               display: 'flex',
@@ -105,13 +106,13 @@ function AllClaimsList() {
                           </div>
                         </TableCell>
                         <TableCell align="left">
-                          lat: {(row.departure && row.departure.lat) || 'unset'} <br />
-                          lng: {(row.departure && row.departure.lng) || 'unset'}
+                          широта: {(row.departure && row.departure.lat) || 'не задано'} <br />
+                          долгота: {(row.departure && row.departure.lng) || 'не задано'}
                         </TableCell>
-                        <TableCell align="left">{row.departureTime || 'unset'}</TableCell>
+                        <TableCell align="left">{row.departureTime || 'не задано'}</TableCell>
                         <TableCell align="left">
-                          lat: {(row.arrival && row.arrival.lat) || 'unset'} <br />
-                          lng: {(row.arrival && row.arrival.lng) || 'unset'}
+                          широта: {(row.arrival && row.arrival.lat) || 'не задано'} <br />
+                          долгота: {(row.arrival && row.arrival.lng) || 'не задано'}
                         </TableCell>
                         {row.user && (
                           <>
@@ -121,6 +122,9 @@ function AllClaimsList() {
                             </TableCell>
                           </>
                         )}
+                        <TableCell align="left">
+                          {row.reportsCount}
+                        </TableCell>
                       </TableRow>
                     ))}
                 </TableBody>

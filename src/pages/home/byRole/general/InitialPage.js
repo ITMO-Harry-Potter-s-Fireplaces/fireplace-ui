@@ -69,6 +69,13 @@ function InitialPage() {
                 color="primary">
                 Создать заявку
               </Button>
+              <Button
+                onClick={() => history.push('/home/list')}
+                style={{height: '30px', marginRight: '10px', marginTop: '30px'}}
+                variant="contained"
+                color="primary">
+                Мои заявки
+              </Button>
               {user && user.role && user.role === 'MODERATOR' && (
                 <Button
                   onClick={() => history.push('/home/listall')}
@@ -78,6 +85,36 @@ function InitialPage() {
                   Посмотреть полученные заявки
                 </Button>
               )}
+              {user && user.role && (user.role === 'MODERATOR' || user.role === 'ADMIN') && (
+                <Button
+                  onClick={() => history.push('/home/listOfAllUsers')}
+                  style={{height: '30px', marginRight: '10px', marginTop: '30px'}}
+                  variant="contained"
+                  color="primary">
+                  Посмотреть пользователей
+                </Button>
+              )}
+              {user && user.role && user.role === 'MINISTER' && (
+                <Button
+                  onClick={() => history.push('/home/listall')}
+                  style={{height: '30px', marginRight: '10px', marginTop: '30px'}}
+                  variant="contained"
+                  color="primary">
+                  Посмотреть перемещения
+                </Button>
+              )}
+              {user && user.role && user.role === 'MINISTER' && (
+                <Button
+                  onClick={() => history.push('/home/fireplaces')}
+                  style={{height: '30px', marginRight: '10px', marginTop: '30px'}}
+                  variant="contained"
+                  color="primary">
+                  Show fireplaces
+                </Button>
+              )}
+
+
+
             </LoginFormWrapper>
           </Route>
         </Switch>

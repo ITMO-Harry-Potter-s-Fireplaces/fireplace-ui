@@ -75,7 +75,7 @@ function MinisterPage() {
             style={{height: '30px', marginRight: '10px'}}
             variant="contained"
             color="primary">
-            Show users
+            Создать заявку
           </Button>
           <Button
             onClick={() => history.push('/home/fireplaces')}
@@ -85,11 +85,11 @@ function MinisterPage() {
             Show fireplaces
           </Button>
           <Button
-            onClick={() => history.push('/home/list')}
+            onClick={() => history.push('/home/listall')}
             style={{height: '30px', marginRight: '10px'}}
             variant="contained"
             color="primary">
-            Show claims
+            Посмотреть перемещения
           </Button>
           <Button
             style={{height: '30px'}}
@@ -155,6 +155,9 @@ function MinisterPage() {
           <Route path="/home/list/all">
             <AllClaimsList />
           </Route>
+          <Route path="/home/listall">
+              <AllClaimsList />
+            </Route>
           <Route path="/home/fireplaces">
             <FireplacesList />
           </Route>

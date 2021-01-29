@@ -41,14 +41,14 @@ function UserPage() {
             style={{height: '30px', marginRight: '10px'}}
             variant="contained"
             color="primary">
-            Show map
+            Создать заявку
           </Button>
           <Button
             onClick={() => history.push('/home/list')}
             style={{height: '30px', marginRight: '10px'}}
             variant="contained"
             color="primary">
-            Show claims
+            Мои заявки
           </Button>
           <Button
             style={{height: '30px'}}
