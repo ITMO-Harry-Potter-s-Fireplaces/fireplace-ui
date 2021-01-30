@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Cookies from 'js-cookie';
 import {useDispatch, useSelector} from 'react-redux';
 import {Button} from '@material-ui/core';
@@ -12,6 +12,10 @@ import {useHistory} from 'react-router-dom';
 import {LoginFormWrapper, Logo, Text} from '../byRole/user/UserPage.styles';
 import MapModal from './MapModal';
 import * as actions from '../../../actions/userActions';
+import DatePicker from  "react-datepicker";
+import { registerLocale, setDefaultLocale } from  "react-datepicker";
+import ru from 'date-fns/locale/ru';
+registerLocale('ru', ru);
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -36,7 +40,7 @@ function CreateFly(props) {
   const isModal1Shown = useSelector(state => state.user.isModal1);
   const startingPoint = useSelector(state => state.user.startingPoint);
   const finalPoint = useSelector(state => state.user.finalPoint);
-
+  const [travelDate, changeTravelDate] = useState(new Date());
   const isModal2Shown = useSelector(state => state.user.isModal2);
   const classes = useStyles();
   const [isSnackbarOpen, setSnackbarOpen] = React.useState(false);
@@ -50,7 +54,7 @@ function CreateFly(props) {
   };
 
   const sendRequest = () => {
-    dispatch(actions.createClaim(Cookies.get('token'), startingPoint, finalPoint)).then(e => {
+    dispatch(actions.createClaim(Cookies.get('token'), startingPoint, finalPoint, travelDate)).then(e => {
       if (e.type && e.type === actions.CREATE_CLAIM_SUCCESS) {
         setSnackbarOpen(true);
         setSnackbarMessage('Успешная подача заявки, ожидайте переадресации 3сек');
@@ -105,6 +109,23 @@ function CreateFly(props) {
             Выбрать точку прибытия
           </Button>
         </InputWrapper>
+
+        <InputWrapper>
+          <TextField
+            disabled
+            id="standard-disabled"
+            label="Дата полёта"
+            defaultValue="Hello World"
+            value={("0" + (travelDate.getDate())).slice(-2) + '.' + ("0" + (travelDate.getMonth() + 1)).slice(-2) + '.' + travelDate.getFullYear()}
+          />
+      <DatePicker locale='ru'
+      selected={travelDate}
+      onChange={date => changeTravelDate(date)}
+      dateFormat="dd.MM.yyyy"
+      minDate={new Date()}
+      />
+        </InputWrapper>
+
         <Button
           style={{height: '30px', marginTop: '50px'}}
           onClick={() => sendRequest()}

@@ -25,6 +25,7 @@
     "moment": "^2.25.3",
     "prop-types": "^15.7.2",
     "react": "^16.13.0",
+    "react-calendar": "^3.3.1",
     "react-datepicker": "^3.3.0",
     "react-dom": "^16.13.0",
     "react-hook-form": "^5.6.1",

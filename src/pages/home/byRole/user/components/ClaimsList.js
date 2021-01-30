@@ -56,7 +56,7 @@ function ClaimsList() {
                     <TableCell align="right">Время изменения</TableCell>
                     <TableCell align="right">Статус</TableCell>
                     <TableCell align="right">Пункт отправления</TableCell>
-                    <TableCell align="right">Время отправления</TableCell>
+                    <TableCell align="right">Дата отправления</TableCell>
                     <TableCell align="right">Пункт прибытия</TableCell>
                   </TableRow>
                 </TableHead>
@@ -104,7 +104,7 @@ function ClaimsList() {
                         широта: {(row.departure && row.departure.lat) || 'не задано'} <br />
                         долгота: {(row.departure && row.departure.lng) || 'не задано'}
                       </TableCell>
-                      <TableCell align="left">{row.departureTime || 'не задано'}</TableCell>
+                      <TableCell align="left">{row.travelDate || 'не задано'}</TableCell>
                       <TableCell align="left">
                         широта: {(row.arrival && row.arrival.lat) || 'не задано'} <br />
                         долгота: {(row.arrival && row.arrival.lng) || 'не задано'}

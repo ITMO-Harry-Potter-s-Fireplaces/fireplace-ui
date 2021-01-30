@@ -299,7 +299,7 @@ export const getCurrentClaims = token => async dispatch => {
   }
 };
 
-export const createClaim = (token, startingPoint, finalPoint) => async dispatch => {
+export const createClaim = (token, startingPoint, finalPoint, travelDate) => async dispatch => {
   dispatch({
     type: CREATE_CLAIM_LOADING
   });
@@ -310,7 +310,7 @@ export const createClaim = (token, startingPoint, finalPoint) => async dispatch 
       {
         arrival: {lat: startingPoint.lat, lng: startingPoint.lng},
         departure: {lat: finalPoint.lat, lng: finalPoint.lng},
-        travelDate: new Date().toISOString()
+        travelDate: travelDate.toISOString()
       },
       {
         headers: {Authorization: token}
