@@ -14,7 +14,7 @@ import {Button} from '@material-ui/core';
 import {LOGIN} from '../../../../constants/routes';
 import useActions from '../../../../hooks/useAction';
 import AllClaimsList from '../admin/components/AllClaimsList';
-
+import * as roles from '../../../../constants/roles'
 import {
   LoginWrapper,
   LoginFormWrapper,
@@ -69,7 +69,7 @@ function MinisterPage() {
           <BackImage src={`${process.env.PUBLIC_URL}/image/hh1.png`} timeAnimation="60s" />
         </CloudWrapper>
         <Header>
-          <div style={{marginRight: '10px'}}>роль MINISTER</div>
+          <div style={{marginRight: '10px'}}>роль МИНИСТР МАГИИ</div>
           <Button
             onClick={() => history.push('/home')}
             style={{height: '30px', marginRight: '10px'}}
@@ -111,21 +111,20 @@ function MinisterPage() {
           <Route exact path="/home/listOfAllUsers">
             <LoginFormWrapper>
               <Logo src={`${process.env.PUBLIC_URL}/image/logo.png`} />
-              <Text>List of all users</Text>
+              <Text>Список всехпользователей</Text>
               {listOfUsers && listOfUsers.length > 0 && (
                 <TableWrapper>
                   <TableContainer component={Paper}>
                     <Table className={classes.table} aria-label="simple table">
                       <TableHead>
                         <TableRow>
-                          <TableCell align="right">id</TableCell>
+                          <TableCell align="right">ID пользователя</TableCell>
                           <TableCell align="right">email</TableCell>
-                          <TableCell align="right">name</TableCell>
-                          <TableCell align="right">surname</TableCell>
-                          <TableCell align="right">middle name</TableCell>
-                          <TableCell align="right">date of birth</TableCell>
-                          <TableCell align="right">is active?</TableCell>
-                          <TableCell align="right">role</TableCell>
+                          <TableCell align="right">Имя</TableCell>
+                          <TableCell align="right">Фамилия</TableCell>
+                          <TableCell align="right">Дата рождения</TableCell>
+                          <TableCell align="right">Пользователь активен?</TableCell>
+                          <TableCell align="right">Роль</TableCell>
                         </TableRow>
                       </TableHead>
                       <TableBody>
@@ -135,14 +134,13 @@ function MinisterPage() {
                               {row.id}
                             </TableCell>
                             <TableCell align="right">{row.email}</TableCell>
-                            <TableCell align="right">{row.name || 'unset'}</TableCell>
-                            <TableCell align="right">{row.surname || 'unset'}</TableCell>
-                            <TableCell align="right">{row.middleName || 'unset'}</TableCell>
-                            <TableCell align="right">{row.dateOfBirth || 'unset'}</TableCell>
+                            <TableCell align="right">{row.name || 'не задано'}</TableCell>
+                            <TableCell align="right">{row.surname || 'не задано'}</TableCell>
+                            <TableCell align="right">{row.dateOfBirth || 'не задано'}</TableCell>
                             <TableCell align="right">
-                              {row.active ? 'true' : 'false' || 'unset'}
+                              {row.active ? 'Да' : 'Нет' || 'не задано'}
                             </TableCell>
-                            <TableCell align="right">{row.role || 'unset'}</TableCell>
+                            <TableCell align="right">{row.role ? roles.rusRole(row.role) : 'не задано'}</TableCell>
                           </TableRow>
                         ))}
                       </TableBody>

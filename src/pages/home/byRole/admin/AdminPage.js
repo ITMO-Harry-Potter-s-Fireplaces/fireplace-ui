@@ -14,6 +14,7 @@ import {Button} from '@material-ui/core';
 import {LOGIN} from '../../../../constants/routes';
 import useActions from '../../../../hooks/useAction';
 import AllClaimsList from './components/AllClaimsList';
+import * as roles from '../../../../constants/roles';
 
 import {
   LoginWrapper,
@@ -83,7 +84,7 @@ function AdminPage() {
           <BackImage src={`${process.env.PUBLIC_URL}/image/hh1.png`} timeAnimation="60s" />
         </CloudWrapper>
         <Header>
-          <div style={{marginRight: '10px'}}>роль ADMIN</div>
+          <div style={{marginRight: '10px'}}>роль АДМИНИСТРАТОР</div>
           <Button
             onClick={() => history.push('/home')}
             style={{height: '30px', marginRight: '10px'}}
@@ -149,13 +150,13 @@ function AdminPage() {
                               {row.id}
                             </TableCell>
                             <TableCell align="right">{row.email}</TableCell>
-                            <TableCell align="right">{row.name || 'unset'}</TableCell>
-                            <TableCell align="right">{row.surname || 'unset'}</TableCell>
-                            <TableCell align="right">{row.dateOfBirth || 'unset'}</TableCell>
+                            <TableCell align="right">{row.name || 'не задано'}</TableCell>
+                            <TableCell align="right">{row.surname || 'не задано'}</TableCell>
+                            <TableCell align="right">{row.dateOfBirth || 'не задано'}</TableCell>
                             <TableCell align="right">
-                              {row.active ? 'true' : 'false' || 'unset'}
+                              {row.active ? 'Да' : 'Нет' || 'не задано'}
                             </TableCell>
-                            <TableCell align="right">{row.role || 'unset'}</TableCell>{' '}
+                            <TableCell align="right">{row.role ? roles.rusRole(row.role) : 'unset'}</TableCell>{' '}
                             <TableCell align="right">
                               {row.active && row.role !== 'ADMIN' && row.role !== 'MODERATOR' && (
                                 <Button
@@ -163,7 +164,7 @@ function AdminPage() {
                                   style={{height: '30px', marginRight: '10px'}}
                                   variant="contained"
                                   color="primary">
-                                  Заблокировать
+                                  Block
                                 </Button>
                               )}
                             </TableCell>

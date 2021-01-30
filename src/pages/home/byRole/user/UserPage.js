@@ -35,7 +35,7 @@ function UserPage() {
           <BackImage src={`${process.env.PUBLIC_URL}/image/hh1.png`} timeAnimation="60s" />
         </CloudWrapper>
         <Header>
-          <div style={{marginRight: '10px'}}>роль USER</div>
+          <div style={{marginRight: '10px'}}>роль ПОЛЬЗОВАТЕЛЬ</div>
           <Button
             onClick={() => history.push('/home')}
             style={{height: '30px', marginRight: '10px'}}

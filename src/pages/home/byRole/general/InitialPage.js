@@ -13,7 +13,7 @@ import {
 } from '../user/UserPage.styles';
 import {getFireplaces, del} from '../../../../actions/userActions';
 import {LOGIN} from '../../../../constants/routes';
-
+import * as roles from '../../../../constants/roles'
 function InitialPage() {
   const dispatch = useDispatch();
   const history = useHistory();
@@ -42,7 +42,7 @@ function InitialPage() {
           <BackImage src={`${process.env.PUBLIC_URL}/image/hh1.png`} timeAnimation="60s" />
         </CloudWrapper>
         <Header>
-          Главная страница {user && user.role && `(для роли ${user.role})`}{' '}
+          Главная страница {user && user.role && `(для роли ${roles.rusRole(user.role)})`}{' '}
           <Button
             style={{marginLeft: '10px', height: '30px'}}
             onClick={() => signOut()}
