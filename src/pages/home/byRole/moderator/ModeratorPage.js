@@ -76,7 +76,7 @@ function ModeratorPage() {
 
   return (
     <>
-      <LoginWrapper>
+      <LoginWrapper style={{ minWidth: 1200}}>
         <CloudWrapper>
           <BackImage src={`${process.env.PUBLIC_URL}/image/hh1.png`} timeAnimation="40s" />
           <BackImage src={`${process.env.PUBLIC_URL}/image/cloud-2.png`} timeAnimation="100s" />
@@ -150,7 +150,7 @@ function ModeratorPage() {
                             </TableCell>
                             <TableCell align="right">{row.email}</TableCell>
                             <TableCell align="right">{row.name || 'не задано'}</TableCell>
-                            <TableCell align="right">{row.surname || 'не заданоt'}</TableCell>
+                            <TableCell align="right">{row.surname || 'не задано'}</TableCell>
                             <TableCell align="right">{row.dateOfBirth || 'не задано'}</TableCell>
                             <TableCell align="right">
                               {row.active ? 'Да' : 'Да' || 'не задано'}

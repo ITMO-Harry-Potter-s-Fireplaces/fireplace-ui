@@ -44,7 +44,7 @@ function AllClaimsList() {
 
   return (
     <div>
-      <LoginFormWrapper>
+      <LoginFormWrapper style={{ minWidth: 1200}}>
         <Logo src={`${process.env.PUBLIC_URL}/image/logo.png`} />
         <Text>Полученные заявки</Text>
         {claimsList && claimsList.length > 0 && (

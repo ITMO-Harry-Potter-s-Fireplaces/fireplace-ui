@@ -124,7 +124,7 @@ function AdminPage() {
         </Switch>
         <Switch>
           <Route exact path="/home/listOfAllUsers">
-            <LoginFormWrapper>
+            <LoginFormWrapper style={{ minWidth: 1200}}>
               <Logo src={`${process.env.PUBLIC_URL}/image/logo.png`} />
               <Text>Список всех пользователей</Text>
               {listOfUsers && listOfUsers.length > 0 && (

@@ -109,7 +109,7 @@ function MinisterPage() {
         </Switch>
         <Switch>
           <Route exact path="/home/listOfAllUsers">
-            <LoginFormWrapper>
+            <LoginFormWrapper style={{ minWidth: 1200}}>
               <Logo src={`${process.env.PUBLIC_URL}/image/logo.png`} />
               <Text>Список всехпользователей</Text>
               {listOfUsers && listOfUsers.length > 0 && (

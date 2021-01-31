@@ -152,6 +152,7 @@ export const getAllUsers = token => async dispatch => {
 
   try {
     const response = await axios.get(api.getAllUsers(), {
+      params: {'size': 100000},
       headers: {Authorization: token}
     });
     if (response.data.code !== 200) {
