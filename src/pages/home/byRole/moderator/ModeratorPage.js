@@ -76,7 +76,7 @@ function ModeratorPage() {
 
   return (
     <>
-      <LoginWrapper style={{ minWidth: 1200}}>
+      <LoginWrapper>
         <CloudWrapper>
           <BackImage src={`${process.env.PUBLIC_URL}/image/hh1.png`} timeAnimation="40s" />
           <BackImage src={`${process.env.PUBLIC_URL}/image/cloud-2.png`} timeAnimation="100s" />
@@ -124,7 +124,7 @@ function ModeratorPage() {
 
         <Switch>
           <Route exact path="/home/listOfAllUsers">
-            <LoginFormWrapper>
+            <LoginFormWrapper style={{ minWidth: 1200}}>
               <Logo src={`${process.env.PUBLIC_URL}/image/logo.png`} />
               <Text>Список всех пользователей</Text>
               {listOfUsers && listOfUsers.length > 0 && (

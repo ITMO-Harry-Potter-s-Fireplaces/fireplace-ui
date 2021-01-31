@@ -39,7 +39,7 @@ function FireplacesList() {
 
   return (
     <div>
-      <LoginFormWrapper>
+      <LoginFormWrapper  style={{ minWidth: 1200}}>
         <Logo src={`${process.env.PUBLIC_URL}/image/logo.png`} />
         <div>
           <Text>All fireplaces</Text>

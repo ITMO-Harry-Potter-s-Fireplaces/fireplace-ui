@@ -1,7 +1,7 @@
 export const rusStatus = status => {
     var status_dict = {
         'CREATED': 'СОЗДАНА',
-        'APPROVED': 'ПОДТВЕРЖДЕНА',
+        'APPROVED': 'ОДОБРЕНА',
         'REJECTED': 'ОТКЛОНЕНА',
         'COMPLETED': 'ЗАВЕРШЕНА',
         'CANCELLED': 'ОТМЕНЕНА'

@@ -67,11 +67,100 @@ function AllClaimsList() {
                 </TableHead>
                 <TableBody>
                   {claimsList
+                    .filter(item => item.status == 'CREATED')
                     .sort((a, b) => (a.reportsCount > b.reportsCount ? -1 : 1))
                     .map(row => (
                       <TableRow
                         onClick={() => history.push(`/home/editclaim/${row.id}`)}
                         key={row.name}>
+                        <TableCell component="th" scope="row">
+                          {row.id}
+                        </TableCell>
+                        <TableCell align="right">{row.created}</TableCell>
+                        <TableCell align="right">{row.modified}</TableCell>
+                        <TableCell align="right">
+                        {statuses.rusStatus(row.status)}
+                          <div
+                            style={{
+                              display: 'flex',
+                              flexDirection: 'column',
+                              justifyItems: 'center'
+                            }}>
+                            {row.status === 'CREATED' && (
+                              <>
+                                <Button
+                                  onClick={() => approveClaim(row.id, true)}
+                                  style={{height: '30px', marginBottom: '10px'}}
+                                  variant="contained"
+                                  color="primary">
+                                  Approve
+                                </Button>
+                                <Button
+                                  onClick={() => approveClaim(row.id, false)}
+                                  style={{height: '30px'}}
+                                  variant="contained"
+                                  color="red">
+                                  Cancel
+                                </Button>
+                              </>
+                            )}
+                          </div>
+                        </TableCell>
+                        <TableCell align="left">
+                          широта: {(row.departure && row.departure.lat) || 'не задано'} <br />
+                          долгота: {(row.departure && row.departure.lng) || 'не задано'}
+                        </TableCell>
+                        <TableCell align="left">{row.travelDate || 'не задано'}</TableCell>
+                        <TableCell align="left">
+                          широта: {(row.arrival && row.arrival.lat) || 'не задано'} <br />
+                          долгота: {(row.arrival && row.arrival.lng) || 'не задано'}
+                        </TableCell>
+                        {row.user && (
+                          <>
+                            <TableCell align="left">{row.user.id}</TableCell>
+                            <TableCell align="left">
+                              {row.user.surname} {row.user.name} {row.user.middleName}
+                            </TableCell>
+                          </>
+                        )}
+                        <TableCell align="left">
+                          {row.reportsCount}
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </TableWrapper>
+        )}
+      </LoginFormWrapper>
+
+      <LoginFormWrapper style={{ minWidth: 1200, marginTop: 200}}>
+      <Text>Обработанные заявки</Text>
+        {claimsList && claimsList.length > 0 && (
+          <TableWrapper>
+            <TableContainer component={Paper}>
+              <Table className={classes.table} aria-label="simple table" >
+                <TableHead>
+                  <TableRow>
+                  <TableCell align="right">ID заявки</TableCell>
+                    <TableCell align="right">Время создания</TableCell>
+                    <TableCell align="right">Время изменения</TableCell>
+                    <TableCell align="right">Статус</TableCell>
+                    <TableCell align="right">Пункт отправления</TableCell>
+                    <TableCell align="right">Дата отправления</TableCell>
+                    <TableCell align="right">Пункт прибытия</TableCell>
+                    <TableCell align="right">ID пользователя</TableCell>
+                    <TableCell align="right">Имя пользователя</TableCell>
+                    <TableCell align="right">Количество жалоб</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {claimsList
+                    .filter(item => item.status != 'CREATED')
+                    .sort((a, b) => (a.reportsCount > b.reportsCount ? -1 : 1))
+                    .map(row => (
+                      <TableRow>
                         <TableCell component="th" scope="row">
                           {row.id}
                         </TableCell>
