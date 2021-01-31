@@ -264,6 +264,7 @@ export const getAllClaims = token => async dispatch => {
 
   try {
     const res = await axios.get(api.getAllClaims(), {
+      params: {'size': 1000000},
       headers: {Authorization: token}
     });
     dispatch({
@@ -285,6 +286,7 @@ export const getCurrentClaims = token => async dispatch => {
 
   try {
     const res = await axios.get(api.getCurrentClaims(), {
+      params: {'size': 1000000},
       headers: {Authorization: token}
     });
     dispatch({
