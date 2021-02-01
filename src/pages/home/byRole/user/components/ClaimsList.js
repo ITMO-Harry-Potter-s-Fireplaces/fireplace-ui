@@ -58,6 +58,8 @@ function ClaimsList() {
                     <TableCell align="right">Пункт отправления</TableCell>
                     <TableCell align="right">Дата отправления</TableCell>
                     <TableCell align="right">Пункт прибытия</TableCell>
+                    <TableCell align="right">Назначенный камин отправления</TableCell>
+                    <TableCell align="right">Назначенный камин прибытия</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -76,17 +78,6 @@ function ClaimsList() {
                             flexDirection: 'column',
                             justifyItems: 'center'
                           }}>
-                          {row.status === 'APPROVED' && (
-                            <>
-                              <Button
-                                onClick={() => cancelClaim(row.id, false)}
-                                style={{height: '30px', marginBottom: '10px'}}
-                                variant="contained"
-                                color="primary">
-                                Complete
-                              </Button>
-                            </>
-                          )}
                           {row.status !== 'COMPLETED' &&
                             row.status !== 'CANCELLED' &&
                             row.status !== 'REJECTED' && (
@@ -95,7 +86,16 @@ function ClaimsList() {
                                 style={{height: '30px'}}
                                 variant="contained"
                                 color="red">
-                                Cancel
+                                Отменить
+                              </Button>
+                            )}
+                            {row.status === 'APPROVED' && (
+                              <Button
+                                onClick={() => dispatch(userActions.completeClaim(Cookies.get('token'), row.id))}
+                                style={{height: '30px', marginTop: '10px'}}
+                                variant="contained"
+                                color="red">
+                                Завершить
                               </Button>
                             )}
                         </div>
@@ -108,6 +108,16 @@ function ClaimsList() {
                       <TableCell align="left">
                         широта: {(row.arrival && row.arrival.lat) || 'не задано'} <br />
                         долгота: {(row.arrival && row.arrival.lng) || 'не задано'}
+                      </TableCell>
+                      <TableCell align="left">
+                        {(row.departureFireplace && row.departureFireplace.description) || 'не задано'} <br />
+                        [{(row.departureFireplace && row.departureFireplace.lng) || ''},
+                        {(row.departureFireplace && row.departureFireplace.lat) || ''}]
+                      </TableCell>
+                      <TableCell align="left">
+                        {(row.arrivalFireplace && row.arrivalFireplace.description) || 'не задано'} <br />
+                        [{(row.arrivalFireplace && row.arrivalFireplace.lng) || ''},
+                        {(row.arrivalFireplace && row.arrivalFireplace.lat) || ''}]
                       </TableCell>
                     </TableRow>
                   ))}

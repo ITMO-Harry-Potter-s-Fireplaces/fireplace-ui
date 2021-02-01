@@ -44,7 +44,7 @@ function AllClaimsList() {
 
   return (
     <div>
-      <LoginFormWrapper style={{ minWidth: 1200}}>
+      <LoginFormWrapper style={{ minWidth: 1400}}>
         <Logo src={`${process.env.PUBLIC_URL}/image/logo.png`} />
         <Text>Полученные заявки</Text>
         {claimsList && claimsList.length > 0 && (
@@ -63,11 +63,13 @@ function AllClaimsList() {
                     <TableCell align="right">ID пользователя</TableCell>
                     <TableCell align="right">Имя пользователя</TableCell>
                     <TableCell align="right">Количество жалоб</TableCell>
+                    <TableCell align="right">Назначенный камин отправления</TableCell>
+                    <TableCell align="right">Назначенный камин прибытия</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
                   {claimsList
-                    .filter(item => item.status == 'CREATED')
+                    .filter(item => item.status === 'CREATED')
                     .sort((a, b) => (a.reportsCount > b.reportsCount ? -1 : 1))
                     .map(row => (
                       <TableRow
@@ -79,32 +81,7 @@ function AllClaimsList() {
                         <TableCell align="right">{row.created}</TableCell>
                         <TableCell align="right">{row.modified}</TableCell>
                         <TableCell align="right">
-                        {statuses.rusStatus(row.status)}
-                          <div
-                            style={{
-                              display: 'flex',
-                              flexDirection: 'column',
-                              justifyItems: 'center'
-                            }}>
-                            {row.status === 'CREATED' && (
-                              <>
-                                <Button
-                                  onClick={() => approveClaim(row.id, true)}
-                                  style={{height: '30px', marginBottom: '10px'}}
-                                  variant="contained"
-                                  color="primary">
-                                  Approve
-                                </Button>
-                                <Button
-                                  onClick={() => approveClaim(row.id, false)}
-                                  style={{height: '30px'}}
-                                  variant="contained"
-                                  color="red">
-                                  Cancel
-                                </Button>
-                              </>
-                            )}
-                          </div>
+                        {statuses.rusStatus(row.status)}                          
                         </TableCell>
                         <TableCell align="left">
                           широта: {(row.departure && row.departure.lat) || 'не задано'} <br />
@@ -126,6 +103,16 @@ function AllClaimsList() {
                         <TableCell align="left">
                           {row.reportsCount}
                         </TableCell>
+                        <TableCell align="left">
+                        {(row.departureFireplace && row.departureFireplace.description) || 'не задано'} <br />
+                        {(row.departureFireplace && row.departureFireplace.lng) || ' '},
+                        {(row.departureFireplace && row.departureFireplace.lat) || ''}
+                      </TableCell>
+                      <TableCell align="left">
+                        {(row.arrivalFireplace && row.arrivalFireplace.description) || 'не задано'} <br />
+                        {(row.arrivalFireplace && row.arrivalFireplace.lng) || ' '},
+                        {(row.arrivalFireplace && row.arrivalFireplace.lat) || ''}
+                      </TableCell>
                       </TableRow>
                     ))}
                 </TableBody>
@@ -135,7 +122,7 @@ function AllClaimsList() {
         )}
       </LoginFormWrapper>
 
-      <LoginFormWrapper style={{ minWidth: 1200, marginTop: 200}}>
+      <LoginFormWrapper style={{ minWidth: 1400, marginTop: 200}}>
       <Text>Обработанные заявки</Text>
         {claimsList && claimsList.length > 0 && (
           <TableWrapper>
@@ -153,11 +140,13 @@ function AllClaimsList() {
                     <TableCell align="right">ID пользователя</TableCell>
                     <TableCell align="right">Имя пользователя</TableCell>
                     <TableCell align="right">Количество жалоб</TableCell>
+                    <TableCell align="right">Назначенный камин отправления</TableCell>
+                    <TableCell align="right">Назначенный камин прибытия</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
                   {claimsList
-                    .filter(item => item.status != 'CREATED')
+                    .filter(item => item.status !== 'CREATED')
                     .sort((a, b) => (a.reportsCount > b.reportsCount ? -1 : 1))
                     .map(row => (
                       <TableRow>
@@ -168,31 +157,6 @@ function AllClaimsList() {
                         <TableCell align="right">{row.modified}</TableCell>
                         <TableCell align="right">
                         {statuses.rusStatus(row.status)}
-                          <div
-                            style={{
-                              display: 'flex',
-                              flexDirection: 'column',
-                              justifyItems: 'center'
-                            }}>
-                            {row.status === 'CREATED' && (
-                              <>
-                                <Button
-                                  onClick={() => approveClaim(row.id, true)}
-                                  style={{height: '30px', marginBottom: '10px'}}
-                                  variant="contained"
-                                  color="primary">
-                                  Approve
-                                </Button>
-                                <Button
-                                  onClick={() => approveClaim(row.id, false)}
-                                  style={{height: '30px'}}
-                                  variant="contained"
-                                  color="red">
-                                  Cancel
-                                </Button>
-                              </>
-                            )}
-                          </div>
                         </TableCell>
                         <TableCell align="left">
                           широта: {(row.departure && row.departure.lat) || 'не задано'} <br />
@@ -214,6 +178,16 @@ function AllClaimsList() {
                         <TableCell align="left">
                           {row.reportsCount}
                         </TableCell>
+                        <TableCell align="left">
+                        {(row.departureFireplace && row.departureFireplace.description) || 'не задано'} <br />
+                        {(row.departureFireplace && row.departureFireplace.lng) || ' '}, 
+                        {(row.departureFireplace && row.departureFireplace.lat) || ''}
+                      </TableCell>
+                      <TableCell align="left">
+                        {(row.arrivalFireplace && row.arrivalFireplace.description) || 'не задано'} <br />
+                        {(row.departureFireplace && row.departureFireplace.lng) || ''}, 
+                        {(row.departureFireplace && row.departureFireplace.lat) || ''}
+                      </TableCell>
                       </TableRow>
                     ))}
                 </TableBody>

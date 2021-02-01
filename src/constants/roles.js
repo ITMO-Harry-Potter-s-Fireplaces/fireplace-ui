@@ -1,7 +1,7 @@
 export const rusRole = role => {
     var role_dict = {
         'ADMIN': 'АДМИНИСТРАТОР',
-        'MODERATOR': 'МОДЕРАТОР',
+        'MODERATOR': 'ДИСПЕТЧЕР',
         'USER': 'ПОЛЬЗОВАТЕЛЬ',
         'MINISTER': 'МИНИСТР МАГИИ'
     };
