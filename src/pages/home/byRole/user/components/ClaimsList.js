@@ -13,13 +13,14 @@ import useActions from '../../../../../hooks/useAction';
 import {LoginFormWrapper, Logo, TableWrapper, Text} from '../UserPage.styles';
 import * as userActions from '../../../../../actions/userActions';
 import {Button} from '@material-ui/core';
-
+import * as statuses from '../../../../../constants/statuses';
 const useStyles = makeStyles({
   table: {
     minWidth: 650,
     maxHeight: 400
   }
 });
+
 
 function ClaimsList() {
   const classes = useStyles();
@@ -41,7 +42,7 @@ function ClaimsList() {
 
   return (
     <div>
-      <LoginFormWrapper>
+      <LoginFormWrapper style={{ minWidth: 1200}}>
         <Logo src={`${process.env.PUBLIC_URL}/image/logo.png`} />
         <Text>Заявки текущего пользователя</Text>
         {claimsList && claimsList.length > 0 && (
@@ -50,13 +51,15 @@ function ClaimsList() {
               <Table className={classes.table} aria-label="simple table">
                 <TableHead>
                   <TableRow>
-                    <TableCell align="right">id</TableCell>
-                    <TableCell align="right">created</TableCell>
-                    <TableCell align="right">modified</TableCell>
-                    <TableCell align="right">status</TableCell>
-                    <TableCell align="right">depature</TableCell>
-                    <TableCell align="right">departure time</TableCell>
-                    <TableCell align="right">arrival</TableCell>
+                    <TableCell align="right">ID заявки</TableCell>
+                    <TableCell align="right">Время создания</TableCell>
+                    <TableCell align="right">Время изменения</TableCell>
+                    <TableCell align="right">Статус</TableCell>
+                    <TableCell align="right">Пункт отправления</TableCell>
+                    <TableCell align="right">Дата отправления</TableCell>
+                    <TableCell align="right">Пункт прибытия</TableCell>
+                    <TableCell align="right">Назначенный камин отправления</TableCell>
+                    <TableCell align="right">Назначенный камин прибытия</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -68,24 +71,13 @@ function ClaimsList() {
                       <TableCell align="right">{row.created}</TableCell>
                       <TableCell align="right">{row.modified}</TableCell>
                       <TableCell align="left">
-                        {row.status}
+                        {statuses.rusStatus(row.status)}
                         <div
                           style={{
                             display: 'flex',
                             flexDirection: 'column',
                             justifyItems: 'center'
                           }}>
-                          {row.status === 'APPROVED' && (
-                            <>
-                              <Button
-                                onClick={() => cancelClaim(row.id, false)}
-                                style={{height: '30px', marginBottom: '10px'}}
-                                variant="contained"
-                                color="primary">
-                                Complete
-                              </Button>
-                            </>
-                          )}
                           {row.status !== 'COMPLETED' &&
                             row.status !== 'CANCELLED' &&
                             row.status !== 'REJECTED' && (
@@ -94,19 +86,38 @@ function ClaimsList() {
                                 style={{height: '30px'}}
                                 variant="contained"
                                 color="red">
-                                Cancel
+                                Отменить
+                              </Button>
+                            )}
+                            {row.status === 'APPROVED' && (
+                              <Button
+                                onClick={() => dispatch(userActions.completeClaim(Cookies.get('token'), row.id))}
+                                style={{height: '30px', marginTop: '10px'}}
+                                variant="contained"
+                                color="red">
+                                Завершить
                               </Button>
                             )}
                         </div>
                       </TableCell>
                       <TableCell align="left">
-                        lat: {(row.departure && row.departure.lat) || 'unset'} <br />
-                        lng: {(row.departure && row.departure.lng) || 'unset'}
+                        широта: {(row.departure && row.departure.lat) || 'не задано'} <br />
+                        долгота: {(row.departure && row.departure.lng) || 'не задано'}
                       </TableCell>
-                      <TableCell align="left">{row.departureTime || 'unset'}</TableCell>
+                      <TableCell align="left">{row.travelDate || 'не задано'}</TableCell>
                       <TableCell align="left">
-                        lat: {(row.arrival && row.arrival.lat) || 'unset'} <br />
-                        lng: {(row.arrival && row.arrival.lng) || 'unset'}
+                        широта: {(row.arrival && row.arrival.lat) || 'не задано'} <br />
+                        долгота: {(row.arrival && row.arrival.lng) || 'не задано'}
+                      </TableCell>
+                      <TableCell align="left">
+                        {(row.departureFireplace && row.departureFireplace.description) || 'не задано'} <br />
+                        [{(row.departureFireplace && row.departureFireplace.lng) || ''},
+                        {(row.departureFireplace && row.departureFireplace.lat) || ''}]
+                      </TableCell>
+                      <TableCell align="left">
+                        {(row.arrivalFireplace && row.arrivalFireplace.description) || 'не задано'} <br />
+                        [{(row.arrivalFireplace && row.arrivalFireplace.lng) || ''},
+                        {(row.arrivalFireplace && row.arrivalFireplace.lat) || ''}]
                       </TableCell>
                     </TableRow>
                   ))}

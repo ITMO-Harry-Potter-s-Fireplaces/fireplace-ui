@@ -8,8 +8,11 @@ import {LOGIN, INITIAL} from '../../../../constants/routes';
 import {registerUser, REGISTER_SUCCESS} from '../../../../actions/loginActions';
 import useActions from '../../../../hooks/useAction';
 import 'react-datepicker/dist/react-datepicker.css';
-
+import { registerLocale, setDefaultLocale } from  "react-datepicker";
+import ru from 'date-fns/locale/ru';
 import {Button, InputFormWrapper, Error, Transfer, NavLinkWrapper} from './FormsStyles';
+
+registerLocale('ru', ru);
 
 const defaultValues = {
   eventDate: null
@@ -117,6 +120,9 @@ function RegistrationForm() {
           onChange={([selected]) => selected}
           name="ReactDatepicker"
           className="input"
+          dateFormat="dd.MM.yyyy"
+          locale='ru'
+          maxDate={new Date()}
         />
       </InputFormWrapper>
       <br />

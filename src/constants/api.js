@@ -16,7 +16,13 @@ export const getClaimById = id => `${process.env.REACT_APP_APISERVER}/claims/${i
 export const getCurrentClaims = () => `${process.env.REACT_APP_APISERVER}/claims/current`;
 export const getAllClaims = () => `${process.env.REACT_APP_APISERVER}/claims`;
 export const createClaim = () => `${process.env.REACT_APP_APISERVER}/claims`;
-export const approveClaim = (claimId, approve) =>
-  `${process.env.REACT_APP_APISERVER}/claims/${claimId}?approve=${approve}`;
+export const approveClaim = (claimId, departure_id, arrival_id) =>
+  `${process.env.REACT_APP_APISERVER}/claims/${claimId}?arrival=${arrival_id}&departure=${departure_id}`;
 export const cancelClaim = (claimId, cancel) =>
   `${process.env.REACT_APP_APISERVER}/claims/${claimId}?cancel=${cancel}`;
+  export const rejectClaim = (claimId) =>
+  `${process.env.REACT_APP_APISERVER}/claims/${claimId}`;
+  export const completeClaim = (claimId) =>
+  `${process.env.REACT_APP_APISERVER}/claims/${claimId}`;
+  export const reportClaim = (claimId) =>
+  `${process.env.REACT_APP_APISERVER}/claims/${claimId}/report`;

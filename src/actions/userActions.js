@@ -41,6 +41,18 @@ export const CANCEL_CLAIM_LOADING = 'CANCEL_CLAIM_LOADING';
 export const CANCEL_CLAIM_SUCCESS = 'CANCEL_CLAIM_SUCCESS';
 export const CANCEL_CLAIM_FAIL = 'CANCEL_CLAIM_FAIL';
 
+export const REJECT_CLAIM_LOADING = 'REJECT_CLAIM_LOADING';
+export const REJECT_CLAIM_SUCCESS = 'REJECT_CLAIM_SUCCESS';
+export const REJECT_CLAIM_FAIL = 'REJECT_CLAIM_FAIL';
+
+export const COMPLETE_CLAIM_LOADING = 'COMPLETE_CLAIM_LOADING';
+export const COMPLETE_CLAIM_SUCCESS = 'COMPLETE_CLAIM_SUCCESS';
+export const COMPLETE_CLAIM_FAIL = 'COMPLETE_CLAIM_FAIL';
+
+export const REPORT_CLAIM_LOADING = 'REPORT_CLAIM_LOADING';
+export const REPORT_CLAIM_SUCCESS = 'REPORT_CLAIM_SUCCESS';
+export const REPORT_CLAIM_FAIL = 'REPORT_CLAIM_FAIL';
+
 export const GET_ALL_CLAIMS_LOADING = 'GET_ALL_CLAIMS_LOADING';
 export const GET_ALL_CLAIMS_SUCCESS = 'GET_ALL_CLAIMS_SUCCESS';
 export const GET_ALL_CLAIMS_FAIL = 'GET_ALL_CLAIMS_FAIL';
@@ -152,6 +164,7 @@ export const getAllUsers = token => async dispatch => {
 
   try {
     const response = await axios.get(api.getAllUsers(), {
+      params: {'size': 100000},
       headers: {Authorization: token}
     });
     if (response.data.code !== 200) {
@@ -264,6 +277,7 @@ export const getAllClaims = token => async dispatch => {
 
   try {
     const res = await axios.get(api.getAllClaims(), {
+      params: {'size': 1000000},
       headers: {Authorization: token}
     });
     dispatch({
@@ -285,6 +299,7 @@ export const getCurrentClaims = token => async dispatch => {
 
   try {
     const res = await axios.get(api.getCurrentClaims(), {
+      params: {'size': 1000000},
       headers: {Authorization: token}
     });
     dispatch({
@@ -299,7 +314,7 @@ export const getCurrentClaims = token => async dispatch => {
   }
 };
 
-export const createClaim = (token, startingPoint, finalPoint) => async dispatch => {
+export const createClaim = (token, startingPoint, finalPoint, travelDate) => async dispatch => {
   dispatch({
     type: CREATE_CLAIM_LOADING
   });
@@ -310,7 +325,7 @@ export const createClaim = (token, startingPoint, finalPoint) => async dispatch 
       {
         arrival: {lat: startingPoint.lat, lng: startingPoint.lng},
         departure: {lat: finalPoint.lat, lng: finalPoint.lng},
-        travelDate: new Date().toISOString()
+        travelDate: travelDate.toISOString()
       },
       {
         headers: {Authorization: token}
@@ -330,31 +345,42 @@ export const createClaim = (token, startingPoint, finalPoint) => async dispatch 
   }
 };
 
-export const approveClaim = (token, claimId, approve) => async dispatch => {
+export const approveClaim = (token, claimId, departure_id, arrival_id) => async dispatch => {
   dispatch({
     type: APPROVE_CLAIM_LOADING
   });
-
+  var query = api.approveClaim(claimId, departure_id, arrival_id);
   try {
-    const res = await axios.put(
-      api.approveClaim(claimId, approve),
-      {},
-      {
-        headers: {Authorization: token}
+    var request = require('request');
+
+    var headers = {
+      'accept': 'application/json',
+      'Authorization': token};
+
+    var options = {
+      url: query,
+      method: 'PUT',
+      headers: headers
+    };
+
+    function callback(error, response, body) {
+      if (!error && response.statusCode == 204) {
+          console.log(body);
       }
-    );
+    }
+    request(options, callback);
 
-    if (res.data.code !== 204) throw Error();
+    
 
     return dispatch({
-      type: APPROVE_CLAIM_SUCCESS,
-      payload: {claimId, approve}
-    });
-  } catch (error) {
-    return dispatch({
-      type: APPROVE_CLAIM_FAIL,
-      error: error.message
-    });
+        type: APPROVE_CLAIM_SUCCESS,
+        payload: {claimId, departure_id, arrival_id}
+      });
+    } catch (error) {
+      return dispatch({
+        type: APPROVE_CLAIM_FAIL,
+        error: error.message
+      });
   }
 };
 
@@ -378,6 +404,81 @@ export const cancelClaim = (token, claimId, cancel) => async dispatch => {
     return dispatch({
       type: CANCEL_CLAIM_FAIL,
       error: error.message
+    });
+  }
+};
+
+export const rejectClaim = (token, claimId) => async dispatch => {
+  dispatch({
+    type: REJECT_CLAIM_LOADING
+  });
+
+  try {
+    const res = await axios.delete(api.rejectClaim(claimId), {
+      headers: {Authorization: token}
+    });
+
+    if (res.data.code !== 204) throw Error();
+
+    return dispatch({
+      type: REJECT_CLAIM_SUCCESS,
+      payload: {claimId}
+    });
+  } catch (error) {
+    return dispatch({
+      type: REJECT_CLAIM_FAIL,
+      error: 'Невозможно отменить заявку с таким статусом'
+    });
+  }
+};
+
+export const completeClaim = (token, id) => async dispatch => {
+  dispatch({
+    type: COMPLETE_CLAIM_LOADING
+  });
+
+  try {
+    const res = await axios.post(
+      api.completeClaim(id), {},
+      {
+        headers: {Authorization: token}
+      }
+    );
+    return dispatch({
+      type: COMPLETE_CLAIM_SUCCESS,
+      payload: id
+    });
+  } catch (error) {
+    return dispatch({
+      type: COMPLETE_CLAIM_FAIL,
+      error: 'Невозможно завершить заявку'
+    });
+  }
+};
+
+export const reportClaim = (token, id) => async dispatch => {
+  dispatch({
+    type: REPORT_CLAIM_LOADING
+  });
+
+  try {
+    const res = await axios.post(
+      api.reportClaim(id), {},
+      {
+        headers: {Authorization: token}
+      }
+    );
+    if (res.data.code !== 204) {
+      throw Error(res.data.message);
+    }
+    return dispatch({
+      type: REPORT_CLAIM_SUCCESS,
+      payload: id
+    });
+  } catch (error) {
+    return dispatch({
+      type: REPORT_CLAIM_FAIL,
+      error: 'Невозможно пожаловаться на заявку'
     });
   }
 };

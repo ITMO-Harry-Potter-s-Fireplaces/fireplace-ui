@@ -13,7 +13,7 @@ import {
 } from '../user/UserPage.styles';
 import {getFireplaces, del} from '../../../../actions/userActions';
 import {LOGIN} from '../../../../constants/routes';
-
+import * as roles from '../../../../constants/roles'
 function InitialPage() {
   const dispatch = useDispatch();
   const history = useHistory();
@@ -42,7 +42,7 @@ function InitialPage() {
           <BackImage src={`${process.env.PUBLIC_URL}/image/hh1.png`} timeAnimation="60s" />
         </CloudWrapper>
         <Header>
-          Главная страница {user && user.role && `(для роли ${user.role})`}{' '}
+          Главная страница {user && user.role && `(для роли ${roles.rusRole(user.role)})`}{' '}
           <Button
             style={{marginLeft: '10px', height: '30px'}}
             onClick={() => signOut()}
@@ -69,6 +69,13 @@ function InitialPage() {
                 color="primary">
                 Создать заявку
               </Button>
+              <Button
+                onClick={() => history.push('/home/list')}
+                style={{height: '30px', marginRight: '10px', marginTop: '30px'}}
+                variant="contained"
+                color="primary">
+                Мои заявки
+              </Button>
               {user && user.role && user.role === 'MODERATOR' && (
                 <Button
                   onClick={() => history.push('/home/listall')}
@@ -78,6 +85,36 @@ function InitialPage() {
                   Посмотреть полученные заявки
                 </Button>
               )}
+              {user && user.role && (user.role === 'MODERATOR' || user.role === 'ADMIN') && (
+                <Button
+                  onClick={() => history.push('/home/listOfAllUsers')}
+                  style={{height: '30px', marginRight: '10px', marginTop: '30px'}}
+                  variant="contained"
+                  color="primary">
+                  Посмотреть пользователей
+                </Button>
+              )}
+              {user && user.role && user.role === 'MINISTER' && (
+                <Button
+                  onClick={() => history.push('/home/listall')}
+                  style={{height: '30px', marginRight: '10px', marginTop: '30px'}}
+                  variant="contained"
+                  color="primary">
+                  Посмотреть перемещения
+                </Button>
+              )}
+              {user && user.role && user.role === 'MINISTER' && (
+                <Button
+                  onClick={() => history.push('/home/fireplaces')}
+                  style={{height: '30px', marginRight: '10px', marginTop: '30px'}}
+                  variant="contained"
+                  color="primary">
+                  Show fireplaces
+                </Button>
+              )}
+
+
+
             </LoginFormWrapper>
           </Route>
         </Switch>
