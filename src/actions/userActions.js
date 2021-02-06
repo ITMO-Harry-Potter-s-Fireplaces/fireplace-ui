@@ -75,6 +75,11 @@ export const GET_CLAIM_BY_ID_FAIL = 'GET_CLAIM_BY_ID_FAIL';
 
 export const CLEAR_CLAIM_BY_ID = 'CLEAR_CLAIM_BY_ID';
 
+export const GET_DEPARTURE_FIREPLACES_SUCCESS = 'GET_DEPARTURE_FIREPLACES_SUCCESS';
+export const GET_ARRIVAL_FIREPLACES_SUCCESS = 'GET_ARRIVAL_FIREPLACES_SUCCESS';
+export const GET_DEPARTURE_FIREPLACES_FAIL = 'GET_DEPARTURE_FIREPLACES_FAIL';
+export const GET_ARRIVAL_FIREPLACES_FAIL = 'GET_ARRIVAL_FIREPLACES_FAIL';
+
 export const add = user => {
   return {
     type: USER_ADD,
@@ -170,12 +175,12 @@ export const getAllUsers = token => async dispatch => {
     if (response.data.code !== 200) {
       throw Error(response.data.message);
     }
-    dispatch({
+    return dispatch({
       type: GET_ALL_USERS_SUCCESS,
       payload: response.data.message.content
     });
   } catch (error) {
-    dispatch({
+    return dispatch({
       type: GET_ALL_USERS_FAIL
     });
   }
@@ -203,21 +208,66 @@ export const deactivateUser = (token, id) => async dispatch => {
   }
 };
 
-export const getFireplaces = token => async dispatch => {
+export const getFireplaces = (token, lng, lat, radius, travelDate, _type) => async dispatch => {
   dispatch({
     type: GET_FIREPLACES_LOADING
   });
+  if (_type === 'departure') {
+     try {
+      const res = await axios.get(api.getFireplaces(), 
+        {params: {'lat': lat, 'lng': lng, 'radius': radius,
+        'travelDate': travelDate.substring(6,) + '-' + travelDate.substring(3, 5) + '-' + travelDate.substring(0, 2)},
+        headers: {Authorization: token}
+      });
+      if (res.data.code !== 200) {
+        throw Error(res.data.message);
+      }
+      return dispatch({
+        type: GET_DEPARTURE_FIREPLACES_SUCCESS,
+        payload: res.data.message.content
+      }); 
+      } catch (error) {
+        return dispatch({
+        type: GET_DEPARTURE_FIREPLACES_FAIL,
+        error
+        });
+      }
+    }
 
-  try {
-    const res = await axios.get(api.getFireplaces(), {
-      headers: {Authorization: token}
-    });
-    dispatch({
-      type: GET_FIREPLACES_SUCCESS,
-      payload: res.data.message.content
-    });
-  } catch (error) {
-    dispatch({
+    if (_type === 'arrival') {
+      try {
+        const res = await axios.get(api.getFireplaces(), 
+          {params: {'lat': lat, 'lng': lng, 'radius': radius,
+          'travelDate': travelDate.substring(6,) + '-' + travelDate.substring(3, 5) + '-' + travelDate.substring(0, 2)},
+          headers: {Authorization: token}
+        });
+        if (res.data.code !== 200) {
+          throw Error(res.data.message);
+        }
+        return dispatch({
+          type: GET_ARRIVAL_FIREPLACES_SUCCESS,
+          payload: res.data.message.content
+        }); 
+        } catch (error) {
+          return dispatch({
+          type: GET_ARRIVAL_FIREPLACES_FAIL,
+          error
+          });
+        }
+      }
+      try {
+        const res = await axios.get(api.getFireplaces(), 
+          {headers: {Authorization: token}
+        });
+        if (res.data.code !== 200) {
+          throw Error(res.data.message);
+        }
+      return dispatch({
+        type: GET_FIREPLACES_SUCCESS,
+        payload: res.data.message.content
+      });
+    } catch (error) {
+    return dispatch({
       type: GET_FIREPLACES_FAIL,
       error
     });
@@ -323,9 +373,9 @@ export const createClaim = (token, startingPoint, finalPoint, travelDate) => asy
     const res = await axios.post(
       api.createClaim(),
       {
-        arrival: {lat: startingPoint.lat, lng: startingPoint.lng},
-        departure: {lat: finalPoint.lat, lng: finalPoint.lng},
-        travelDate: travelDate.toISOString()
+        "departure": {"lng": startingPoint.lng, "lat": startingPoint.lat},
+        "arrival": {"lng": finalPoint.lng, "lat": finalPoint.lat},
+        "travelDate": travelDate.toISOString()
       },
       {
         headers: {Authorization: token}
@@ -427,7 +477,7 @@ export const rejectClaim = (token, claimId) => async dispatch => {
   } catch (error) {
     return dispatch({
       type: REJECT_CLAIM_FAIL,
-      error: 'Невозможно отменить заявку с таким статусом'
+      error
     });
   }
 };
@@ -451,7 +501,7 @@ export const completeClaim = (token, id) => async dispatch => {
   } catch (error) {
     return dispatch({
       type: COMPLETE_CLAIM_FAIL,
-      error: 'Невозможно завершить заявку'
+      error
     });
   }
 };
@@ -478,7 +528,7 @@ export const reportClaim = (token, id) => async dispatch => {
   } catch (error) {
     return dispatch({
       type: REPORT_CLAIM_FAIL,
-      error: 'Невозможно пожаловаться на заявку'
+      error: "Нельзя пожаловаться на заявку"
     });
   }
 };

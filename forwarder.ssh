@@ -1,0 +1,2 @@
+#!/bin/bash
+sshpass -p 123123aa ssh -L 9279:localhost:9279 s207189@se.ifmo.ru -L 9280:localhost:9280 -L 9281:localhost:9281 -L 9282:localhost:9282 -p 2222

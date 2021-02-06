@@ -153,7 +153,7 @@ function ModeratorPage() {
                             <TableCell align="right">{row.surname || 'не задано'}</TableCell>
                             <TableCell align="right">{row.dateOfBirth || 'не задано'}</TableCell>
                             <TableCell align="right">
-                              {row.active ? 'Да' : 'Да' || 'не задано'}
+                              {row.active ? 'Да' : 'Нет' || 'не задано'}
                             </TableCell>
                             <TableCell align="right">{row.role ? roles.rusRole(row.role) : 'не задано'}</TableCell>{' '}
                             <TableCell align="right">

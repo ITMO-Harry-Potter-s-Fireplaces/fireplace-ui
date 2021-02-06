@@ -21,7 +21,8 @@ function EditClaim(props) {
   let {id} = useParams();
   const dispatch = useDispatch();
   const claimbyid = useSelector(state => state.user.claimbyid);
-  const fireplaces = useSelector(state => state.user.fireplacesList);
+  const departureFireplaces = useSelector(state => state.user.departureFireplacesList);
+  const arrivalFireplaces = useSelector(state => state.user.arrivalFireplacesList);
   const history = useHistory();
   const [isSnackbarOpen, setSnackbarOpen] = React.useState(false);
   const [snackbarMessage, setSnackbarMessage] = React.useState('');
@@ -36,28 +37,58 @@ function EditClaim(props) {
     dispatch(actions.clearClaimById());
   }, []);
 
-  useEffect(() => {
-    dispatch(actions.getFireplaces(Cookies.get('token')));
-    if (id) {
+  useEffect(() => {    
+    if (id) {      
       dispatch(actions.getClaimById(Cookies.get('token'), id)).then(e => {
         if (e.type === actions.GET_CLAIM_BY_ID_FAIL) {
           history.push('/home/listall');
         }        
       });
-    }
+  }
   }, [id]);
 
-  var options = [] 
-  fireplaces.forEach(element => options.push({value: element.id, label: element.description +" [" + element.lng + "; " + element.lat + "]"}))
-  if (options.length > 1) {
-    var departure_state = {
-      value: options[0].value
+  useEffect(() => {
+    if (claimbyid) {
+      dispatch(actions.getFireplaces(Cookies.get('token'), claimbyid.departure.lng,
+      claimbyid.departure.lat, 50000, claimbyid.travelDate, 'departure')).then(e => {
+        if (e.type === actions.GET_DEPARTURE_FIREPLACES_FAIL) {
+          setSnackbarOpen(true);
+          setSnackbarMessage(JSON.stringify(e.error));
+          history.push('/home/listall');
+        }
+      });
+      dispatch(actions.getFireplaces(Cookies.get('token'), claimbyid.arrival.lng,
+      claimbyid.arrival.lat, 50000, claimbyid.travelDate, 'arrival')).then(e => {
+        if (e.type === actions.GET_ARRIVAL_FIREPLACES_FAIL) {
+          setSnackbarOpen(true);
+          setSnackbarMessage(JSON.stringify(e.error));
+          history.push('/home/listall');
+        }
+      });
     }
+  }, [claimbyid])
+
+  var departure_options = []
+  departureFireplaces.sort((a, b) => (a.claimsCount > b.claimsCount ? -1 : 1)) 
+  departureFireplaces.forEach(element => departure_options.push({value: element.id,
+    label: element.description +" [" + element.lat + "; " + element.lng + "]. Число заявок: " + element.claimsCount + ", расстояние: " + element.distance + " км."}))
+  
+  var arrival_options = []
+  arrivalFireplaces.sort((a, b) => (a.claimsCount > b.claimsCount ? -1 : 1)) 
+  arrivalFireplaces.forEach(element => arrival_options.push({value: element.id,
+    label: element.description +" [" + element.lat + "; " + element.lng + "]. Число заявок: " + element.claimsCount + ", расстояние: " + element.distance + " км."}))
+
+  if (departure_options.length > 0) {
+    var departure_state = {
+      value: departure_options[0].value
+    }
+
+  }
+  if (arrival_options.length > 0) {
     var arrival_state = {
-      value: options[1].value
+      value: arrival_options[0].value
     }
   }
-
   function departureHandleChange(value) {
     departure_state['value'] = value;
   }
@@ -72,10 +103,10 @@ function EditClaim(props) {
           <h3>Редактирование заявки с ID: {id}</h3>
           <h3>Статус: {statuses.rusStatus(claimbyid.status)}</h3>
           <h3>
-            Координаты пункта отправления: [{claimbyid.arrival.lng}, {claimbyid.arrival.lat}]
+            Координаты пункта отправления: [{claimbyid.departure.lat}, {claimbyid.departure.lng}]
           </h3>
           <h3>
-            Координаты пункта прибытия: [{claimbyid.departure.lng}, {claimbyid.departure.lat}]
+            Координаты пункта прибытия: [{claimbyid.arrival.lat}, {claimbyid.arrival.lng}]
           </h3>   
           <h3>
             Количество поступивших жалоб: {claimbyid.reportsCount}
@@ -93,12 +124,12 @@ function EditClaim(props) {
           <Select 
           defaultValue={{label: 'Выберите камин отправления', value: -1 }}
           onChange={value => departureHandleChange(value)}
-          options={options} />
+          options={departure_options} />
           <h3>Выберите камин для пункта прибытия:</h3>
           <Select 
           defaultValue={{ label: "Выберите камин прибытия", value: -1 }}
           onChange={value => arrivalHandleChange(value)}
-          options={options} />                   
+          options={arrival_options} />                   
           <Button
             onClick={() => {
               if (departure_state.value.value == undefined ||

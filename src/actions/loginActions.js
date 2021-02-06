@@ -56,7 +56,7 @@ export const registerUser = (email, password, name, surname, dateOfBirth) => asy
       type: REGISTER_SUCCESS
     });
   } catch (error) {
-    dispatch({
+    return dispatch({
       type: REGISTER_FAIL,
       error
     });

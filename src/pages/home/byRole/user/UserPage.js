@@ -37,14 +37,14 @@ function UserPage() {
         <Header>
           <div style={{marginRight: '10px'}}>роль ПОЛЬЗОВАТЕЛЬ</div>
           <Button
-            onClick={() => history.push('/home')}
+            onClick={() => history.push("/home")}
             style={{height: '30px', marginRight: '10px'}}
             variant="contained"
             color="primary">
             Создать заявку
           </Button>
           <Button
-            onClick={() => history.push('/home/list')}
+            onClick={() => history.push("/home/list")}
             style={{height: '30px', marginRight: '10px'}}
             variant="contained"
             color="primary">

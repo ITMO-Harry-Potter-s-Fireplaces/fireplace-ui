@@ -33,7 +33,7 @@ function LoginForm() {
   const submit = data => {
     if (data.login !== '' && data.password !== '') {
       submitAction(data.login, data.password).then(e => {
-        if (e.type && e.type === LOGIN_FAIL) {
+        if (e && e.type && e.type === LOGIN_FAIL) {
           setMessage(e.error.message);
           setOpen(true);
         }

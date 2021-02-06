@@ -111,13 +111,13 @@ function ClaimsList() {
                       </TableCell>
                       <TableCell align="left">
                         {(row.departureFireplace && row.departureFireplace.description) || 'не задано'} <br />
-                        [{(row.departureFireplace && row.departureFireplace.lng) || ''},
-                        {(row.departureFireplace && row.departureFireplace.lat) || ''}]
+                        [{(row.departureFireplace && row.departureFireplace.lat) || ''},
+                        {(row.departureFireplace && row.departureFireplace.lng) || ''}]
                       </TableCell>
                       <TableCell align="left">
                         {(row.arrivalFireplace && row.arrivalFireplace.description) || 'не задано'} <br />
-                        [{(row.arrivalFireplace && row.arrivalFireplace.lng) || ''},
-                        {(row.arrivalFireplace && row.arrivalFireplace.lat) || ''}]
+                        [{(row.arrivalFireplace && row.arrivalFireplace.lat) || ''},
+                        {(row.arrivalFireplace && row.arrivalFireplace.lng) || ''}]
                       </TableCell>
                     </TableRow>
                   ))}

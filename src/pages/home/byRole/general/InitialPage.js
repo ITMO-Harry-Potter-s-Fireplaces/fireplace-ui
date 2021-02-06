@@ -42,7 +42,7 @@ function InitialPage() {
           <BackImage src={`${process.env.PUBLIC_URL}/image/hh1.png`} timeAnimation="60s" />
         </CloudWrapper>
         <Header>
-          Главная страница {user && user.role && `(для роли ${roles.rusRole(user.role)})`}{' '}
+          # Главная страница {user && user.role && `(для роли ${roles.rusRole(user.role)})`}{' '}
           <Button
             style={{marginLeft: '10px', height: '30px'}}
             onClick={() => signOut()}
@@ -52,7 +52,7 @@ function InitialPage() {
           </Button>
         </Header>
         <Switch>
-          <Route exact path="/initial">
+          <Route exact path={'/initial'}>
             <LoginFormWrapper>
               <Logo src={`${process.env.PUBLIC_URL}/image/logo.png`} />
               <Button

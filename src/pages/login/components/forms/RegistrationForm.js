@@ -3,9 +3,12 @@ import {NavLink, useHistory} from 'react-router-dom';
 import {useForm, Controller} from 'react-hook-form';
 import {useSelector} from 'react-redux';
 import Cookies from 'js-cookie';
+import Snackbar from '@material-ui/core/Snackbar';
+import IconButton from '@material-ui/core/IconButton';
+import CloseIcon from '@material-ui/icons/Close';
 import ReactDatePicker from 'react-datepicker';
 import {LOGIN, INITIAL} from '../../../../constants/routes';
-import {registerUser, REGISTER_SUCCESS} from '../../../../actions/loginActions';
+import {registerUser, REGISTER_SUCCESS, REGISTER_FAIL} from '../../../../actions/loginActions';
 import useActions from '../../../../hooks/useAction';
 import 'react-datepicker/dist/react-datepicker.css';
 import { registerLocale, setDefaultLocale } from  "react-datepicker";
@@ -24,9 +27,16 @@ function RegistrationForm() {
   const [helpIsHidden, setHelpHidden] = useState(false);
   // Alternative bindActionCreators
   const [submitAction] = useActions([registerUser]);
-
+  const [open, setOpen] = React.useState(false);
+  const [message, setMessage] = React.useState('');
   const authToken = Cookies.get('token');
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
 
+    setOpen(false);
+  };
   let isRegisterSuccess = useSelector(state => state.login.type) === REGISTER_SUCCESS;
 
   useEffect(() => {
@@ -37,7 +47,19 @@ function RegistrationForm() {
 
   const submit = data => {
     console.log(JSON.stringify(data));
-    submitAction(data.email, data.password, data.name, data.surname, data.ReactDatepicker);
+    submitAction(data.email, data.password, data.name, data.surname, data.ReactDatepicker).then(e => {
+      if (e && e.type && e.type === REGISTER_FAIL) {
+        setMessage(e.error.message);
+        setOpen(true);
+      } 
+      else {
+        setMessage('Успешная регистрация и авторизация. Перенаправление на главную страницу...');
+        setTimeout(() => {
+          history.push('/initial');
+        }, 3000);
+      }
+      console.log(e);
+    });
   };
 
   return (
@@ -64,7 +86,7 @@ function RegistrationForm() {
             ref={register({
               required: 'required',
               pattern: {
-                value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{10,}$/g,
+                value: /^.*$/g,
                 message: 'invalid password'
               }
             })}
@@ -136,7 +158,25 @@ function RegistrationForm() {
           </Button>
         </NavLink>
       </NavLinkWrapper>
+      <Snackbar
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'center'
+        }}
+        open={open}
+        autoHideDuration={6000}
+        onClose={handleClose}
+        message={message}
+        action={
+          <React.Fragment>
+            <IconButton size="small" aria-label="close" color="inherit" onClick={handleClose}>
+              <CloseIcon fontSize="small" />
+            </IconButton>
+          </React.Fragment>
+        }
+      />
     </form>
+    
   );
 }
 

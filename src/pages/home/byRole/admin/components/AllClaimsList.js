@@ -29,6 +29,9 @@ function AllClaimsList() {
   const dispatch = useDispatch();
   const [action] = useActions([userActions.getAllClaims]);
   const claimsList = useSelector(state => state.user.claimsList);
+  const role = useSelector(
+    state => (state.user && state.user.user && state.user.user.role) || null
+  );
 
   useEffect(() => {
     action(Cookies.get('token'));
@@ -37,16 +40,12 @@ function AllClaimsList() {
     }, 5000);
     return () => clearInterval(interval);
   }, []);
-
-  const approveClaim = (claimId, approve) => {
-    dispatch(userActions.approveClaim(Cookies.get('token'), claimId, approve));
-  };
-
+  if (role !== 'MINISTER') {
   return (
     <div>
       <LoginFormWrapper style={{ minWidth: 1400}}>
         <Logo src={`${process.env.PUBLIC_URL}/image/logo.png`} />
-        <Text>Полученные заявки</Text>
+        <Text>Полученные заявки.</Text>
         {claimsList && claimsList.length > 0 && (
           <TableWrapper>
             <TableContainer component={Paper}>
@@ -84,13 +83,13 @@ function AllClaimsList() {
                         {statuses.rusStatus(row.status)}                          
                         </TableCell>
                         <TableCell align="left">
-                          широта: {(row.departure && row.departure.lat) || 'не задано'} <br />
-                          долгота: {(row.departure && row.departure.lng) || 'не задано'}
+                          широта: {(row.departure && row.departure.lng) || 'не задано'} <br />
+                          долгота: {(row.departure && row.departure.lat) || 'не задано'}
                         </TableCell>
                         <TableCell align="left">{row.travelDate || 'не задано'}</TableCell>
                         <TableCell align="left">
-                          широта: {(row.arrival && row.arrival.lat) || 'не задано'} <br />
-                          долгота: {(row.arrival && row.arrival.lng) || 'не задано'}
+                          широта: {(row.arrival && row.arrival.lng) || 'не задано'} <br />
+                          долгота: {(row.arrival && row.arrival.lat) || 'не задано'}
                         </TableCell>
                         {row.user && (
                           <>
@@ -180,13 +179,13 @@ function AllClaimsList() {
                         </TableCell>
                         <TableCell align="left">
                         {(row.departureFireplace && row.departureFireplace.description) || 'не задано'} <br />
-                        {(row.departureFireplace && row.departureFireplace.lng) || ' '}, 
-                        {(row.departureFireplace && row.departureFireplace.lat) || ''}
+                        {(row.departureFireplace && row.departureFireplace.lat) || ' '}, 
+                        {(row.departureFireplace && row.departureFireplace.lng) || ''}
                       </TableCell>
                       <TableCell align="left">
                         {(row.arrivalFireplace && row.arrivalFireplace.description) || 'не задано'} <br />
-                        {(row.departureFireplace && row.departureFireplace.lng) || ''}, 
-                        {(row.departureFireplace && row.departureFireplace.lat) || ''}
+                        {(row.departureFireplace && row.departureFireplace.lat) || ''}, 
+                        {(row.departureFireplace && row.departureFireplace.lng) || ''}
                       </TableCell>
                       </TableRow>
                     ))}
@@ -197,6 +196,84 @@ function AllClaimsList() {
         )}
       </LoginFormWrapper>
     </div>
+  );
+                        }
+  return (
+    <div>
+    <LoginFormWrapper style={{ minWidth: 1400, marginTop: 200}}>
+    <Text>ОСОБО ПОДОЗРИТЕЛЬНЫЕ ЗАЯВКИ</Text>
+      {claimsList && claimsList.length > 0 && (
+        <TableWrapper>
+          <TableContainer component={Paper}>
+            <Table className={classes.table} aria-label="simple table" >
+              <TableHead>
+                <TableRow>
+                <TableCell align="right">ID заявки</TableCell>
+                  <TableCell align="right">Время создания</TableCell>
+                  <TableCell align="right">Время изменения</TableCell>
+                  <TableCell align="right">Статус</TableCell>
+                  <TableCell align="right">Пункт отправления</TableCell>
+                  <TableCell align="right">Дата отправления</TableCell>
+                  <TableCell align="right">Пункт прибытия</TableCell>
+                  <TableCell align="right">ID пользователя</TableCell>
+                  <TableCell align="right">Имя пользователя</TableCell>
+                  <TableCell align="right">Количество жалоб</TableCell>
+                  <TableCell align="right">Назначенный камин отправления</TableCell>
+                  <TableCell align="right">Назначенный камин прибытия</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {claimsList                  
+                  .sort((a, b) => (a.reportsCount > b.reportsCount ? -1 : 1))
+                  .map(row => (
+                    <TableRow>
+                      <TableCell component="th" scope="row">
+                        {row.id}
+                      </TableCell>
+                      <TableCell align="right">{row.created}</TableCell>
+                      <TableCell align="right">{row.modified}</TableCell>
+                      <TableCell align="right">
+                      {statuses.rusStatus(row.status)}
+                      </TableCell>
+                      <TableCell align="left">
+                        широта: {(row.departure && row.departure.lat) || 'не задано'} <br />
+                        долгота: {(row.departure && row.departure.lng) || 'не задано'}
+                      </TableCell>
+                      <TableCell align="left">{row.travelDate || 'не задано'}</TableCell>
+                      <TableCell align="left">
+                        широта: {(row.arrival && row.arrival.lat) || 'не задано'} <br />
+                        долгота: {(row.arrival && row.arrival.lng) || 'не задано'}
+                      </TableCell>
+                      {row.user && (
+                        <>
+                          <TableCell align="left">{row.user.id}</TableCell>
+                          <TableCell align="left">
+                            {row.user.surname} {row.user.name} {row.user.middleName}
+                          </TableCell>
+                        </>
+                      )}
+                      <TableCell align="left">
+                        {row.reportsCount}
+                      </TableCell>
+                      <TableCell align="left">
+                      {(row.departureFireplace && row.departureFireplace.description) || 'не задано'} <br />
+                      {(row.departureFireplace && row.departureFireplace.lat) || ' '}, 
+                      {(row.departureFireplace && row.departureFireplace.lng) || ''}
+                    </TableCell>
+                    <TableCell align="left">
+                      {(row.arrivalFireplace && row.arrivalFireplace.description) || 'не задано'} <br />
+                      {(row.departureFireplace && row.departureFireplace.lat) || ''}, 
+                      {(row.departureFireplace && row.departureFireplace.lng) || ''}
+                    </TableCell>
+                    </TableRow>
+                  ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </TableWrapper>
+      )}
+    </LoginFormWrapper>
+  </div>
   );
 }
 

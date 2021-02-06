@@ -5,6 +5,8 @@ import {
   HIDE_MODAL,
   GET_ALL_USERS_SUCCESS,
   GET_FIREPLACES_SUCCESS,
+  GET_ARRIVAL_FIREPLACES_SUCCESS,
+  GET_DEPARTURE_FIREPLACES_SUCCESS,
   GET_CURRENT_CLAIMS_SUCCESS,
   GET_ALL_CLAIMS_SUCCESS,
   APPROVE_CLAIM_SUCCESS,
@@ -33,6 +35,8 @@ export const initialState = {
   claimbyidloading: false,
   usersList: [],
   fireplacesList: [],
+  departureFireplacesList: [],
+  arrivalFireplacesList: [],
   claimsList: []
 };
 
@@ -73,6 +77,18 @@ export default (state = initialState, action) => {
         ...state,
         fireplacesList: action.payload
       };
+
+      case GET_DEPARTURE_FIREPLACES_SUCCESS:
+        return {
+          ...state,
+          departureFireplacesList: action.payload
+        };  
+        
+        case GET_ARRIVAL_FIREPLACES_SUCCESS:
+          return {
+            ...state,
+            arrivalFireplacesList: action.payload
+          };
 
     case GET_ALL_CLAIMS_SUCCESS:
     case GET_CURRENT_CLAIMS_SUCCESS:

@@ -156,7 +156,7 @@ function AdminPage() {
                             <TableCell align="right">
                               {row.active ? 'Да' : 'Нет' || 'не задано'}
                             </TableCell>
-                            <TableCell align="right">{row.role ? roles.rusRole(row.role) : 'unset'}</TableCell>{' '}
+                            <TableCell align="right">{row.role ? roles.rusRole(row.role) : 'не задано'}</TableCell>{' '}
                             <TableCell align="right">
                               {row.active && row.role !== 'ADMIN' && row.role !== 'MODERATOR' && (
                                 <Button
